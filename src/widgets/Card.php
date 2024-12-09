@@ -23,12 +23,33 @@ class Card extends Widget
 
     const MDC_CARD_TYPE_ELEVATED = 'elevated';
 
+    /**
+     * @var string the title content in the card.
+     */
+
     public string $title;
 
+    /**
+     * @var string the subtitle content in the card.
+     */
     public string $subtitle;
 
+    /**
+     * @var string the URL for the image.
+     */
     public string $mediaSrc;
 
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     * The following special options are recognized:
+     *
+     * - `variant`: the tag name of the container element. Defaults to `div`. Setting it to `false` will not render a container tag.
+     *
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     * @see https://m3.material.io/components/cards/overview#7aa694fb-16f0-44fb-adf2-be0288ec22dc for the card variant (types).
+     */
     public array $options = [];
 
     /**
@@ -38,17 +59,39 @@ class Card extends Widget
      */
     public array $actions = [];
 
+    /**
+     * @var array body options
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $contentOptions = [];
 
+    /**
+     * @var array body options
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $mediaOptions = [];
 
+    /**
+     * @var array title options
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $titleOptions = [];
 
+    /**
+     * @var array subtitle options
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $subtitleOptions = [];
 
+    /**
+     * @var array action options
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $actionsOptions = [];
 
-
+    /**
+     * @inheritDoc
+     */
     public function init(): void
     {
         parent::init();
@@ -66,6 +109,9 @@ class Card extends Widget
 
     }
 
+    /**
+     * @inheritDoc
+     */
     public function run(): void
     {
         echo "\n" . Html::endTag('div'); // content
@@ -75,6 +121,11 @@ class Card extends Widget
         echo "\n" . Html::endTag('div'); // card
     }
 
+    /**
+     * Initializes the widget options.
+     * This method sets the default values for various options.
+     * @return void
+     */
     protected function initOptions(): void
     {
         $this->options = array_merge([
@@ -93,6 +144,10 @@ class Card extends Widget
         Html::addCssClass($this->options, ['widget' => "mdc-card $variant"]);
     }
 
+    /**
+     * Renders the HTML markup for the action buttons in the footer of the card
+     * @return string
+     */
     protected function renderActionButtons(): string
     {
         $content = '';
@@ -111,6 +166,10 @@ class Card extends Widget
         return Html::tag('div', $content, $this->actionsOptions);
     }
 
+    /**
+     * Renders the opening tag of the content.
+     * @return string
+     */
     protected function renderContentBegin(): string
     {
         if (isset($this->mediaSrc)) {
@@ -124,6 +183,10 @@ class Card extends Widget
         return Html::beginTag('div', $this->contentOptions);
     }
 
+    /**
+     * Renders the header HTML markup of the card.
+     * @return string
+     */
     protected function renderHeader(): string
     {
         $content = $title = $subtitle = '';

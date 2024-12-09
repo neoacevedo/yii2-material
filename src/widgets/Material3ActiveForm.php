@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright (c) 2024 neoacevedo
- * @subpackage yii2-widget-activeform
+ * @subpackage yii2-material3
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

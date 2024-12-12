@@ -20,7 +20,7 @@
 
 namespace neoacevedo\yii2\material3\widgets;
 
-use neoacevedo\yii2\material3\assets\Material3ActiveFormAsset;
+use neoacevedo\yii2\material3\assets\Material3Asset;
 use yii\widgets\ActiveForm;
 
 /**
@@ -46,7 +46,7 @@ class Material3ActiveForm extends ActiveForm
     public function registerClientScript()
     {
         $view = $this->getView();
-        Material3ActiveFormAsset::register($view);
+        Material3Asset::register($view);
 
         $js = "m3InitForm('#{$this->options['id']}', '.{$this->errorCssClass}');";
         $view->registerJs($js);

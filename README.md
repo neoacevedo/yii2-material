@@ -70,7 +70,7 @@ $this->registerCss($css);
 ?>
 <main class="row">
     <?php
-    \neoacevedo\yii2\material3\widgets\Card::begin([
+    \neoacevedo\yii2\material3\widgets\MaterialCard::begin([
         'options' => [
             'class' => 'demo-card'
         ],
@@ -94,7 +94,7 @@ $this->registerCss($css);
     <div class="mdc-card__body mdc-card__body--typography">Visit ten places on our planet that are
         undergoing the biggest changes today.</div>
     <?php
-    \neoacevedo\yii2\material3\widgets\Card::end();
+    \neoacevedo\yii2\material3\widgets\MaterialCard::end();
     ?>
 </main>
 ```
@@ -103,17 +103,21 @@ $this->registerCss($css);
 
 ```php
 <?php
-/**
- * @var Material3ActiveForm
- */
-$form = Material3ActiveForm::begin([
-    'id' => 'form'
-]);
-?>
-...
 <?php
-Material3ActiveForm::end();
+    /**
+     * @var Material3ActiveForm
+     */
+    $form = Material3ActiveForm::begin([
+        'id' => 'form'
+        
+    ]);
+    ?>
+    ...
+    <?php
+    Material3ActiveForm::end();
+    ?>
 ?>
+
 ```
 
 ### Material3ActiveField
@@ -131,40 +135,7 @@ echo $form->field($model, 'password', [
       'options' => ['class' => 'mb-3']
 ])->passwordInput(['variant' => 'filled']);
 
-echo $form->field($model, 'remember_me')->checkbox();
+echo $form->field($model, 'remember_me')->checkbox
 
 ?>
-```
-
-### Chips
-
-```php
-<?= \neoacevedo\yii2\material3\widgets\Chip::widget([
-    'chips' => [
-        [
-            'type' => \neoacevedo\yii2\material3\widgets\Chip::TYPE_ASSIST,
-            'options' => [
-                'label' => 'Chip 1'
-            ]
-        ],
-        [
-            'type' => \neoacevedo\yii2\material3\widgets\Chip::TYPE_INPUT,
-            'options' => [
-                'label' => 'Chip 2'    
-            ]
-        ],
-        [
-            'type' => \neoacevedo\yii2\material3\widgets\Chip::TYPE_FILTER,
-            'options' => [
-                'label' => 'Chip 3'    
-            ]
-        ],
-        [
-            'type' => \neoacevedo\yii2\material3\widgets\Chip::TYPE_SUGGESTION,
-            'options' => [
-                'label' => 'Chip 4'    
-            ]
-        ],
-    ]
-]) ?>
 ```

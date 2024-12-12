@@ -52,7 +52,7 @@ class Material3ActiveField extends ActiveField
     /**
      * @var array options for the wrapper tag, used in the `{beginWrapper}` placeholder
      */
-    public $wrapperOptions = ['class' => ['widget' => 'mb-3']];
+    public $wrapperOptions = [];
 
     /**
      * @var string the template for checkboxes in default layout
@@ -307,9 +307,10 @@ class Material3ActiveField extends ActiveField
                 $input = $this->parts['{input}'] ?? Html::activeTextInput($this->model, $this->attribute, $options);
 
                 $this->parts['{input}'] = strtr($this->inputTemplate, ['{input}' => $input]);
-            } else {
-                $content = strtr($this->template, $this->parts);
             }
+
+            $content = strtr($this->template, $this->parts);
+
         } elseif (!is_string($content)) {
             $content = call_user_func($content, $this);
         }

@@ -80,6 +80,8 @@ abstract class Material3BaseHtml extends BaseHtml
      * The following special options are recognized:
      * - variant: string, the button variant used in Material 3. To use combined variants, you may use, for instance, `filed-tonal`. 
      *   See [[https://m3.material.io/components/buttons/overview#501bf0cf-fbb5-45b5-abc1-c3bae35c0e6a]] for variants.
+     * - icon: string, the icon at the left or right side of the label. To render the icon at the right side, `trailing-icon` must be set to `true`.
+     * - trailing-icon: boolean, the icon ate the right side of the label.
      * 
      * @return string the generated button tag
      */
@@ -91,7 +93,9 @@ abstract class Material3BaseHtml extends BaseHtml
 
         $variant = $options['variant'] ?? 'outlined';
 
-        unset($options['variant']);
+        $content .= isset($options['icon']) ? "\n<md-icon slot=\"icon\">{$options['icon']}</md-icon>\n" : '';
+
+        unset($options['variant'], $options['icon']);
 
         return static::tag("md-$variant-button", $content, $options);
     }
@@ -126,8 +130,8 @@ abstract class Material3BaseHtml extends BaseHtml
      */
     public static function activeInput($type, $model, $attribute, $options = [])
     {
-        $name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
-        $value = isset($options['value']) ? $options['value'] : static::getAttributeValue($model, $attribute);
+        $name = $options['name'] ?? static::getInputName($model, $attribute);
+        $value = $options['value'] ?? static::getAttributeValue($model, $attribute);
         if (!array_key_exists('id', $options)) {
             $options['id'] = static::getInputId($model, $attribute);
         }
@@ -178,22 +182,51 @@ abstract class Material3BaseHtml extends BaseHtml
     }
 
     /**
-     * @inheritDoc
+     * Generates an input type of the given type.
+     * @param string $type the type attribute.
+     * @param string|null $name the name attribute. If it is null, the name attribute will not be generated.
+     * @param string|null $value the value attribute. If it is null, the value attribute will not be generated.
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * @return string the generated input tag
      */
     public static function input($type, $name = null, $value = null, $options = [])
     {
+        $content = '';
         $options['name'] = $name;
         $options['value'] = $value === null ? null : (string) $value;
+
+        if (isset($options['leading-icon'])) {
+            if (!is_array($options['leading-icon'])) {
+                $content .= static::tag('md-icon', $options['leading-icon']);
+            } else {
+                $icon = ArrayHelper::remove($options['leading-icon'], 'icon', 'search');
+                $content .= static::tag('md-icon-button', $icon, $options['leading-icon']);
+            }
+        }
+
+        if (isset($options['trailing-icon'])) {
+            if (!is_array($options['trailing-icon'])) {
+                $content .= static::tag('md-icon', $options['trailing-icon']);
+            } else {
+                $icon = ArrayHelper::remove($options['trailing-icon'], 'icon', 'clear');
+                $content .= static::tag('md-icon-button', $icon, $options['trailing-icon']);
+            }
+        }
+
+        unset($options['leading-icon'], $options['trailing-icon']);
 
         if ($type === 'text') {
             $variant = $options['variant'] ?? 'outlined';
 
             unset($options['variant']);
 
-            return static::tag("md-$variant-$type-field", '', $options);
+            return static::tag("md-$variant-$type-field", $content, $options);
         }
 
-        return static::tag("md-$type", '', $options);
+        return static::tag("md-$type", $content, $options);
 
     }
 

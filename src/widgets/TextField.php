@@ -21,45 +21,39 @@
 namespace neoacevedo\yii2\material3\widgets;
 
 use yii\base\InvalidConfigException;
-use yii\base\Widget;
 
 use neoacevedo\yii2\material3\Html;
+use yii\widgets\InputWidget;
 
 /**
- * InputField es la clase para los widgets de texto que obtienen datos de usuario.
+ * TextField es la clase que renderiza los campos tipo text, password o textarea. Cualquier otro tipo generará un error de configuración.
+ * 
+ * Para generar un textarea, basta con definir dentro de [[options]] la propiedad `type` a `textarea`.
+ * 
+ * Las clases que se extienden desde este widget se pueden utilizar en un [[\yii\widgets\ActiveForm|ActiveForm]] usando el método [[\yii\widgets\ActiveField::widget()|widget()]],
+ * por ejemplo:
+ * 
+ * ```php
+ * <?= $form->field($model, 'description')->widget('WidgetClassName', [
+ *    'options' => [
+ *         'type' => 'textarea', // password, text.
+ *        // configure additional widget properties here
+ *    ]
+ * ]) ?>
+ * ```
  * 
  * @see [[\yii\widgets::InputWidget()]] para más detalles
  */
-class InputField extends Widget
+class TextField extends InputWidget
 {
-    /**
-     * @var \yii\widgets\ActiveField active input field, which triggers this widget rendering.
-     * This field will be automatically filled up in case widget instance is created via [[\yii\widgets\ActiveField::widget()]].
-     * @since 2.0.11
-     */
-    public $field;
-    /**
-     * @var \yii\base\Model|null the data model that this widget is associated with.
-     */
-    public $model;
-    /**
-     * @var string|null the model attribute that this widget is associated with.
-     */
-    public $attribute;
-    /**
-     * @var string|null the input name. This must be set if [[model]] and [[attribute]] are not set.
-     */
-    public $name;
-    /**
-     * @var string the input value.
-     */
-    public $value;
+    const TYPE_TEXT = 'text';
+    const TYPE_TEXTAREA = 'textarea';
+    const TYPE_PASSWORD = 'password';
     /**
      * @var array the HTML attributes for the input tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options = [];
-
 
     /**
      * Initializes the widget.
@@ -67,21 +61,24 @@ class InputField extends Widget
      */
     public function init()
     {
-        if ($this->name === null && !$this->hasModel()) {
-            throw new InvalidConfigException("Either 'name', or 'model' and 'attribute' properties must be specified.");
-        }
-        if (!isset($this->options['id'])) {
-            $this->options['id'] = $this->hasModel() ? Html::getInputId($this->model, $this->attribute) : $this->getId();
-        }
         parent::init();
+
+        $this->options = array_merge([
+            'type' => self::TYPE_TEXT
+        ], $this->options);
+
+        if (!in_array($this->options['type'], ['text', 'textarea', 'password'])) {
+            throw new InvalidConfigException(message: "Either 'type' property must be set to 'text', 'password' or 'textearea'.");
+        }
+
     }
 
     /**
-     * @return bool whether this widget is associated with a data model.
+     * @inheritDoc
      */
-    protected function hasModel()
+    public function run(): string
     {
-        return $this->model instanceof Model && $this->attribute !== null;
+        return $this->renderInputHtml('text');
     }
 
     /**
@@ -90,16 +87,15 @@ class InputField extends Widget
      * This will call [[Html::activeInput()]] if the input widget is [[hasModel()|tied to a model]],
      * or [[Html::input()]] if not.
      *
-     * @param string $type the type of the input to create.
      * @return string the HTML of the input field.
      * @see Html::activeInput()
      * @see Html::input()
      */
-    protected function renderInputHtml($type)
+    protected function renderInputHtml($type): string
     {
         if ($this->hasModel()) {
-            return Html::activeInput($type, $this->model, $this->attribute, $this->options);
+            return Html::activeInput(type: $type, model: $this->model, attribute: $this->attribute, options: $this->options);
         }
-        return Html::input($type, $this->name, $this->value, $this->options);
+        return Html::input(type: $type, name: $this->name, value: $this->value, options: $this->options);
     }
 }

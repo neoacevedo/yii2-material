@@ -27,19 +27,20 @@ use yii\web\AssetBundle;
  */
 class Material3Asset extends AssetBundle
 {
-    public $sourcePath = '@vendor/neoacevedo/yii2-material3/src/assets/dist';
+    public $sourcePath = '@vendor/neoacevedo/yii2-material3/src/assets/src';
 
     public $css = [
-        'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined',
+        'css/yii2-material3.scss',
     ];
 
     public $js = [
         'js/bundle.js',
-        'js/yii2-material3.min.js',
+        'js/yii2-material3.js',
     ];
 
     public $depends = [
-        Material2MdcCardAsset::class
+        Material2MdcCardAsset::class,
+        Material2MdcSnackbarAsset::class,
     ];
 
     public $publishOptions = [

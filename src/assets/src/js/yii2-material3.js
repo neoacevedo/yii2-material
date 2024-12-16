@@ -21,6 +21,14 @@ let m3InitForm = function (id, errorClass) {
 
 };
 
+function closeSnackbar(id) {
+    const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector(id));
+    snackbar.open();
+    setTimeout(() => {
+        snackbar.close();
+    }, 3000);
+}
+
 (function ($) {
     m3InitForm = function (id, errorClass) {
         customElements.whenDefined('md-outlined-text-field').then(() => {
@@ -28,6 +36,7 @@ let m3InitForm = function (id, errorClass) {
                 let textFields = $form.find('md-outlined-text-field, md-filled-text-field');
 
                 textFields.map((index) => {
+                    textFields[index].removeAttribute('error');
                     let shadowRoot = textFields[index].shadowRoot;
                     let outlinedFields = $(shadowRoot).find('md-outlined-field, md-filled-field');
                     outlinedFields.map((i) => {
@@ -37,12 +46,14 @@ let m3InitForm = function (id, errorClass) {
                 });
             };
 
-            $(id).on('afterValidateAttribute', function () {
+            $(id).on('afterValidateAttribute', function (event, attribute, messages) {
                 let $form = $(this);
                 resetControls($form);
                 if ($form.find(errorClass).length) {
                     let textFields = $form.find(errorClass).find('md-outlined-text-field, md-filled-text-field');
                     textFields.map((index) => {
+                        textFields[index].setAttribute('error-text', messages[0]);
+                        textFields[index].setAttribute('error', '');
                         let shadowRoot = textFields[index].shadowRoot;
                         let outlinedFields = $(shadowRoot).find('md-outlined-field, md-filled-field');
                         outlinedFields.map((i) => {

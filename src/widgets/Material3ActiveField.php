@@ -73,7 +73,7 @@ class Material3ActiveField extends ActiveField
     /**
      * @inheritDoc
      */
-    public $template = "{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}";
+    public $template = "{beginWrapper}\n{input}\n{endWrapper}";
 
     /**
      * @var bool whether to render the error. Default is `true` except for layout `inline`.

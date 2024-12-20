@@ -22,15 +22,30 @@ namespace neoacevedo\yii2\material\assets;
 
 use yii\web\AssetBundle;
 
-class Material2MdcCardAsset extends AssetBundle
+/**
+ * Material 3 Asset.
+ */
+class MaterialAsset extends AssetBundle
 {
-    public $sourcePath = '@npm/material--card/dist';
+    public $sourcePath = '@vendor/neoacevedo/yii2-material/src/assets/dist';
 
     public $css = [
-        'mdc.card.min.css'
+        'css/yii2-material.css',
+    ];
+
+    public $js = [
+        'js/bundle.js',
+        'js/yii2-material.js',
+    ];
+
+    public $depends = [
+        Material2MdcCardAsset::class,
+        Material2MdcSnackbarAsset::class,
+        Material2MdcNavigationDrawerAsset::class,
     ];
 
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];
+
 }

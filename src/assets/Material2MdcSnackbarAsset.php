@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright (c) 2024 neoacevedo
- * @subpackage yii2-material3
+ * @subpackage yii2-material
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace neoacevedo\yii2\material3\assets;
+namespace neoacevedo\yii2\material\assets;
 
 use yii\web\AssetBundle;
 

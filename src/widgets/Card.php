@@ -1,6 +1,6 @@
 <?php
 
-namespace neoacevedo\yii2\material3\widgets;
+namespace neoacevedo\yii2\material\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;

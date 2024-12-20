@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright (c) 2024 neoacevedo
- * @subpackage yii2-material3
+ * @subpackage yii2-material
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,33 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace neoacevedo\yii2\material3\assets;
+namespace neoacevedo\yii2\material\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * Material 3 Asset.
- */
-class Material3Asset extends AssetBundle
+class Material2MdcNavigationDrawerAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/neoacevedo/yii2-material3/src/assets/src';
+    public $sourcePath = '@npm/material--drawer/dist';
 
     public $css = [
-        'css/yii2-material3.scss',
+        'mdc.drawer.min.css'
     ];
 
     public $js = [
-        'js/bundle.js',
-        'js/yii2-material3.js',
-    ];
-
-    public $depends = [
-        Material2MdcCardAsset::class,
-        Material2MdcSnackbarAsset::class,
+        'mdc.drawer.min.js'
     ];
 
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];
-
 }

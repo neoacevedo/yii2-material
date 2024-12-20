@@ -1,9 +1,9 @@
 {
-    "name": "neoacevedo/yii2-material3",
+    "name": "neoacevedo/yii2-material",
     "type": "yii2-extension",
     "description": "Material Design Components for Yii2",
     "keywords": [
-        "material3",
+        "material",
         "components",
         "yii2"
     ],
@@ -19,11 +19,12 @@
         "yiisoft/yii2": "~2.0.45",
         "npm-asset/material--web": "^2.2",
         "npm-asset/material--card": "^14.0.0",
-        "npm-asset/material--snackbar": "^14.0.0"
+        "npm-asset/material--snackbar": "^14.0.0",
+        "npm-asset/material--drawer": "^14.0.0"
     },
     "autoload": {
         "psr-4": {
-            "neoacevedo\\yii2\\material3\\": "src/"
+            "neoacevedo\\yii2\\material\\": "src/"
         }
     }
 }

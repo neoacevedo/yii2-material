@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright (c) 2024 neoacevedo
- * @subpackage yii2-material3
+ * @subpackage yii2-material
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace neoacevedo\yii2\material3\widgets;
+namespace neoacevedo\yii2\material\widgets;
 
-use neoacevedo\yii2\material3\assets\Material3Asset;
+use neoacevedo\yii2\material\assets\MaterialAsset;
 use yii\widgets\ActiveForm;
 
 /**
@@ -46,7 +46,7 @@ class Material3ActiveForm extends ActiveForm
     public function registerClientScript()
     {
         $view = $this->getView();
-        Material3Asset::register($view);
+        MaterialAsset::register($view);
 
         $js = "m3InitForm('#{$this->options['id']}', '.{$this->errorCssClass}');";
         $view->registerJs($js);

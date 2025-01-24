@@ -58,13 +58,13 @@ abstract class MaterialBaseHtml extends BaseHtml
      */
     public static function iconButton($options): string
     {
-        $variant = $options['variant'] ?? null;
+        $variant = $options['variant'] ?? 'standard';
 
         $content = "<md-icon>{$options['icon']}</md-icon>\n";
 
         unset($options['variant']);
 
-        return static::tag(isset($variant) || ($variant !== 'standard') ? "md-$variant-icon-button" : 'md-icon-button', $content, $options);
+        return static::tag($variant !== 'standard' ? "md-$variant-icon-button" : 'md-icon-button', $content, $options);
     }
 
     /**

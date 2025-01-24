@@ -30,6 +30,8 @@
     src: url('../fonts/Material_Symbols_Sharp/MaterialSymbolsSharp-VariableFont_FILL\,GRAD\,opsz\,wght.ttf');
 }
 
+@import url('../mdc/node_modules/@material/web/typography/md-typescale-styles.css');
+
 .material-symbols-rounded,
 .material-symbols-outlined,
 .material-symbols-sharp {
@@ -54,4 +56,13 @@
 
 .mdc-snackbar {
     border: var(--md-sys-shape-corner-extra-small);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--md-ref-typeface-weight-regular, 400);
 }

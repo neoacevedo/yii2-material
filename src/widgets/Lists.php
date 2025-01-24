@@ -22,22 +22,20 @@ namespace neoacevedo\yii2\material\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * List widget for Yii2 that uses Material Web's list components. 
  */
 class Lists extends Widget
 {
-
     public string $label = '';
-
-    public bool $encode = true;
 
     /**
      * @var array The data to be displayed in the list.
      * Each item can be a single text or html, or an array with the following structure:
      * - overline: string, optional, the overline text.
-     * - content: string, the main content. Maybe a single text or HTML content.
+     * - headline: string, the main content. Maybe a single text or HTML content.
      * - supporting-text: string, optional, the secondary text.
      * - trailing-supprting-text: string, optional, a secondary text at the end of the supporting text.
      * - icon: string, the icon to display.
@@ -61,20 +59,24 @@ class Lists extends Widget
         echo Html::beginTag('md-list', $this->options);
 
         foreach ($this->items as $data) {
-            echo Html::beginTag('md-list-item') . "\n";
             if (is_array($data)) {
+                if (isset($data['options']['href'])) {
+                    $data['options']['href'] = Url::to($data['options']['href']);
+                }
                 echo Html::beginTag('md-list-item', $data['options'] ?? []) . "\n";
                 echo isset($data['overline']) ? Html::tag('div', $data['overline'], ['slot' => 'overline']) : '';
                 // 
-                echo "<a href='#'>Texto</a>\n";
-                // echo $this->encode ? Html::encode("{$data['content']}\n") : ". <a href=''>{$data['content']}</a>\n";
+                $headline = isset($data['encode']) ? isset($data['encode']) && $data['encode'] == true ? Html::encode("{$data['headline']}") : $data['headline'] : $data['headline'];
+
+                echo Html::tag('div', $headline, ['slot' => 'headline']);
                 //
                 echo isset($data['leading-icon']) ? Html::tag('md-icon', $data['start'], ['slot' => 'start']) : '';
                 echo isset($data['supporting-text']) ? Html::tag('div', $data['supporting-text'], ['slot' => 'supporting-text']) : '';
                 echo isset($data['trailing-supporting-text']) ? Html::tag('div', $data['trailing-supporting-text'], ['slot' => 'trailing-supporting-text']) : '';
                 echo isset($data['trailing-icon']) ? Html::tag('md-icon', $data['end'], ['slot' => 'end']) : '';
             } else {
-                echo $this->encode ? Html::encode("$data\n") : "$data\n";
+                echo Html::beginTag('md-list-item') . "\n";
+                echo $data['encode'] ? Html::encode("$data\n") : "$data\n";
             }
             echo Html::endTag('md-list-item') . "\n"; // Closing the list item tag
         }
@@ -88,5 +90,6 @@ class Lists extends Widget
             'id' => $this->id,
             'aria-label' => $this->label,
         ], $this->options);
+
     }
 }

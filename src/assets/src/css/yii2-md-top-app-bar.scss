@@ -1,0 +1,95 @@
+.top-app-bar {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    box-shadow: 0 2px 4px rgba(var(--md-sys-color-shadow), 0.1);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.top-app-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    max-width: 100%;
+}
+
+.app-title {
+    font-weight: var(--md-sys-typescale-headline-small-font-weight, 400);
+    font-family: var(--md-top-app-bar-headline-font, var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto)));
+    font-size: var(--md-top-app-bar-headline-size, var(--md-sys-typescale-headline-small-size, 1.5rem)/var(--md-sys-typescale-headline-small-line-height, 2rem));
+    line-height: var(--md-sys-typescale-headline-small-line-height);
+    letter-spacing: var(--md-sys-typescale-headline-small-letter-spacing);
+    flex-grow: 1;
+    /* Para que el título ocupe el espacio disponible */
+    text-align: start;
+    /* Centrar el título */
+    padding-inline: 12px;
+}
+
+.top-app-bar.center-aligned .app-title {
+    justify-content: center;
+}
+
+/* Estilos adicionales para la variante "medium" con Search Bar */
+.top-app-bar.medium {
+    display: grid;
+    /* Usamos grid para el diseño */
+    grid-template-rows: auto auto;
+    /* Dos filas: barra superior y barra de búsqueda */
+    gap: 8px;
+    /* Espacio entre filas */
+    padding-bottom: 8px;
+    /* Reducir el padding inferior de la barra superior */
+}
+
+.top-app-bar.large {
+    /* Clase para la variante "large" */
+    padding-top: 24px;
+    /* Aumentar el padding vertical */
+    padding-bottom: 24px;
+    background-size: cover;
+    background-position: center;
+}
+
+.top-app-bar.medium .top-app-bar-container {
+    padding-bottom: 0px;
+}
+
+.search-bar {
+    /* Estilos para la barra de búsqueda */
+    padding: 8px 16px;
+    background-color: var(--md-sys-color-surface-variant);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    border: none;
+    background: none;
+    flex-grow: 1;
+}
+
+.top-app-bar.large .app-title {
+    font-size: var(--md-sys-typescale-display-small-font-size);
+    /* Título más grande */
+    font-weight: var(--md-sys-typescale-display-small-font-weight);
+}
+
+.leading-icon-button,
+.action-button {
+    border: none;
+    background: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions {
+    display: flex;
+}

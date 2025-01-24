@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace neoacevedo\yii2\material\widgets;
 
@@ -14,6 +31,12 @@ use yii\helpers\Url;
  */
 class NavigationDrawer extends Widget
 {
+
+    const DRAWER_MODAL = 'modal';
+    const DRAWER_BOTTOM = 'bottom';
+    const DRAWER_DISMISSIBLE = 'dismissible';
+
+    public string $variant = '';
 
     /**
      * Lista de los elementos del Navigation Drawer. Cada elemento debe ser un array con la siguiente estructura:
@@ -36,61 +59,25 @@ class NavigationDrawer extends Widget
         $view->registerJs(<<<JS
             const navigationDrawer = new mdc.drawer.MDCDrawer(document.querySelector('.mdc-drawer'));
 JS, \yii\web\View::POS_END);
-        Html::addCssClass($this->options, ['widget' => 'mdc-drawer']);
     }
 
     public function run(): void
     {
+        $variant = '';
+        $variant = $this->variant ? "mdc-drawer--{$this->variant}" : "mdc-drawer--dismissible mdc-drawer--open";
+
+        Html::addCssClass($this->options, ['widget' => "mdc-drawer $variant"]);
+
         echo Html::beginTag("aside", $this->options) . "\n";
         echo Html::beginTag("div", ['class' => 'mdc-drawer__content']) . "\n";
         if (!empty($this->items)) {
             echo $this->renderItems($this->items);
         }
         echo Html::endTag("aside") . "\n";
-        echo Html::tag("div", '', ['class' => 'mdc-drawer-scrim']) . "\n";
+        if ($this->variant) {
+            echo Html::tag("div", '', ['class' => 'mdc-drawer-scrim']) . "\n";
+        }
     }
-
-    // protected function normalizeItems($items, &$active)
-    // {
-    //     foreach ($items as $i => $item) {
-    //         if (isset($item['visible']) && !$item['visible']) {
-    //             unset($items[$i]);
-    //             continue;
-    //         }
-    //         if (!isset($item['label'])) {
-    //             $item['label'] = '';
-    //         }
-    //         $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
-    //         $items[$i]['label'] = $encodeLabel ? Html::encode($item['label']) : $item['label'];
-    //         $hasActiveChild = false;
-    //         if (isset($item['items'])) {
-    //             $items[$i]['items'] = $this->normalizeItems($item['items'], $hasActiveChild);
-    //             if (empty($items[$i]['items']) && $this->hideEmptyItems) {
-    //                 unset($items[$i]['items']);
-    //                 if (!isset($item['url'])) {
-    //                     unset($items[$i]);
-    //                     continue;
-    //                 }
-    //             }
-    //         }
-    //         if (!isset($item['active'])) {
-    //             if ($this->activateParents && $hasActiveChild || $this->activateItems && $this->isItemActive($item)) {
-    //                 $active = $items[$i]['active'] = true;
-    //             } else {
-    //                 $items[$i]['active'] = false;
-    //             }
-    //         } elseif ($item['active'] instanceof Closure) {
-    //             if (call_user_func($item['active'], $item, $hasActiveChild, $this->isItemActive($item), $this)) {
-    //                 $active = $items[$i]['active'] = true;
-    //             } else {
-    //                 $items[$i]['active'] = false;
-    //             }
-    //         } elseif ($item['active']) {
-    //             $active = true;
-    //         }
-    //     }
-    //     return array_values($items);
-    // }
 
     /**
      * SRenderiza los elementos del menú.

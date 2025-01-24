@@ -1,7 +1,7 @@
 Contributing
 ====================
 
-- Report an issue using first the **[GitHub issue search](https://github.com/neoacevedo/yii2-material3/search?q=&type=Issues)** where you should:
+- Report an issue using first the **[GitHub issue search](https://github.com/neoacevedo/yii2-auditing/search?q=&type=Issues)** where you should:
   - Check for any existing issue
   - Check for any fixed issue
 - Be very descriptive in the issue, try to share a code demo or similar that shows the problem

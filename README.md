@@ -7,7 +7,7 @@ Yii2 Material 3
 
 Esta es una extensión primaria para [Yii framework 2.0](https://www.yiiframework.com). Encapsula componentes de [Material Design](https://m3.material.io/) en términos de Widgets Yii.
 
-**NOTA**: Material 3 no tiene el componente `Card`, así que se ha adaptado el componente de la versión 2 para intentar seguir los lineamientos de la versión 3.
+**NOTA**: Material 3 no tiene los componentes `Card` ni `Snackbar`, así que se han adaptado los componentes de la versión 2 para intentar seguir los lineamientos de la versión 3.
 
 Instalación
 ------------

@@ -48,8 +48,8 @@ class Material3ActiveForm extends ActiveForm
         $view = $this->getView();
         MaterialAsset::register($view);
 
-        $js = "m3InitForm('#{$this->options['id']}', '.{$this->errorCssClass}');";
-        $view->registerJs($js);
+        $js = "materialInitForm('#{$this->options['id']}', '.{$this->errorCssClass}');";
+        $view->registerJs($js, \yii\web\View::POS_END);
 
         parent::registerClientScript();
     }

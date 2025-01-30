@@ -64,6 +64,7 @@ class Button extends Widget
     {
         parent::init();
         $this->options = array_merge([
+            'id' => $this->id,
             'type' => 'button'
         ], $this->options);
     }

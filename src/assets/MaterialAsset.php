@@ -38,13 +38,16 @@ class MaterialAsset extends AssetBundle
     public $js = [
         'js/bundle.js',
         'js/yii2-material.js',
-        'js/top-app-bar.js'
+        'js/top-app-bar.js',
+        'js/navigation-drawer.js',
+        'js/navigation-drawer-modal.js',
+        'js/navigation-rail.js',
     ];
 
     public $depends = [
         Material2MdcCardAsset::class,
         Material2MdcSnackbarAsset::class,
-        Material2MdcNavigationDrawerAsset::class,
+        // Material2MdcNavigationDrawerAsset::class,
         // Material2MdcTopAppBarAsset::class,
     ];
 

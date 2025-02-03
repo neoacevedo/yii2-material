@@ -28,5 +28,5 @@ use yii\helpers\Url;
 
 class NavigationRail extends Widget
 {
-
+    
 }

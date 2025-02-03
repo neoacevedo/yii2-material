@@ -10,7 +10,7 @@ class NavigationRail extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
-            display: flex;
+            display: inline-flex;
             position: fixed;
             flex-direction: column;
             justify-content: space-between;
@@ -27,20 +27,21 @@ class NavigationRail extends HTMLElement {
             margin-top: 20px;
         }
 
-        .navigation-rail ::slotted(.nav-item) {
+        ::slotted(.nav-item) {
             width: 80px;
             height: 56px;
             margin: -2px auto 14px;
             padding: 2px;
             color: #333;
             text-decoration: none;
+            justify-content: center;
         }
       </style>
       <nav class="navigation-rail">
-        <slot name="nav-item">
-          <div part="icon"></div>
-          <div part="label"></div>
-        </slot>
+          <slot name="nav-item">
+            <div part="icon"></div>
+            <div part="label"></div>
+          </slot>
       </nav>
     `;
   }
@@ -80,7 +81,7 @@ class NavigationRail extends HTMLElement {
 
             navItem.addEventListener('mouseenter', () => {
               // icon.style.backgroundColor = 'var(--md-sys-color-surface-container-highest)';
-              icon.style.fontVariationSettings = '"wght" 600,"opsz" 24';
+              icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
             });
 
             navItem.addEventListener('mouseleave', () => {

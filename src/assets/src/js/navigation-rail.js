@@ -1,4 +1,20 @@
-
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 class NavigationRail extends HTMLElement {
   constructor() {
     super();
@@ -27,80 +43,102 @@ class NavigationRail extends HTMLElement {
             margin-top: 20px;
         }
 
-        ::slotted(.nav-item) {
-            width: 80px;
-            height: 56px;
-            margin: -2px auto 14px;
-            padding: 2px;
-            color: #333;
-            text-decoration: none;
-            justify-content: center;
+        ::slotted(.navigation-rail-content) {
+          display: inline-flex;
+          flex-direction: column;
+          width: 88px;
+          margin-top: 20px;
+          height: 100%;
         }
+
+
       </style>
       <nav class="navigation-rail">
-          <slot name="nav-item">
-            <div part="icon"></div>
-            <div part="label"></div>
-          </slot>
+        <slot></slot>
       </nav>
     `;
   }
 
   connectedCallback() {
-    const navItemsSlot = this.shadowRoot.querySelector('slot[name="nav-item"]');
-
+    const navItemsSlot = this.shadowRoot.querySelector('slot');
+    //   console.debug(navItemsSlot);
     if (navItemsSlot) { // Verifica que el slot exista
       navItemsSlot.addEventListener('slotchange', () => {
         const navItems = navItemsSlot.assignedNodes();
-
-        navItems.forEach(navItem => {
-          const icon = navItem.querySelector('[part="icon"]');
-          const label = navItem.querySelector('[part="label"]');
-
-          if (icon) {
-            icon.style = `
-              position: relative;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 56px;
-              height: 32px;
-              margin-right: auto;
-              margin-bottom: 4px;
-              margin-left: auto;
-              border-radius: 16px;
-              transition-duration: .2s;
-              transition-property: transform,opacity;
-            `;
-
-            if (navItem.classList.contains('active')) {
-              icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-              icon.style.opacity = 1;
-              icon.style.transform = 'scaleX(1)';
-            }
-
-            navItem.addEventListener('mouseenter', () => {
-              // icon.style.backgroundColor = 'var(--md-sys-color-surface-container-highest)';
-              icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
-            });
-
-            navItem.addEventListener('mouseleave', () => {
-              if (navItem.classList.contains('active')) {
-                icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-              } else {
-                icon.style.backgroundColor = '';
-              }
-              icon.style.fontVariationSettings = '"wght" 400,"opsz" 24';
-            });
+        navItems.forEach(item => {
+          if
+            (
+            item.nodeType === 8
+            ||
+            (item.nodeType === 3 && !/\S/.test(item.nodeValue))
+          ) {
+            return;
           }
 
-          if (label) {
-            label.style = `
-              font-size: 12px;
-              margin-bottom: 4px;
-              text-align: center;
-              pointer-events: none;
-            `;
+          if (item.classList.contains('navigation-rail-content')) {
+            const navItems = item.querySelectorAll('.nav-item');
+            // const label = navItem.querySelector('[part="label"]');
+            navItems.forEach(navItem => {
+              if (navItem) {
+                const icon = navItem.querySelector('.icon');
+                const label = navItem.querySelector('.label');
+
+                navItem.style = `
+                  width: 80px;
+                  height: 56px;
+                  margin: -2px auto 14px;
+                  padding: 2px;
+                  color: #333;
+                  text-decoration: none;
+                  justify-content: center;
+                  text-align: center;
+                `;
+
+                icon.style = `
+                  position: relative;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 56px;
+                  height: 32px;
+                  margin-right: auto;
+                  margin-bottom: 4px;
+                  margin-left: auto;
+                  border-radius: 16px;
+                  transition-duration: .2s;
+                  transition-property: transform,opacity;
+                `;
+
+                if (navItem.classList.contains('active')) {
+                  icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
+                  icon.style.opacity = 1;
+                  icon.style.transform = 'scaleX(1)';
+                }
+
+                navItem.addEventListener('mouseenter', () => {
+                  // icon.style.backgroundColor = 'var(--md-sys-color-surface-container-highest)';
+                  icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
+                });
+
+                navItem.addEventListener('mouseleave', () => {
+                  if (navItem.classList.contains('active')) {
+                    icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
+                  } else {
+                    icon.style.backgroundColor = '';
+                  }
+                  icon.style.fontVariationSettings = '"wght" 400,"opsz" 24';
+                });
+
+                if (label) {
+                  label.style = `
+                            font-size: 12px;
+                            margin-bottom: 4px;
+                            text-align: center;
+                            pointer-events: none;
+                          `;
+                }
+              }
+            });
           }
         });
       });

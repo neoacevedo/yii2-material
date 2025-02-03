@@ -1,8 +1,26 @@
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 class NavigationDrawerModal extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
             --md-list-container-color: transparent;
@@ -61,27 +79,27 @@ class NavigationDrawerModal extends HTMLElement {
       </aside>
       <div class="scrim"></div>
     `;
-        this.drawer = this.shadowRoot.querySelector('.drawer');
-        this.scrim = this.shadowRoot.querySelector('.scrim');
-        document.querySelector('md-navigation-drawer-modal').querySelectorAll('md-list-item[href]').forEach((item) => {
-            item.style.borderRadius = '28px';
-        });
+    this.drawer = this.shadowRoot.querySelector('.drawer');
+    this.scrim = this.shadowRoot.querySelector('.scrim');
+    document.querySelector('md-navigation-drawer-modal').querySelectorAll('md-list-item[href]').forEach((item) => {
+      item.style.borderRadius = '28px';
+    });
 
-    }
+  }
 
-    toggle() {
-        this.drawer.classList.toggle('open');
-        this.scrim.classList.toggle('open');
-    }
+  toggle() {
+    this.drawer.classList.toggle('open');
+    this.scrim.classList.toggle('open');
+  }
 
-    connectedCallback() {
-        this.scrim.addEventListener('click', () => this.toggle());
-        this.shadowRoot.querySelector('slot').addEventListener('click', (event) => {
-            if (event.target.tagName === 'A') {
-                this.toggle();
-            }
-        });
-    }
+  connectedCallback() {
+    this.scrim.addEventListener('click', () => this.toggle());
+    this.shadowRoot.querySelector('slot').addEventListener('click', (event) => {
+      if (event.target.tagName === 'A') {
+        this.toggle();
+      }
+    });
+  }
 }
 
 customElements.define('md-navigation-drawer-modal', NavigationDrawerModal);

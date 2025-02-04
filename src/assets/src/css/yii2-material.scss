@@ -66,3 +66,10 @@ h5,
 h6 {
     font-weight: var(--md-ref-typeface-weight-regular, 400);
 }
+
+.main-container {
+    display: flex;
+    /* Convierte el contenedor principal en Flexbox */
+    height: 100vh;
+    /* Asegura que el contenedor ocupa toda la altura de la pantalla */
+}

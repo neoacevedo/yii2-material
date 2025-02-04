@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 class NavigationRail extends HTMLElement {
   constructor() {
     super();
@@ -26,8 +27,7 @@ class NavigationRail extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
-            display: inline-flex;
-            position: fixed;
+            display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
@@ -40,27 +40,58 @@ class NavigationRail extends HTMLElement {
             display: flex;
             flex-direction: column;
             width: 88px;
-            margin-top: 20px;
+            height: 100%;
+        }
+
+        .menu-toggler, .fab-container {
+            width: 88px;
         }
 
         ::slotted(.navigation-rail-content) {
-          display: inline-flex;
+          display: flex;
           flex-direction: column;
           width: 88px;
-          margin-top: 20px;
-          height: 100%;
         }
-
-
       </style>
+    `;
+
+    if (this.classList.contains('align-bottom')) {
+      this.shadowRoot.innerHTML += `
+        <style>
+            ::slotted(.navigation-rail-content) {
+              margin-top: auto;
+              margin-bottom: 36px;
+            }
+        </style>
+      `;
+    }
+
+    if (this.classList.contains('align-center')) {
+      this.shadowRoot.innerHTML += `
+        <style>
+            ::slotted(.navigation-rail-content) {
+              margin-top: auto;
+              margin-bottom: auto;
+            }
+        </style>
+      `;
+    }
+
+    this.shadowRoot.innerHTML += `
       <nav class="navigation-rail">
-        <slot></slot>
+        <div class="menu-toggler">
+          <slot name="menu"></slot>
+        </div>
+        <div class="fab-container">
+          <slot name="fab"></slot>
+        </div>
+        <slot name="content"></slot>
       </nav>
     `;
   }
 
   connectedCallback() {
-    const navItemsSlot = this.shadowRoot.querySelector('slot');
+    const navItemsSlot = this.shadowRoot.querySelector('slot[name=content]');
     //   console.debug(navItemsSlot);
     if (navItemsSlot) { // Verifica que el slot exista
       navItemsSlot.addEventListener('slotchange', () => {

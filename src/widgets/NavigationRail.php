@@ -23,11 +23,69 @@ namespace neoacevedo\yii2\material\widgets;
 use neoacevedo\yii2\material\Html;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 
+/**
+ * NavigationRail renderiza elementos en una barra lateral.
+ * 
+ * Un ejemplo de uso de este widget seria de este modo:
+ * 
+ * ```php
+ * <?= NavigationRail::widget([
+ *    'options' => [
+ *      'class' => 'align-bottom, // Define la alineación de los elementos
+ *    ]
+ *   'items' => [
+ *       FloatingActionButton::widget(
+ *           config: [
+ *               'icon' => 'dark_mode',
+ *               'options' => [
+ *                   'lowered' => true,
+ *                   'class' => 'nav-item'
+ *               ],
+ *           ]
+ *       ),
+ *      '<p style="pading-bottom: 0.5rem"></p>',
+ *       [
+ *           'icon' => 'group',
+ *           'label' => 'Item 1',
+ *           'options' => [
+ *               'type' => 'link',
+ *               'href' => ['#'],
+ *           ]
+ *       ],
+ *       [
+ *           'icon' => 'manage_accounts',
+ *           'label' => 'Item 2',
+ *           'options' => [
+ *               'type' => 'link',
+ *               'href' => ['#'],
+ *           ]
+ *       ],
+ *       [
+ *           'icon' => 'settings',
+ *           'label' => 'Item 3',
+ *           'options' => [
+ *               'type' => 'link',
+ *               'href' => ['#'],
+ *           ]
+ *       ],
+ *   ]
+ * ]) ?>
+ * ```
+ * 
+ * Para alinear los elementos de destino en el centro o abajo, se le asignan distintas clases CSS al componente web:
+ * - align-center: clase CSS que alineará los elementos dentro del contenido en el centro.
+ * - align-bottom: clase CSS que alineará los elementos dentro del contenido al fondo.
+ * 
+ * @see https://m3.material.io/components/navigation-rail/guidelines
+ */
 class NavigationRail extends Widget
 {
+
+    public ?string $menuButton = null;
+
+    public ?string $fab = null;
+
     /**
      * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
      * - url: string|array, la dirección URL de destino.
@@ -58,9 +116,18 @@ class NavigationRail extends Widget
     public function run(): void
     {
         echo Html::beginTag(name: 'md-navigation-rail', options: $this->options) . "\n";
-        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content']) . "\n";
+        if ($this->menuButton) {
+            echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
+        }
+
+        if ($this->fab) {
+            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab']) . "\n";
+        }
+
+        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
-        echo Html::endTag(name: 'div') . "\n";
+        echo Html::endTag(name: 'div') . " 1 \n";
+
         echo Html::endTag(name: 'md-navigation-rail') . "\n";
     }
 

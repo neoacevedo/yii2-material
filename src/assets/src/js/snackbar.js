@@ -62,7 +62,7 @@ class Snackbar extends HTMLElement {
                     margin-right: 8px;
                 }
 
-                ::slotted(.supporting-text) {
+                ::slotted(div[slot="supporting-text"]) {
                     display: flex;
                     flex-grow: 1;
                     padding: 14px 16px;
@@ -81,7 +81,7 @@ class Snackbar extends HTMLElement {
         `;
         this._snackbar = this._shadowRoot.getElementById('snackbar');
         this._actions = this._shadowRoot.getElementById('actions');
-
+        console.debug(this._showCloseIcon);
     }
 
     connectedCallback() {

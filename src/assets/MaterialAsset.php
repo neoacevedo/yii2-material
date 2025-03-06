@@ -46,11 +46,13 @@ class MaterialAsset extends AssetBundle
         'js/navigation-drawer-modal.js',
         'js/navigation-rail.js',
         'js/card.js',
+        'js/snackbar.js',
     ];
 
     public $depends = [
-            // Material2MdcCardAsset::class,
-        Material2MdcSnackbarAsset::class,
+        'yii\web\YiiAsset',
+        // Material2MdcCardAsset::class,
+        // Material2MdcSnackbarAsset::class,
         // Material2MdcNavigationDrawerAsset::class,
         // Material2MdcTopAppBarAsset::class,
     ];
@@ -59,7 +61,7 @@ class MaterialAsset extends AssetBundle
         'forceCopy' => YII_DEBUG,
     ];
 
-    public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
+    public $jsOptions = ['position' => \yii\web\View::POS_END];
 
     public function registerAssetFiles($view): void
     {

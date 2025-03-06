@@ -23,69 +23,86 @@ namespace neoacevedo\yii2\material\widgets;
 use neoacevedo\yii2\material\Html;
 use yii\base\Widget;
 
+/**
+ * Snackbar es la clase que renderiza el componente web Snackbar de Material 3.
+ * 
+ * Ejemplo:
+ * ```php
+ * <?php
+ * echo Snackbar::widget([
+ *     'id' => $this->id,
+ *     'supportingText' => 'Supporting text',
+ *     'options' => [
+ *         'show-close-icon' => 'true', // Muestra el botón de cerrar el snackbar. Si se omite o se establece en 'false', no se mostrará el botón
+ *         'duration' => 3, 
+ *     ],
+ *     'action' => '<button>Botón</button>', // O un botón Html::button()
+ * ]);
+ * ```
+ */
 class Snackbar extends Widget
 {
     const TYPE_LEADING = 'leading';
     const TYPE_STACKED = 'stacked';
 
     /**
-     * Estas son las series de botones de acción que contiene el componente.
-     * @see https://github.com/material-components/material-components-web/tree/master/packages/mdc-card#actions
-     * @var array
+     * Este es el botón de acción que contiene el componente.
+     * @see https://m3.material.io/components/snackbar/guidelines#ff603b1b-7efc-4930-bb6f-584a6455819c
+     * @var string
      */
-    public array $actions = [];
+    public string $action = '';
 
     /**
-     * @var array the HTML attributes (name-value pairs) for the field container tag.
-     * The values will be HTML-encoded using [[Html::encode()]].
-     * If a value is `null`, the corresponding attribute will not be rendered.
-     * The following special options are recognized:
+     * @var array los atributos HTML (pares de valor de nombre) para la etiqueta contenedor de campo.      
+     * Los valores serán codificados HTML usando [[Html::encode()]].
+     * Si un valor es `null`, el atributo correspondiente no se entregará.
+     * Se reconocen las siguientes opciones especiales: 
      *
-     * - `variant`: the tag name of the container element. Defaults to `div`. Setting it to `false` will not render a container tag.
+     * - `show-close-icon`: cuando renderizar o no el botón de cererar. El valor booleano debe ser establecido como string para que tenga efecto.
+     *      Si es omitido, el botón no será mostrado.
+     * - `duration`: el tiempo en segundos en que el snackbar estará visible. Por defecto, el snackbar estará visible un máximo de 3 segundos.
      *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      * @see https://material-web.dev/components/dialog/#properties for dialog properties.
      */
     public array $options = [];
 
-    public string $label;
+    /**
+     * The text to be displayed in the snackbar.
+     * @var string
+     */
+    public string $supportingText;
 
     /**
      * @inheritDoc
      */
     public function run(): void
     {
-        $this->initOptions();
+        $this->options = array_merge([
+            'id' => $this->id,
+        ], $this->options);
 
-        $html = Html::beginTag('aside', $this->options) . "\n";
-        $html .= Html::beginTag('div', ['class' => 'mdc-snackbar__surface', 'role' => 'status', 'aria-relevants' => 'additions']) . "\n";
-        $html .= Html::beginTag('div', ['class' => 'mdc-snackbar__label', 'aria-atomic' => false]);
-        $html .= "{$this->label}\n";
-        $html .= Html::endTag('div') . "\n"; // Fin div label
-        $html .= $this->renderActionButtons();
-        $html .= Html::endTag('div') . "\n"; // Fin div surface
-        $html .= Html::endTag('aside') . "\n";
+        $html = Html::beginTag('md-snackbar', $this->options);
+
+        $html .= Html::tag('div', $this->supportingText, ['slot' => 'supporting-text']) . "\n";
+        $html .= $this->renderActionButton() . "\n";
+
+        $html .= Html::endTag('md-snackbar') . "\n";
 
         echo $html;
     }
 
-    protected function initOptions(): void
+    /**
+     * Renderiza el botón de acción.
+     * @return string|null
+     */
+    protected function renderActionButton(): string|null
     {
-        $variant = isset($this->options['variant']) ? "mdc-snackbar--" . $this->options['variant'] : '';
-        $this->options = array_merge([
-            'id' => $this->id,
-            'class' => $variant
-        ], $this->options);
-
-        Html::addCssClass($this->options, ['widget' => 'mdc-snackbar']);
-    }
-
-    protected function renderActionButtons(): string|null
-    {
-        if (count($this->actions) == 0) {
+        if (!$this->action) {
             return null;
         }
-        $content = implode("\n", $this->actions);
-        return Html::tag('div', $content, options: ['class' => 'mdck-snackbar__actions']);
+
+        return Html::tag(name: 'div', content: $this->action, options: ['slot' => 'action']);
     }
+
 }

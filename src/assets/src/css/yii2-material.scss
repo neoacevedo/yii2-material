@@ -1,3 +1,87 @@
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@use 'sass:map';
+@use '../mdc/node_modules/@material/web/typography/typescale';
+@use '../mdc/node_modules/@material/web/tokens/md-comp-elevated-card' as elevated-card;
+@use '../mdc/node_modules/@material/web/tokens/md-comp-filled-card' as filled-card;
+@use '../mdc/node_modules/@material/web/tokens/md-comp-outlined-card' as outlined-card;
+@use '../mdc/node_modules/@material/web/tokens';
+
+@use 'yii2-md-top-app-bar.scss';
+@use 'yii2-md-elevated-card.scss';
+@use 'yii2-md-filled-card.scss';
+@use 'yii2-md-outlined-card.scss';
+
+
+// $typescale-tokens: tokens.md-sys-typescale-values($exclude-custom-properties: true);
+$elevated-card-tokens: elevated-card.values($exclude-custom-properties: true);
+$filled-card-tokens: filled-card.values($exclude-custom-properties: true);
+$outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
+// $checkbox-tokens: tokens.md-comp-checkbox-values($exclude-custom-properties: true);
+
+:root {
+    @include typescale.theme(tokens.md-sys-typescale-values());
+    // @each $token, $value in $typescale-tokens {
+    //     --md-typescale-#{$token}: #{$value};
+    // }
+
+    @each $token, $value in $elevated-card-tokens {
+        --md-elevated-card-#{$token}: #{$value};
+    }
+
+    @each $token, $value in $filled-card-tokens {
+        --md-filled-card-#{$token}: #{$value};
+    }
+
+    @each $token, $value in $outlined-card-tokens {
+        --md-outlined-card-#{$token}: #{$value};
+    }
+
+    // @include yii2-md-elevated-card.theme(elevated-card.values());
+    // @include yii2-md-filled-card.theme(filled-card.values());
+    // @include yii2-md-outlined-card.theme(outlined-card.values());
+
+    // @each $token, $value in $checkbox-tokens {
+    //     --#{$token}: #{$value};
+    // }
+}
+
+md-elevated-card {
+    background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+    border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+    // box-shadow: 0px 1px 3px 0px var(--md-elevated-card-container-color);
+    --md-elevation-level: var(--md-elevated-card-container-elevation);
+}
+
+md-filled-card {
+    background-color: var(--md-filled-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+    border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+    --md-elevation-level: var(--md-filled-card-container-elevation);
+}
+
+md-outlined-card {
+    background-color: var(--md-outlined-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+    border-radius: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+    border: var(--md-outlined-card-outline-width, 1px) solid var(--md-outlined-card-outline-color);
+    --md-elevation-level: var(--md-outlined-card-container-elevation);
+}
+
 @font-face {
     font-family: 'Roboto';
     src:
@@ -30,42 +114,43 @@
     src: url('../fonts/Material_Symbols_Sharp/MaterialSymbolsSharp-VariableFont_FILL\,GRAD\,opsz\,wght.ttf');
 }
 
-@import url('../mdc/node_modules/@material/web/typography/md-typescale-styles.css');
 
-.material-symbols-rounded,
-.material-symbols-outlined,
-.material-symbols-sharp {
-    font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24
-}
+// @import url('../mdc/node_modules/@material/web/typography/md-typescale-styles.css');
 
-.material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-}
+// .material-symbols-rounded,
+// .material-symbols-outlined,
+// .material-symbols-sharp {
+//     font-variation-settings:
+//         'FILL' 0,
+//         'wght' 400,
+//         'GRAD' 0,
+//         'opsz' 24
+// }
 
-.material-symbols-rounded {
-    font-family: 'Material Symbols Rounded';
-}
+// .material-symbols-outlined {
+//     font-family: 'Material Symbols Outlined';
+// }
 
-.material-symbols-Sharp {
-    font-family: 'Material Symbols Sharp';
-}
+// .material-symbols-rounded {
+//     font-family: 'Material Symbols Rounded';
+// }
 
-.mdc-snackbar {
-    border: var(--md-sys-shape-corner-extra-small);
-}
+// .material-symbols-Sharp {
+//     font-family: 'Material Symbols Sharp';
+// }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-weight: var(--md-ref-typeface-weight-regular, 400);
-}
+// .mdc-snackbar {
+//     border: var(--md-sys-shape-corner-extra-small);
+// }
+
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//     font-weight: var(--md-ref-typeface-weight-regular, 400);
+// }
 
 .main-container {
     display: flex;

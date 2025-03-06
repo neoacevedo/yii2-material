@@ -1,0 +1,268 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+.top-app-bar {
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: 0 2px 4px rgba(var(--md-sys-color-shadow), 0.1);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.top-app-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  max-width: 100%;
+}
+
+.app-title {
+  font-weight: var(--md-sys-typescale-headline-small-font-weight, 400);
+  font-family: var(--md-top-app-bar-headline-font, var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto)));
+  font-size: var(--md-top-app-bar-headline-size, var(--md-sys-typescale-headline-small-size, 1.5rem)/var(--md-sys-typescale-headline-small-line-height, 2rem));
+  line-height: var(--md-sys-typescale-headline-small-line-height);
+  letter-spacing: var(--md-sys-typescale-headline-small-letter-spacing);
+  flex-grow: 1;
+  /* Para que el título ocupe el espacio disponible */
+  text-align: start;
+  /* Centrar el título */
+  padding-inline: 12px;
+}
+
+.top-app-bar.center-aligned .app-title {
+  justify-content: center;
+}
+
+/* Estilos adicionales para la variante "medium" con Search Bar */
+.top-app-bar.medium {
+  display: grid;
+  /* Usamos grid para el diseño */
+  grid-template-rows: auto auto;
+  /* Dos filas: barra superior y barra de búsqueda */
+  gap: 8px;
+  /* Espacio entre filas */
+  padding-bottom: 8px;
+  /* Reducir el padding inferior de la barra superior */
+}
+
+.top-app-bar.large {
+  /* Clase para la variante "large" */
+  padding-top: 24px;
+  /* Aumentar el padding vertical */
+  padding-bottom: 24px;
+  background-size: cover;
+  background-position: center;
+}
+
+.top-app-bar.medium .top-app-bar-container {
+  padding-bottom: 0px;
+}
+
+.search-bar {
+  /* Estilos para la barra de búsqueda */
+  padding: 8px 16px;
+  background-color: var(--md-sys-color-surface-variant);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  border: none;
+  background: none;
+  flex-grow: 1;
+}
+
+.top-app-bar.large .app-title {
+  font-size: var(--md-sys-typescale-display-small-font-size);
+  /* Título más grande */
+  font-weight: var(--md-sys-typescale-display-small-font-weight);
+}
+
+.leading-icon-button,
+.action-button {
+  border: none;
+  background: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+}
+
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+:root {
+  --md-sys-typescale-body-large-font: var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-body-large-line-height: var(--md-sys-typescale-body-large-line-height, 1.5rem);
+  --md-sys-typescale-body-large-size: var(--md-sys-typescale-body-large-size, 1rem);
+  --md-sys-typescale-body-large-weight: var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-body-medium-font: var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-body-medium-line-height: var(--md-sys-typescale-body-medium-line-height, 1.25rem);
+  --md-sys-typescale-body-medium-size: var(--md-sys-typescale-body-medium-size, 0.875rem);
+  --md-sys-typescale-body-medium-weight: var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-body-small-font: var(--md-sys-typescale-body-small-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-body-small-line-height: var(--md-sys-typescale-body-small-line-height, 1rem);
+  --md-sys-typescale-body-small-size: var(--md-sys-typescale-body-small-size, 0.75rem);
+  --md-sys-typescale-body-small-weight: var(--md-sys-typescale-body-small-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-display-large-font: var(--md-sys-typescale-display-large-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-display-large-line-height: var(--md-sys-typescale-display-large-line-height, 4rem);
+  --md-sys-typescale-display-large-size: var(--md-sys-typescale-display-large-size, 3.5625rem);
+  --md-sys-typescale-display-large-weight: var(--md-sys-typescale-display-large-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-display-medium-font: var(--md-sys-typescale-display-medium-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-display-medium-line-height: var(--md-sys-typescale-display-medium-line-height, 3.25rem);
+  --md-sys-typescale-display-medium-size: var(--md-sys-typescale-display-medium-size, 2.8125rem);
+  --md-sys-typescale-display-medium-weight: var(--md-sys-typescale-display-medium-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-display-small-font: var(--md-sys-typescale-display-small-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-display-small-line-height: var(--md-sys-typescale-display-small-line-height, 2.75rem);
+  --md-sys-typescale-display-small-size: var(--md-sys-typescale-display-small-size, 2.25rem);
+  --md-sys-typescale-display-small-weight: var(--md-sys-typescale-display-small-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-headline-large-font: var(--md-sys-typescale-headline-large-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-headline-large-line-height: var(--md-sys-typescale-headline-large-line-height, 2.5rem);
+  --md-sys-typescale-headline-large-size: var(--md-sys-typescale-headline-large-size, 2rem);
+  --md-sys-typescale-headline-large-weight: var(--md-sys-typescale-headline-large-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-headline-medium-font: var(--md-sys-typescale-headline-medium-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-headline-medium-line-height: var(--md-sys-typescale-headline-medium-line-height, 2.25rem);
+  --md-sys-typescale-headline-medium-size: var(--md-sys-typescale-headline-medium-size, 1.75rem);
+  --md-sys-typescale-headline-medium-weight: var(--md-sys-typescale-headline-medium-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-headline-small-font: var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-headline-small-line-height: var(--md-sys-typescale-headline-small-line-height, 2rem);
+  --md-sys-typescale-headline-small-size: var(--md-sys-typescale-headline-small-size, 1.5rem);
+  --md-sys-typescale-headline-small-weight: var(--md-sys-typescale-headline-small-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-label-large-font: var(--md-sys-typescale-label-large-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-label-large-line-height: var(--md-sys-typescale-label-large-line-height, 1.25rem);
+  --md-sys-typescale-label-large-size: var(--md-sys-typescale-label-large-size, 0.875rem);
+  --md-sys-typescale-label-large-weight: var(--md-sys-typescale-label-large-weight, var(--md-ref-typeface-weight-medium, 500));
+  --md-sys-typescale-label-large-weight-prominent: var(--md-sys-typescale-label-large-weight-prominent, var(--md-ref-typeface-weight-bold, 700));
+  --md-sys-typescale-label-medium-font: var(--md-sys-typescale-label-medium-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-label-medium-line-height: var(--md-sys-typescale-label-medium-line-height, 1rem);
+  --md-sys-typescale-label-medium-size: var(--md-sys-typescale-label-medium-size, 0.75rem);
+  --md-sys-typescale-label-medium-weight: var(--md-sys-typescale-label-medium-weight, var(--md-ref-typeface-weight-medium, 500));
+  --md-sys-typescale-label-medium-weight-prominent: var(--md-sys-typescale-label-medium-weight-prominent, var(--md-ref-typeface-weight-bold, 700));
+  --md-sys-typescale-label-small-font: var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-label-small-line-height: var(--md-sys-typescale-label-small-line-height, 1rem);
+  --md-sys-typescale-label-small-size: var(--md-sys-typescale-label-small-size, 0.6875rem);
+  --md-sys-typescale-label-small-weight: var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500));
+  --md-sys-typescale-title-large-font: var(--md-sys-typescale-title-large-font, var(--md-ref-typeface-brand, Roboto));
+  --md-sys-typescale-title-large-line-height: var(--md-sys-typescale-title-large-line-height, 1.75rem);
+  --md-sys-typescale-title-large-size: var(--md-sys-typescale-title-large-size, 1.375rem);
+  --md-sys-typescale-title-large-weight: var(--md-sys-typescale-title-large-weight, var(--md-ref-typeface-weight-regular, 400));
+  --md-sys-typescale-title-medium-font: var(--md-sys-typescale-title-medium-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-title-medium-line-height: var(--md-sys-typescale-title-medium-line-height, 1.5rem);
+  --md-sys-typescale-title-medium-size: var(--md-sys-typescale-title-medium-size, 1rem);
+  --md-sys-typescale-title-medium-weight: var(--md-sys-typescale-title-medium-weight, var(--md-ref-typeface-weight-medium, 500));
+  --md-sys-typescale-title-small-font: var(--md-sys-typescale-title-small-font, var(--md-ref-typeface-plain, Roboto));
+  --md-sys-typescale-title-small-line-height: var(--md-sys-typescale-title-small-line-height, 1.25rem);
+  --md-sys-typescale-title-small-size: var(--md-sys-typescale-title-small-size, 0.875rem);
+  --md-sys-typescale-title-small-weight: var(--md-sys-typescale-title-small-weight, var(--md-ref-typeface-weight-medium, 500));
+  --md-elevated-card-container-color: var(--md-sys-color-surface-container-low, #f7f2fa);
+  --md-elevated-card-container-elevation: 1;
+  --md-elevated-card-container-shadow-color: var(--md-sys-color-shadow, #000);
+  --md-elevated-card-container-shape: var(--md-sys-shape-corner-medium, 12px);
+  --md-filled-card-container-color: var(--md-sys-color-surface-container-highest, #e6e0e9);
+  --md-filled-card-container-elevation: 0;
+  --md-filled-card-container-shadow-color: var(--md-sys-color-shadow, #000);
+  --md-filled-card-container-shape: var(--md-sys-shape-corner-medium, 12px);
+  --md-outlined-card-container-color: var(--md-sys-color-surface, #fef7ff);
+  --md-outlined-card-container-elevation: 0;
+  --md-outlined-card-container-shadow-color: var(--md-sys-color-shadow, #000);
+  --md-outlined-card-container-shape: var(--md-sys-shape-corner-medium, 12px);
+  --md-outlined-card-outline-color: var(--md-sys-color-outline-variant, #cac4d0);
+  --md-outlined-card-outline-width: 1px;
+}
+
+md-elevated-card {
+  background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+  border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+  --md-elevation-level: var(--md-elevated-card-container-elevation);
+}
+
+md-filled-card {
+  background-color: var(--md-filled-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+  border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+  --md-elevation-level: var(--md-filled-card-container-elevation);
+}
+
+md-outlined-card {
+  background-color: var(--md-outlined-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+  border-radius: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+  border: var(--md-outlined-card-outline-width, 1px) solid var(--md-outlined-card-outline-color);
+  --md-elevation-level: var(--md-outlined-card-container-elevation);
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto-Black.ttf"), url("../fonts/Roboto-BlackItalic.ttf"), url("../fonts/Roboto-Bold.ttf"), url("../fonts/Roboto-BlackItalic.ttf"), url("../fonts/Roboto-Italic.ttf"), url("../fonts/Roboto-Light.ttf"), url("../fonts/Roboto-LightItalic.ttf"), url("../fonts/Roboto-Medium.ttf"), url("../fonts/Roboto-MediumItalic.ttf"), url("../fonts/Roboto-Regular.ttf"), url("../fonts/Roboto-Thin.ttf"), url("../fonts/Roboto-ThinItalic.ttf");
+}
+@font-face {
+  font-family: "Material Symbols Outlined";
+  src: url("../fonts/Material_Symbols_Outlined/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf");
+}
+@font-face {
+  font-family: "Material Symbols Rounded";
+  src: url("../fonts/Material_Symbols_Rounded/MaterialSymbolsRounded-VariableFont_FILL,GRAD,opsz,wght.ttf");
+}
+@font-face {
+  font-family: "Material Symbols Sharp";
+  src: url("../fonts/Material_Symbols_Sharp/MaterialSymbolsSharp-VariableFont_FILL,GRAD,opsz,wght.ttf");
+}
+.main-container {
+  display: flex;
+  /* Convierte el contenedor principal en Flexbox */
+  height: 100vh;
+  /* Asegura que el contenedor ocupa toda la altura de la pantalla */
+}

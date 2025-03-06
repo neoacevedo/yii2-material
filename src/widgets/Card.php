@@ -17,27 +17,11 @@ use yii\helpers\Html;
 class Card extends Widget
 {
 
-    const MDC_CARD_TYPE_OUTLINED = 'outlined';
+    const MD_CARD_TYPE_OUTLINED = 'outlined';
 
-    const MDC_CARD_TYPE_FILLED = 'filled';
+    const MD_CARD_TYPE_FILLED = 'filled';
 
-    const MDC_CARD_TYPE_ELEVATED = 'elevated';
-
-    /**
-     * @var string the title content in the card.
-     */
-
-    public string $title;
-
-    /**
-     * @var string the subtitle content in the card.
-     */
-    public string $subtitle;
-
-    /**
-     * @var string the URL for the image.
-     */
-    public string $mediaSrc;
+    const MD_CARD_TYPE_ELEVATED = 'elevated';
 
     /**
      * @var array the HTML attributes (name-value pairs) for the field container tag.
@@ -45,10 +29,10 @@ class Card extends Widget
      * If a value is `null`, the corresponding attribute will not be rendered.
      * The following special options are recognized:
      *
-     * - `variant`: the tag name of the container element. Defaults to `div`. Setting it to `false` will not render a container tag.
+     * - `type`: the card type.
      *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     * @see https://m3.material.io/components/cards/overview#7aa694fb-16f0-44fb-adf2-be0288ec22dc for the card variant (types).
+     * @see https://m3.material.io/components/cards/overview#7aa694fb-16f0-44fb-adf2-be0288ec22dc for the card type.
      */
     public array $options = [];
 
@@ -58,30 +42,6 @@ class Card extends Widget
      * @var array
      */
     public array $actions = [];
-
-    /**
-     * @var array body options
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public array $contentOptions = [];
-
-    /**
-     * @var array body options
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public array $mediaOptions = [];
-
-    /**
-     * @var array title options
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public array $titleOptions = [];
-
-    /**
-     * @var array subtitle options
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public array $subtitleOptions = [];
 
     /**
      * @var array action options
@@ -94,54 +54,37 @@ class Card extends Widget
      */
     public function init(): void
     {
-        parent::init();
-
-        $this->initOptions();
-
-        echo Html::beginTag('div', $this->options) . "\n";
-        echo $this->renderContentBegin() . "\n";
-        if (count($this->actions) == 0) {
-            echo Html::tag("md-ripple", '') . "\n";
+        if (!isset($this->options['id'])) {
+            $this->options['id'] = $this->getId();
         }
-        if (isset($this->title)) {
-            echo $this->renderHeader() . "\n";
-        }
-
+        ob_start();
+        ob_implicit_flush(false);
     }
 
     /**
      * @inheritDoc
      */
-    public function run(): void
+    public function run(): string
     {
-        echo "\n" . Html::endTag('div'); // content
-        if (count($this->actions) > 0) {
-            echo $this->renderActionButtons() . "\n";
-        }
-        echo "\n" . Html::endTag('div'); // card
-    }
+        $type = $this->options['type'] ?? self::MD_CARD_TYPE_ELEVATED;
+        unset($this->options['type']);
 
-    /**
-     * Initializes the widget options.
-     * This method sets the default values for various options.
-     * @return void
-     */
-    protected function initOptions(): void
-    {
-        $this->options = array_merge([
-            'id' => $this->getId()
-        ], $this->options);
+        $html = Html::beginTag("md-$type-card", $this->options) . "\n";
 
-        $variant = 'mdc-card--';
-        if (!isset($this->options['variant'])) {
-            $variant .= self::MDC_CARD_TYPE_OUTLINED;
-        } else {
-            $variant .= $this->options['variant'];
+        switch (count($this->actions)) {
+            case 0:
+                // echo Html::tag("md-ripple", '') . "\n";
+                break;
+            default:
+                $html .= $this->renderActionButtons() . "\n";
+                break;
         }
 
-        unset($this->options['variant']);
+        $content = ob_get_clean();
+        $html .= $content;
+        $html .= Html::endTag("md-$type-card"); // card
 
-        Html::addCssClass($this->options, ['widget' => "mdc-card $variant"]);
+        return $html;
     }
 
     /**
@@ -151,69 +94,18 @@ class Card extends Widget
     protected function renderActionButtons(): string
     {
         $content = '';
-        Html::addCssClass($this->actionsOptions, ['widget' => 'md-card__actions']);
 
         if (isset($this->actions['buttons'])) {
             $content .= implode("\n", $this->actions['buttons']);
-            Html::tag('div', $content, options: ['class' => 'mdc-card__action-buttons']);
+            Html::tag('div', content: $content, options: array_merge(['slot' => 'actions'], $this->actionsOptions));
         }
 
         if (isset($this->actions['icons'])) {
             $content .= implode("\n", $this->actions['icons']);
-            Html::tag('div', $content, options: ['class' => 'mdc-card__action-icons']);
+            Html::tag(name: 'div', content: $content, options: $this->actionsOptions);
         }
 
-        return Html::tag('div', $content, $this->actionsOptions);
-    }
-
-    /**
-     * Renders the opening tag of the content.
-     * @return string
-     */
-    protected function renderContentBegin(): string
-    {
-        if (isset($this->mediaSrc)) {
-            Html::addCssClass($this->contentOptions, ['widget' => 'mdc-card__primary-action']);
-        }
-        if (count($this->actions) > 0) {
-            $this->contentOptions = array_merge([
-                'style' => 'cursor: inherit;'
-            ], $this->contentOptions);
-        }
-        return Html::beginTag('div', $this->contentOptions);
-    }
-
-    /**
-     * Renders the header HTML markup of the card.
-     * @return string
-     */
-    protected function renderHeader(): string
-    {
-        $content = $title = $subtitle = '';
-
-        if (isset($this->mediaSrc)) {
-            Html::addCssClass($this->mediaOptions, ['widget' => 'mdc-card__media mdc-card__media--16-9']);
-            $content .= Html::tag('div', '', array_merge($this->mediaOptions, ['style' => "background-image: url(\"{$this->mediaSrc}\")"]));
-        }
-
-        if (isset($this->title)) {
-            Html::addCssClass($this->titleOptions, ['widget' => 'mdc-typography--headline6']);
-            $title .= Html::tag('h5', $this->title, $this->titleOptions);
-        } else {
-            $title .= '';
-        }
-
-        if (isset($this->subtitle)) {
-            Html::addCssClass($this->subtitleOptions, ['widget' => 'mdc-typography--subtitle2']);
-            $subtitle .= Html::tag('h6', $this->subtitle, $this->subtitleOptions);
-        } else {
-            $subtitle .= '';
-        }
-
-        $content .= Html::tag('div', $title . "\n" . $subtitle, ['class' => 'mdc-card__body']);
-
-        return $content;
-
+        return Html::tag(name: 'div', content: $content, options: $this->actionsOptions);
     }
 
 }

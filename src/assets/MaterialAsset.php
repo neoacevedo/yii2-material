@@ -30,9 +30,12 @@ class MaterialAsset extends AssetBundle
     public $sourcePath = '@vendor/neoacevedo/yii2-material/src/assets/src';
 
     public $css = [
-        'mdc/node_modules/@material/web/typography/md-typescale-styles.css',
-        'css/yii2-material.scss',
-        'css/yii2-md-top-app-bar.scss',
+        // 'mdc/node_modules/@material/web/typography/md-typescale-styles.css',
+        'css/yii2-material.css',
+        // 'css/yii2-md-top-app-bar.scss',
+        // 'css/yii2-md-outlined-card.scss',
+        // 'css/yii2-md-filled-card.scss',
+        // 'css/yii2-md-elevated-card.scss',
     ];
 
     public $js = [
@@ -42,10 +45,11 @@ class MaterialAsset extends AssetBundle
         'js/navigation-drawer.js',
         'js/navigation-drawer-modal.js',
         'js/navigation-rail.js',
+        'js/card.js',
     ];
 
     public $depends = [
-        Material2MdcCardAsset::class,
+            // Material2MdcCardAsset::class,
         Material2MdcSnackbarAsset::class,
         // Material2MdcNavigationDrawerAsset::class,
         // Material2MdcTopAppBarAsset::class,
@@ -61,9 +65,9 @@ class MaterialAsset extends AssetBundle
     {
         parent::registerAssetFiles($view);
         $manager = $view->getAssetManager();
-        $cssContent = file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'mdc/node_modules/@material/web/typography/md-typescale-styles.css'));
-        $cssContent .= file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'css/yii2-md-top-app-bar.css'));
-        $view->registerJs(js: "window.topAppBarStyles = `$cssContent`;", position: \yii\web\View::POS_HEAD, key: 'topAppBarStyles');
+        // $cssContent = file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'mdc/node_modules/@material/web/typography/md-typescale-styles.css'));
+        // $cssContent .= file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'css/yii2-md-top-app-bar.css'));
+        // $view->registerJs(js: "window.topAppBarStyles = `$cssContent`;", position: \yii\web\View::POS_HEAD, key: 'topAppBarStyles');
     }
 
 }

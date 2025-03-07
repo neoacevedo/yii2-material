@@ -43,11 +43,7 @@ class NavigationRail extends HTMLElement {
             height: 100%;
         }
 
-        .menu-toggler, .fab-container {
-            width: 88px;
-        }
-
-        ::slotted(.navigation-rail-content) {
+        ::slotted(div) {
           display: flex;
           flex-direction: column;
           width: 88px;
@@ -91,8 +87,18 @@ class NavigationRail extends HTMLElement {
   }
 
   connectedCallback() {
+    const fabSlot = this.shadowRoot.querySelector('slot[name=fab]');
+
+    if (fabSlot) {
+      const items = fabSlot.assignedNodes();
+      console.debug(items[0].querySelector('.nav-item'));
+      if (items.length > 0) {
+        items[0].querySelector('.nav-item').style = `margin: 14px auto;`;
+      }
+    }
+
     const navItemsSlot = this.shadowRoot.querySelector('slot[name=content]');
-    //   console.debug(navItemsSlot);
+
     if (navItemsSlot) { // Verifica que el slot exista
       navItemsSlot.addEventListener('slotchange', () => {
         const navItems = navItemsSlot.assignedNodes();
@@ -117,9 +123,9 @@ class NavigationRail extends HTMLElement {
                 navItem.style = `
                   width: 80px;
                   height: 56px;
-                  margin: -2px auto 14px;
+                  /*margin: -2px auto 14px;*/
                   padding: 2px;
-                  color: #333;
+                  color: var(--md-sys-color-primary);
                   text-decoration: none;
                   justify-content: center;
                   text-align: center;

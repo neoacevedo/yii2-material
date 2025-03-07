@@ -121,7 +121,7 @@ class NavigationRail extends Widget
         }
 
         if ($this->fab) {
-            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab']) . "\n";
+            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab', 'class' => 'fab']) . "\n";
         }
 
         echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";

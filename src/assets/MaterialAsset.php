@@ -27,34 +27,25 @@ use yii\web\AssetBundle;
  */
 class MaterialAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/neoacevedo/yii2-material/src/assets/src';
+    public $sourcePath = YII_DEBUG ? '@vendor/neoacevedo/yii2-material/src/assets/src' : '@vendor/neoacevedo/yii2-material/src/assets/dist';
 
     public $css = [
-        // 'mdc/node_modules/@material/web/typography/md-typescale-styles.css',
-        'css/yii2-material.css',
-        // 'css/yii2-md-top-app-bar.scss',
-        // 'css/yii2-md-outlined-card.scss',
-        // 'css/yii2-md-filled-card.scss',
-        // 'css/yii2-md-elevated-card.scss',
+        YII_DEBUG ? 'css/yii2-material.css' : 'css/yii2-material.min.css',
     ];
 
     public $js = [
         'js/bundle.js',
-        'js/yii2-material.js',
-        'js/top-app-bar.js',
+        YII_DEBUG ? 'js/yii2-material.js' : 'js/yii2-material.min.css',
+        YII_DEBUG ? 'js/top-app-bar.js' : 'js/top-app-bar.min.js',
         'js/navigation-drawer.js',
         'js/navigation-drawer-modal.js',
-        'js/navigation-rail.js',
-        'js/card.js',
-        'js/snackbar.js',
+        YII_DEBUG ? 'js/navigation-rail.js' : 'js/navigation-rail.min.js',
+        YII_DEBUG ? 'js/card.js' : 'js/card.min.js',
+        YII_DEBUG ? 'js/snackbar.js' : 'js/snackbar.min.js',
     ];
 
     public $depends = [
         'yii\web\YiiAsset',
-        // Material2MdcCardAsset::class,
-        // Material2MdcSnackbarAsset::class,
-        // Material2MdcNavigationDrawerAsset::class,
-        // Material2MdcTopAppBarAsset::class,
     ];
 
     public $publishOptions = [
@@ -63,13 +54,13 @@ class MaterialAsset extends AssetBundle
 
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 
-    public function registerAssetFiles($view): void
-    {
-        parent::registerAssetFiles($view);
-        $manager = $view->getAssetManager();
-        // $cssContent = file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'mdc/node_modules/@material/web/typography/md-typescale-styles.css'));
-        // $cssContent .= file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'css/yii2-md-top-app-bar.css'));
-        // $view->registerJs(js: "window.topAppBarStyles = `$cssContent`;", position: \yii\web\View::POS_HEAD, key: 'topAppBarStyles');
-    }
+    // public function registerAssetFiles($view): void
+    // {
+    //     parent::registerAssetFiles($view);
+    //     $manager = $view->getAssetManager();
+    //     $cssContent = file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'mdc/node_modules/@material/web/typography/md-typescale-styles.css'));
+    //     $cssContent .= file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'css/yii2-md-top-app-bar.css'));
+    //     $view->registerJs(js: "window.topAppBarStyles = `$cssContent`;", position: \yii\web\View::POS_HEAD, key: 'topAppBarStyles');
+    // }
 
 }

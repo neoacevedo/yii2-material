@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
 
 /**
- *
+ * Material3ActiveField renderiza campos de entrada de un [[Material3ActiveForm]].
  */
 class Material3ActiveField extends ActiveField
 {
@@ -37,9 +37,14 @@ class Material3ActiveField extends ActiveField
      */
     public $inputTemplate = null;
 
+    /**
+     * Opciones para los campos tipo input.
+     * @var array
+     */
     public $inputOptions = ['class' => ''];
 
     /**
+     * Opciones para los campos tipo checkbox.
      * @var array
      */
     public $checkOptions = [];

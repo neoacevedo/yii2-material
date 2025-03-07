@@ -38,8 +38,8 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
 }
 
 md-elevated-card {
-    background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
-    border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+    // background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+    // border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
     box-shadow: 0px 1px 3px 0px var(--md-elevated-card-container-shadow-color);
     --md-elevation-level: var(--md-elevated-card-container-elevation);
 }

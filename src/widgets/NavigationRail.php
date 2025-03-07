@@ -77,6 +77,10 @@ use yii\base\Widget;
  * - align-center: clase CSS que alineará los elementos dentro del contenido en el centro.
  * - align-bottom: clase CSS que alineará los elementos dentro del contenido al fondo.
  * 
+ * Dado que Material 3 no dispone del componente en web, se crea uno desde 0.
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ * 
  * @see https://m3.material.io/components/navigation-rail/guidelines
  */
 class NavigationRail extends Widget

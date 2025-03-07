@@ -26,13 +26,52 @@ class MdOutlinedCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
+                    box-sizing: border-box;
                     display: flex;
                     flex-direction: column;
+                    position: relative;
+                    z-index: 0;
+                }
+
+                md-elevation {
+                    transition-duration: 280ms;
+                    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+                }
+
+                md-elevation,
+                .background,
+                .outline {
+                    border-radius: inherit;
+                    inset: 0;
+                    pointer-events: none;
+                    position: absolute;
+                }
+
+                .background {
+                    background: var(--md-outlined-card-container-color);
+                    z-index: -1;
+                }
+
+                .outline {
+                    border: 1px solid transparent;
+                    z-index: 1;
+                }
+
+                slot {
+                    border-radius: inherit;
+                }
+
+                ::slotted(div[slot="actions"]) {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    box-sizing: border-box;
                 }
             </style>
             <md-elevation part="elevation"></md-elevation>
             <div class="background"></div>
             <slot></slot>
+            <slot name="actions"></slot>
             <div class="outline"></div>
         `;
     }
@@ -48,10 +87,47 @@ class MdFilledCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
+                    box-sizing: border-box;
                     display: flex;
                     flex-direction: column;
-                    background-color: var(--md-filled-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+                    position: relative;
+                    z-index: 0;
                     border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+                }
+
+                md-elevation {
+                    transition-duration: 280ms;
+                    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+                }
+
+                md-elevation,
+                .background,
+                .outline {
+                    border-radius: inherit;
+                    inset: 0;
+                    pointer-events: none;
+                    position: absolute;
+                }
+
+                .background {
+                    background: var(--md-filled-card-container-color);
+                    z-index: -1;
+                }
+
+                .outline {
+                    border: 1px solid transparent;
+                    z-index: 1;
+                }
+
+                slot {
+                    border-radius: inherit;
+                }
+
+                ::slotted(div[slot="actions"]) {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    box-sizing: border-box;
                 }
             </style>
             <md-elevation part="elevation"></md-elevation>
@@ -73,9 +149,11 @@ class MdElevatedCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
+                    box-sizing: border-box;
                     display: flex;
                     flex-direction: column;
-                    background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
+                    position: relative;
+                    z-index: 0;
                     border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
                     box-shadow: 0 2px 4px var(--md-elevated-card-container-shadow-color, var(--md-sys-color-shadow, #000050));
                     --md-elevation-level: var(--md-elevated-card-container-elevation);
@@ -85,10 +163,42 @@ class MdElevatedCard extends HTMLElement {
                     transition-duration: 280ms;
                     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
                 }
+
+                md-elevation,
+                .background,
+                .outline {
+                    border-radius: inherit;
+                    inset: 0;
+                    pointer-events: none;
+                    position: absolute;
+                }
+
+                .background {
+                    background: var(--md-elevated-card-container-color);
+                    z-index: -1;
+                }
+
+                .outline {
+                    border: 1px solid transparent;
+                    z-index: 1;
+                }
+
+                slot {
+                    border-radius: inherit;
+                }
+
+                ::slotted(div[slot="actions"]) {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 16px;
+                }
             </style>
             <md-elevation part="elevation"></md-elevation>
             <div class="background"></div>
             <slot></slot>
+            <slot name="actions"></slot>
             <div class="outline"></div>
         `;
     }

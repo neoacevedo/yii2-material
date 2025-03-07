@@ -27,7 +27,13 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
- * NavigationDrawer renderiza
+ * NavigationDrawer renderiza el componente web NavigationDrawer.
+ * 
+ * Dado que Material 3 no dispone del componente en web, se crea uno desde 0.
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ * 
+ * @see https://m3.material.io/components/navigation-drawer/guidelines
  */
 class NavigationDrawer extends Widget
 {
@@ -50,6 +56,13 @@ class NavigationDrawer extends Widget
      */
     public array $items = [];
 
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     *
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $options = [];
 
     public function init(): void

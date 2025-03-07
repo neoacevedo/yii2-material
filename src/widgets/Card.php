@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /**
  * Card se encarga de renderizar el componente Card de Material Web.
  * 
- * Dado que Material 3 no dispone del componente en web, se usa en su lugar Material Web Components.
+ * Dado que Material 3 no dispone del componente en web, se crea uno desde 0.
  * 
  * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  * 
@@ -38,16 +38,16 @@ class Card extends Widget
 
     /**
      * Estas son las series de botones de acción que contiene el componente.
-     * @see https://github.com/material-components/material-components-web/tree/master/packages/mdc-card#actions
+     * Las siguientes opciones son reconocidas:
+     * - `icons`: botones de acción de tipo ícono.
+     * - `buttons`: botones de acción clásicos. 
+     * - `options`: igual que en [[$options]] pero sin la opción `type`.
+     * - `iconsActionsOptions`: igual que en [[$options]] pero sin la opción `type`. Agrega atributos HTML al contenedor de los botones de acción tipo ícono.
+     * - `buttonsActionsOptions`: igual que en [[$options]] pero sin la opción `type`. Agrega atributos HTML al contenedor de los botones de acción clásicos.
      * @var array
+     * @see https://m3.material.io/components/cards/guidelines#2143949d-3645-4c0f-8f91-6fe86bd416a0
      */
     public array $actions = [];
-
-    /**
-     * @var array action options
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public array $actionsOptions = [];
 
     /**
      * @inheritDoc
@@ -97,15 +97,15 @@ class Card extends Widget
 
         if (isset($this->actions['buttons'])) {
             $content .= implode("\n", $this->actions['buttons']);
-            Html::tag('div', content: $content, options: array_merge(['slot' => 'actions'], $this->actionsOptions));
+            Html::tag('div', content: $content, options: array_merge(['slot' => 'actions'], $this->actions['buttonsActionOptions']));
         }
 
         if (isset($this->actions['icons'])) {
             $content .= implode("\n", $this->actions['icons']);
-            Html::tag(name: 'div', content: $content, options: $this->actionsOptions);
+            Html::tag(name: 'div', content: $content, options: array_merge(['slot' => 'actions'], $this->actions['buttonsActionOptions']));
         }
 
-        return Html::tag(name: 'div', content: $content, options: $this->actionsOptions);
+        return Html::tag(name: 'div', content: $content, options: array_merge(['class' => 'actions'], $this->actions['options']));
     }
 
 }

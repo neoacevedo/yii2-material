@@ -7,7 +7,7 @@ Yii2 Material 3
 
 Esta es una extensión primaria para [Yii framework 2.0](https://www.yiiframework.com). Encapsula componentes de [Material Design](https://m3.material.io/) en términos de Widgets Yii.
 
-**NOTA**: Material 3 no tiene los componentes `Card` ni `Snackbar`, así que se han adaptado los componentes de la versión 2 para intentar seguir los lineamientos de la versión 3.
+**NOTA**: Material Web 3 no tiene los componentes `Card`, `Snackbar`, `TopAppBar` ni `NavigationRail`, así que se han creado desde 0 para intentar seguir los lineamientos de la Material 3.
 
 Instalación
 ------------
@@ -37,32 +37,17 @@ Uso
 <?php
 ...
 $css = <<<CSS
-.demo-card {
-  width: 320px;
-  margin: 48px 0;
+.card {
+    width: 192px;
 }
 
-/* Card */
-.mdc-typography--headline6 {
-    font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: .0125em;
-}
-
-.mdc-typography--subtitle2 {
-    font-size: .875rem;
-    line-height: 1.375rem;
-    font-weight: 500;
-    letter-spacing: .0071428571em;
-}
-
-.mdc-card-body {
-    padding: 8px 1rem;
-}
-
-.mdc-card__body--typography {
-    line-height: 1.25rem;
-    font-weight: 400;
+.card.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    padding: 8px;
+    gap: 16px;
 }
 CSS;
 
@@ -70,19 +55,11 @@ $this->registerCss($css);
 ?>
 <main class="row">
     <?php
-    \neoacevedo\yii2\material3\widgets\MaterialCard::begin([
+    \neoacevedo\yii2\material\widgets\Card::begin([
         'options' => [
-            'class' => 'demo-card'
+            'class' => 'card', 
+            'type' => Card::MD_CARD_TYPE_FILLED
         ],
-        'titleOptions' => [
-            'class' => 'mdc-typography--headline6'
-        ],
-        'subtitleOptions' => [
-            'class' => 'mdc-typography--subtitle2'
-        ],
-        'title' => 'Our Changing Planet',
-        'subtitle' => 'by Kurt Wagner',
-        'mediaSrc' => 'https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg',
         'actions' => [
             'icons' => [
                 Html::iconButton(['icon' => 'dictionary']),
@@ -91,10 +68,9 @@ $this->registerCss($css);
         ]
     ]);
     ?>
-    <div class="mdc-card__body mdc-card__body--typography">Visit ten places on our planet that are
-        undergoing the biggest changes today.</div>
+    <h5 class="md-sys-typescale-headline-small-font">Agregue su código espagueti</h5>
     <?php
-    \neoacevedo\yii2\material3\widgets\MaterialCard::end();
+    neoacevedo\yii2\material\widgets\Card::end();
     ?>
 </main>
 ```
@@ -135,7 +111,7 @@ echo $form->field($model, 'password', [
       'options' => ['class' => 'mb-3']
 ])->passwordInput(['variant' => 'filled']);
 
-echo $form->field($model, 'remember_me')->checkbox
+echo $form->field($model, 'remember_me')->checkbox()
 
 ?>
 ```

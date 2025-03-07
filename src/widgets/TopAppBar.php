@@ -25,11 +25,39 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 
+/**
+ * TopAppBar se encarga de renderizar el componente TopAppBar de Material 3.
+ * 
+ * Dado que Material 3 no dispone del componente en web, se crea uno desde 0.
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ */
 class TopAppBar extends Widget
 {
+    /**
+     * Este es el título que puede ser el de la página visitada o el nombre de la aplicación
+     * @var string
+     */
     public $title = '';
+    /**
+     * Icono principal.
+     * @var mixed
+     */
     public $leadingIcon; // Icono principal (a la izquierda)
+
+    /**
+     * Iconos finales.
+     * @var array
+     */
     public $trailingIcons = []; // Array de iconos finales (a la derecha)
+
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     *
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public $options = [];
 
     public $leadingIconClickEvent = 'leading-icon-click';

@@ -24,6 +24,9 @@ use yii\helpers\Html;
 
 /**
  * Chip se encarga de renderizar el componente Chip de Material Web.
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ * 
  * @see https://material-web.dev/components/chip/
  * @see https://m3.material.io/components/chips/overview
  */

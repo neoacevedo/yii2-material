@@ -29,6 +29,8 @@ use yii\helpers\Html;
  * El botón hará uso de [[$icon]] o [[$label]] para determinar el contenido por defecto.
  * Si ninguno de estos atributos es establecido, generará un [[\yii\base\InvalidConfigException]].
  * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ * 
  * @see https://material-web.dev/components/fab/
  */
 class FloatingActionButton extends Widget

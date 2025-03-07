@@ -27,12 +27,15 @@ use yii\helpers\ArrayHelper;
 
 class Dialog extends Widget
 {
+
+    public ?string $icon;
+
     /**
      * Estas son las series de botones de acción que contiene el componente.
-     * @see https://github.com/material-components/material-components-web/tree/master/packages/mdc-card#actions
+     * @see https://m3.material.io/components/dialogs/guidelines#befd7f4d-1029-4957-b1b5-da13fc0bbf3c
      * @var array
      */
-    public array $actions = [];
+    public array $buttons = [];
 
     public array $bodyOptions = [];
 
@@ -44,13 +47,16 @@ class Dialog extends Widget
      * If a value is `null`, the corresponding attribute will not be rendered.
      * The following special options are recognized:
      *
-     * - `quick`: the tag name of the container element. Defaults to `div`. Setting it to `false` will not render a container tag.
-     * - `no-focus-trap`: Disables focus trapping, which by default keeps keyboard Tab navigation within the dialog.
+     * - `quick`: boolean as string, "true" or "false". Skips the opening and closing animations.
+     * - `no-focus-trap`: boolean as string, "true" or "false". Disables focus trapping, which by default keeps keyboard Tab navigation within the dialog. 
+     *      When disabled, after focusing the last element of a dialog, pressing Tab again will release focus from the window back to the browser (such as the URL bar). 
+     *      Focus trapping is recommended for accessibility, and should not typically be disabled. Only turn this off if the use case of a dialog is more accessible without focus trapping.
+     * - `type`: The type of dialog for accessibility. Set this to `alert` to announce a dialog as an alert dialog.
      *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     * @see https://material-web.dev/components/dialog/#properties for dialog properties.
+     * @see https://material-web.dev/components/dialog/#properties for more dialog properties.
      */
-    public array $dialogOptions = [];
+    public array $options = [];
 
     /**
      * @var array additional header options
@@ -78,27 +84,39 @@ class Dialog extends Widget
 
         $this->initOptions();
 
-        echo Html::beginTag('md-dialog', $this->dialogOptions) . "\n";
-        echo $this->renderHeader() . "\n";
-        echo $this->renderBodyBegin() . "\n";
-        echo $this->renderActionButtons() . "\n";
+        ob_start();
+        ob_implicit_flush(false);
     }
 
     /**
      * @inheritDoc
      */
-    public function run(): void
+    public function run(): string
     {
-        echo "\n" . Html::endTag('form'); // End body
-        echo "\n" . Html::endTag('md-dialog'); // End dialog
+        $html = Html::beginTag('md-dialog', $this->options) . "\n";
+
+        if ($this->icon) {
+            $html .= "<md-icon slot=\"icon\">{$this->icon}</md-icon>\n";
+        }
+
+        $html .= $this->renderHeader() . "\n";
+
+        $html .= $this->renderBodyBegin() . "\n";
+        $html .= ob_get_clean();
+        $html .= $this->renderBodyEnd(); // End body
+        $html .= $this->renderButtons() . "\n";
+
+        $html .= Html::endTag('md-dialog'); // End dialog
+
+        return $html;
     }
 
-    protected function renderActionButtons(): string|null
+    protected function renderButtons(): string|null
     {
         $content = '';
 
-        if (isset($this->actions['buttons'])) {
-            $content .= implode("\n", $this->actions['buttons']);
+        if (isset($this->buttons)) {
+            $content .= implode("\n", $this->buttons);
             return Html::tag('div', $content, options: ['slot' => 'actions']);
         }
 
@@ -107,12 +125,21 @@ class Dialog extends Widget
     }
 
     /**
-     * Renders the opening tag of the dialog body.
+     * Renderiza el inicio de la etiqueta del cuerpo del diálogo.
      * @return string
      */
     protected function renderBodyBegin(): string
     {
         return Html::beginTag('form', array_merge(['slot' => 'content', 'method' => 'dialog'], $this->bodyOptions));
+    }
+
+    /**
+     * Renderiza el cierre de la etiqueta del cuerpo del diálogo.
+     * @return string
+     */
+    protected function renderBodyEnd(): string
+    {
+        return Html::endTag('form');
     }
 
     protected function renderCloseButton(): string

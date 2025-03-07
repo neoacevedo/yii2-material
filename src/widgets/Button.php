@@ -37,6 +37,8 @@ use yii\base\Widget;
  *      ],
  * ]);
  * ```
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  */
 class Button extends Widget
 {
@@ -51,9 +53,18 @@ class Button extends Widget
 
     const TYPE_TEXT = 'text';
 
+    /**
+     * Texto del botón
+     * @var string
+     */
     public string $label = 'Button';
 
+    /**
+     * Si [[$label]] tiene caracteres especiales, estos son codificados en entidades HTML.
+     * @var bool
+     */
     public bool $encodeLabel = true;
+
 
     public array $options = [];
 

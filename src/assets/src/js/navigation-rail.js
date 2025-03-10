@@ -91,7 +91,7 @@ class NavigationRail extends HTMLElement {
 
     if (fabSlot) {
       const items = fabSlot.assignedNodes();
-      console.debug(items[0].querySelector('.nav-item'));
+
       if (items.length > 0) {
         items[0].querySelector('.nav-item').style = `margin: 14px auto;`;
       }

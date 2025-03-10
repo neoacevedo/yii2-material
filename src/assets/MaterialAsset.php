@@ -27,12 +27,21 @@ use yii\web\AssetBundle;
  */
 class MaterialAsset extends AssetBundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public $sourcePath = YII_DEBUG ? '@vendor/neoacevedo/yii2-material/src/assets/src' : '@vendor/neoacevedo/yii2-material/src/assets/dist';
 
+    /**
+     * @inheritDoc
+     */
     public $css = [
         YII_DEBUG ? 'css/yii2-material.css' : 'css/yii2-material.min.css',
     ];
 
+    /**
+     * @inheritDoc
+     */
     public $js = [
         'js/bundle.js',
         YII_DEBUG ? 'js/yii2-material.js' : 'js/yii2-material.min.css',
@@ -44,23 +53,23 @@ class MaterialAsset extends AssetBundle
         YII_DEBUG ? 'js/snackbar.js' : 'js/snackbar.min.js',
     ];
 
+    /**
+     * @inheritDoc
+     */
     public $depends = [
         'yii\web\YiiAsset',
     ];
 
+    /**
+     * @inheritDoc
+     */
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];
 
+    /**
+     * @inheritDoc
+     */
     public $jsOptions = ['position' => \yii\web\View::POS_END];
-
-    // public function registerAssetFiles($view): void
-    // {
-    //     parent::registerAssetFiles($view);
-    //     $manager = $view->getAssetManager();
-    //     $cssContent = file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'mdc/node_modules/@material/web/typography/md-typescale-styles.css'));
-    //     $cssContent .= file_get_contents(filename: $manager->getAssetPath(bundle: $this, asset: 'css/yii2-md-top-app-bar.css'));
-    //     $view->registerJs(js: "window.topAppBarStyles = `$cssContent`;", position: \yii\web\View::POS_HEAD, key: 'topAppBarStyles');
-    // }
 
 }

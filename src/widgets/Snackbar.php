@@ -27,6 +27,7 @@ use yii\base\Widget;
  * Snackbar es la clase que renderiza el componente web Snackbar de Material 3.
  * 
  * Ejemplo:
+ * 
  * ```php
  * <?php
  * echo Snackbar::widget([
@@ -62,7 +63,7 @@ class Snackbar extends Widget
      *      Si es omitido, el botón no será mostrado.
      * - `duration`: el tiempo en segundos en que el snackbar estará visible. Por defecto, el snackbar estará visible un máximo de 3 segundos.
      *
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     * @see [\yii\helpers\Html::renderTagAttributes()](https://www.yiiframework.com/doc/api/2.0/yii-helpers-html#renderTagAttributes()-detail) for details on how attributes are being rendered.
      * @see https://material-web.dev/components/dialog/#properties for dialog properties.
      */
     public array $options = [];

@@ -91,11 +91,11 @@ abstract class MaterialBaseHtml extends BaseHtml
             $options['type'] = 'button';
         }
 
-        $variant = $options['variant'] ?? 'outlined';
+        $variant = $options['type'] ?? 'outlined';
 
         $content .= isset($options['icon']) ? "\n<md-icon slot=\"icon\">{$options['icon']}</md-icon>\n" : '';
 
-        unset($options['variant'], $options['icon']);
+        unset($options['type'], $options['icon']);
 
         return static::tag("md-$variant-button", $content, $options);
     }

@@ -28,7 +28,11 @@ use yii\helpers\ArrayHelper;
 class Dialog extends Widget
 {
 
-    public ?string $icon;
+    /**
+     * Icono del diálogo.
+     * @var string|null
+     */
+    public string $icon = '';
 
     /**
      * Estas son las series de botones de acción que contiene el componente.
@@ -37,6 +41,12 @@ class Dialog extends Widget
      */
     public array $buttons = [];
 
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $bodyOptions = [];
 
     public array $closeButton = [];
@@ -59,7 +69,9 @@ class Dialog extends Widget
     public array $options = [];
 
     /**
-     * @var array additional header options
+     * @var array additional header options.
+     * The following special options are recognized:
+     * - `showCloseButton`: boolean, where to show or not a close button at right of the title.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $headerOptions = [];
@@ -111,16 +123,20 @@ class Dialog extends Widget
         return $html;
     }
 
-    protected function renderButtons(): string|null
+    /**
+     * Renderiza los botones de acción.
+     * @return string
+     */
+    protected function renderButtons(): string
     {
         $content = '';
 
-        if (isset($this->buttons)) {
+        if (count($this->buttons) > 0) {
             $content .= implode("\n", $this->buttons);
             return Html::tag('div', $content, options: ['slot' => 'actions']);
         }
 
-        return null;
+        return '';
 
     }
 
@@ -142,6 +158,10 @@ class Dialog extends Widget
         return Html::endTag('form');
     }
 
+    /**
+     * Renderiza el botón de cerrar el diálogo a la derecha del título.
+     * @return string|null
+     */
     protected function renderCloseButton(): string
     {
         if (($closeButton = $this->closeButton) !== false) {
@@ -162,15 +182,17 @@ class Dialog extends Widget
      */
     protected function renderHeader(): string
     {
+        if (isset($this->headerOptions['showCloseButton']) && $this->headerOptions['showCloseButton'] == true) {
+            $closeButton = $this->renderCloseButton();
+            unset($this->headerOptions['showCloseButton']);
+        }
+
         $this->headerOptions = array_merge([
             'slot' => 'headline'
         ], $this->headerOptions);
 
-        $closeButton = $this->renderCloseButton();
-
         if (isset($this->title)) {
-            $header = (count($this->actions) > 0) ? Html::tag('span', $this->title)
-                : Html::tag('h5', $this->title, ['style' => 'flex: 1;']);
+            $header = Html::tag('span', $this->title, ['style' => 'flex: 1;']);
         }
 
         if ($closeButton !== null) {
@@ -188,9 +210,9 @@ class Dialog extends Widget
      */
     protected function initOptions(): void
     {
-        $this->dialogOptions = array_merge([
+        $this->options = array_merge([
             'id' => $this->getId()
-        ], $this->dialogOptions);
+        ], $this->options);
 
         $this->bodyOptions = array_merge(['slot' => 'content', 'id' => 'form'], $this->bodyOptions);
     }

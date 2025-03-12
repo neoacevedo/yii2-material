@@ -1,3 +1,12 @@
+// Copyright (c) 2024 neoacevedo
+//
+// This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by * the Free Software Foundation,
+// either version 3 of the License,
+// or (at your option) any later version. * * This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY;
+// without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License * along with this program. If not,
+// see <http: //www.gnu.org/licenses/>.
+
 @use 'sass:map';
 @use '../mdc/node_modules/@material/web/typography/typescale';
 @use '../mdc/node_modules/@material/web/tokens/md-comp-elevated-card' as elevated-card;
@@ -6,10 +15,10 @@
 @use '../mdc/node_modules/@material/web/color/color';
 @use '../mdc/node_modules/@material/web/tokens';
 
-@use 'yii2-md-top-app-bar.scss';
-@use 'yii2-md-elevated-card.scss';
-@use 'yii2-md-filled-card.scss';
-@use 'yii2-md-outlined-card.scss';
+@use 'yii2-md-top-app-bar';
+// @use 'yii2-md-elevated-card.scss';
+// @use 'yii2-md-filled-card.scss';
+// @use 'yii2-md-outlined-card.scss';
 
 $elevated-card-tokens: elevated-card.values($exclude-custom-properties: true);
 $filled-card-tokens: filled-card.values($exclude-custom-properties: true);
@@ -35,26 +44,6 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
     @each $token, $value in $outlined-card-tokens {
         --md-outlined-card-#{$token}: #{$value};
     }
-}
-
-md-elevated-card {
-    // background-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));
-    // border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-    box-shadow: 0px 1px 3px 0px var(--md-elevated-card-container-shadow-color);
-    --md-elevation-level: var(--md-elevated-card-container-elevation);
-}
-
-md-filled-card {
-    background-color: var(--md-filled-card-container-color, var(--md-sys-color-surface-container-highest, #E6E0E9));
-    border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-    --md-elevation-level: var(--md-filled-card-container-elevation);
-}
-
-md-outlined-card {
-    background-color: var(--md-outlined-card-container-color, var(--md-sys-color-surface, #FEF7FF));
-    border-radius: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-    border: var(--md-outlined-card-outline-width, 1px) solid var(--md-outlined-card-outline-color);
-    --md-elevation-level: var(--md-outlined-card-container-elevation);
 }
 
 @font-face {

@@ -31,6 +31,9 @@ class MdOutlinedCard extends HTMLElement {
                     flex-direction: column;
                     position: relative;
                     z-index: 0;
+                    border-radius: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+                    border: var(--md-outlined-card-outline-width, 1px) solid var(--md-outlined-card-outline-color);
+                    --md-elevation-level: var(--md-outlined-card-container-elevation);
                 }
 
                 md-elevation {
@@ -93,6 +96,7 @@ class MdFilledCard extends HTMLElement {
                     position: relative;
                     z-index: 0;
                     border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
+                    --md-elevation-level: var(--md-filled-card-container-elevation);
                 }
 
                 md-elevation {
@@ -155,7 +159,7 @@ class MdElevatedCard extends HTMLElement {
                     position: relative;
                     z-index: 0;
                     border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-                    box-shadow: 0 2px 4px var(--md-elevated-card-container-shadow-color, var(--md-sys-color-shadow, #000050));
+                    box-shadow: 0px 1px 3px 0px var(--md-elevated-card-container-shadow-color);
                     --md-elevation-level: var(--md-elevated-card-container-elevation);
                 }
 

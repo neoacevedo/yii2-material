@@ -1,4 +1,6 @@
 /**
+ * @preserve
+ * 
  * @copyright Copyright (c) 2024 neoacevedo
  * @subpackage yii2-material
  * 
@@ -14,8 +16,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @endpreserve
  */
-
+// @endpreserve
 class NavigationRail extends HTMLElement {
   constructor() {
     super();

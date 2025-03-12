@@ -45,7 +45,10 @@ class Lists extends Widget
     public $items = [];
 
     /**
-     * @var array Configuration options for the list.
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options = [];
 

@@ -182,6 +182,84 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function checkbox($name, $checked = false, $options = [])
+    {
+        return static::tag(name: "md-checkbox", content: '', options: array_merge(['name' => $name, 'checked' => "$checked"], $options));
+    }
+
+    /**
+     * Generates el componente web select.
+     * @param mixed $name The input name
+     * @param mixed $selection The selected value(s). String/boolean for single or array for multiple selection(s).
+     * @param mixed $items The option data items. The array keys are option values, and the array values are the corresponding option labels. 
+     *              The array can also be nested (i.e. some array values are arrays too). 
+     *              For each sub-array, an option group will be generated whose label is the key associated with the sub-array. 
+     *              If you have a list of data models, you may convert them into the format described above using [[\yii\helpers\ArrayHelper::map()]]. 
+     *              Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in the labels will also be HTML-encoded.
+     * @param mixed $options The tag options in terms of name-value pairs. The following options are specially handled:
+     *
+     * - type: string, el tipo de option, `select-option` o `list-item`, por defecto será `select-option`. :
+     *
+     *   ```php
+     *   ['text' => 'Please select', 'options' => ['value' => 'none', 'type' => 'select-option', 'label' => 'Select']],
+     *   ```
+     *
+     * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+     *   and the array values are the extra attributes for the corresponding option tags. For example,
+     *
+     *   ```php
+     *   [
+     *       'value1' => ['disabled' => true],
+     *       'value2' => ['label' => 'value 2'],
+     *   ];
+     *   ```
+     * 
+     * - encodeSpaces: bool, whether to encode spaces in option prompt and option value with `&nbsp;` character.
+     *   Defaults to false.
+     * - encode: bool, whether to encode option prompt and option value characters.
+     *   Defaults to `true`. This option is available since 2.0.3.
+     * - strict: boolean, if `$selection` is an array and this value is true a strict comparison will be performed on `$items` keys. Defaults to false.
+     *
+     * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+     * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * @return string
+     */
+    public static function dropDownList($name, mixed $selection = null, $items = [], $options = [])
+    {
+        if (!empty($options['multiple'])) {
+            return static::listBox($name, $selection, $items, $options);
+        }
+        $options['name'] = $name;
+        $type = $options['type'] ?? 'outlined';
+        unset($options['unselect'], $options['type']);
+
+        $selectOptions = static::renderSelectOptions($selection, $items, $options);
+        return static::tag(name: "md-$type-select", content: "\n$selectOptions\n", options: $options);
+    }
+
+    /**
+     * Genera el componente web Floating Action Button.
+     * @param string $icon
+     * @param array $options Atributos HTML para el FAB. 
+     * Los atributos HTML pueden ser cualquier atributo conocido de etiquetas HTML.
+     * Las siguientes opciones especiales son reconocidas:
+     * - [lowered](https://material-web.dev/components/fab/#lowered): booleano, indicando si el botón tendrá una elevación baja. 
+     * - [size](https://material-web.dev/components/fab/#sizes): string, determina el tamaño del botón. 
+     * @return string
+     */
+    public static function fab(string $icon, array $options = []): string
+    {
+        $html = static::beginTag(name: 'md-fab', options: $options);
+        $html .= static::tag(name: 'md-icon', content: $icon, options: ['slot' => 'icon']);
+        $html .= static::endTag(name: 'md-fab');
+
+        return $html;
+    }
+
+    /**
      * Generates an input type of the given type.
      * @param string $type the type attribute.
      * @param string|null $name the name attribute. If it is null, the name attribute will not be generated.
@@ -231,6 +309,76 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function radio($name, $checked = false, $options = [])
+    {
+        return static::tag(name: "md-radio", content: '', options: array_merge(['name' => $name, 'checked' => (string) $checked], $options));
+    }
+
+    /**
+     * Renderiza los componentes select-option para el [[dropDownList()]].
+     * @param mixed $selection The selected value(s). String/boolean for single or array for multiple selection(s).
+     * @param mixed $items The option data items. The array keys are option values, and the array values are the corresponding option labels. 
+     *  The array can also be nested (i.e. some array values are arrays too). For each sub-array, an option group will be generated whose label is the key associated with the sub-array. 
+     *  If you have a list of data models, you may convert them into the format described above using [[\yii\helpers\ArrayHelper::map()]].
+     * 
+     * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in the labels will also be HTML-encoded.
+     * @param mixed $tagOptions The $options parameter that is passed to the [[dropDownList()]] call. 
+     *  This method will take out these elements, if any: "type", "options". See more details in [[dropDownList()]] for the explanation of these elements.
+     * @return string
+     */
+    public static function renderSelectOptions($selection, $items, &$tagOptions = [])
+    {
+        if (ArrayHelper::isTraversable($selection)) {
+            $normalizedSelection = [];
+            foreach (ArrayHelper::toArray($selection) as $selectionItem) {
+                $normalizedSelection[] = (is_bool($selectionItem)) ? $selectionItem ? '1' : '0' : (string) $selectionItem;
+            }
+            $selection = $normalizedSelection;
+        } elseif (is_bool($selection)) {
+            $selection = $selection ? '1' : '0';
+        }
+        $lines = [];
+        $encodeSpaces = ArrayHelper::remove($tagOptions, 'encodeSpaces', false);
+        $encode = ArrayHelper::remove($tagOptions, 'encode', true);
+        $strict = ArrayHelper::remove($tagOptions, 'strict', false);
+        $type = ArrayHelper::remove($tagOptions, 'type', 'list');
+
+        $options = $tagOptions['options'] ?? [];
+        unset($tagOptions['options'], $tagOptions['type']);
+        $options['encodeSpaces'] = ArrayHelper::getValue($options, 'encodeSpaces', $encodeSpaces);
+        $options['encode'] = ArrayHelper::getValue($options, 'encode', $encode);
+        foreach ($items as $key => $value) {
+
+            $attrs = isset($options[$key]) ? $options[$key] : [];
+            $attrs['value'] = (string) $key;
+            if (!array_key_exists('selected', $attrs)) {
+                $selected = false;
+                if ($selection !== null) {
+                    if (ArrayHelper::isTraversable($selection)) {
+                        $selected = ArrayHelper::isIn((string) $key, $selection, $strict);
+                    } elseif ($key === '' || $selection === '') {
+                        $selected = $selection === $key;
+                    } elseif ($strict) {
+                        $selected = !strcmp((string) $key, (string) $selection);
+                    } else {
+                        $selected = $selection == $key;
+                    }
+                }
+                $attrs['selected'] = $selected;
+            }
+            $text = static::tag('div', $encode ? static::encode($value) : $value, ['slot' => 'headline']);
+            if ($encodeSpaces) {
+                $text = str_replace(' ', '&nbsp;', $text);
+            }
+            $lines[] = static::tag("md-$type", $text, $attrs);
+
+        }
+        return implode("\n", $lines);
+    }
+
+    /**
      * Generates a text area input.
      * @param string $name the input name
      * @param string $value the input value. Note that it will be encoded using [[encode()]].
@@ -261,6 +409,21 @@ abstract class MaterialBaseHtml extends BaseHtml
 
         return static::tag("md-$textType-text-field", static::encode($value, $doubleEncode), $options);
     }
+
+    /**
+     * Genera el componente web `slider`.
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * @return string
+     */
+    public static function slider(array $options = []): string
+    {
+        return static::tag(name: 'md-slider', content: "", options: $options);
+    }
+
+    #region protected
 
     /**
      * Generates a boolean input
@@ -342,6 +505,8 @@ abstract class MaterialBaseHtml extends BaseHtml
 
         return static::input($type, $name, $value, $options);
     }
+
+    #endregion
 
     /**
      * If `maxlength` option is set true and the model attribute is validated by a string validator,

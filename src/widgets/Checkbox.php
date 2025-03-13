@@ -23,24 +23,31 @@ namespace neoacevedo\yii2\material\widgets;
 use neoacevedo\yii2\material\Html;
 use yii\base\Widget;
 
-
 /**
- * Slider se encarga de renderizar el componente Slider de Material Web.
+ * Checkbox se encarga de renderizar el componente Checkbox de Material Web.
  * 
  * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  * 
- * @see https://material-web.dev/components/slider/
+ * @see https://material-web.dev/components/checkbox/
+ * @see https://m3.material.io/components/checkbox/overview
  */
-class Slider extends Widget
+class Checkbox extends Widget
 {
+    /**
+     * The name attribute
+     * @var string
+     */
+    public string $name = '';
+
+    /**
+     * Whether the checkbox should be checked.
+     * @var bool
+     */
+    public bool $checked = false;
 
     /**
      * @var array the HTML attributes (name-value pairs) for the field container tag.
-     * The values will be HTML-encoded using [[Html::encode()]].
-     * If a value is `null`, the corresponding attribute will not be rendered.
-     * 
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     * @see https://material-web.dev/components/slider/#properties for more slider properties.
+     * @see \yii\helpers\Html::booleanInput() for details about accepted attributes.
      */
     public array $options = [];
 
@@ -49,7 +56,10 @@ class Slider extends Widget
      */
     public function run(): void
     {
-        echo Html::slider(options: array_merge(['id' => $this->id], $this->options));
-    }
+        $this->options = array_merge([
+            'id' => $this->id
+        ], $this->options);
 
+        echo Html::checkbox(name: $this->name, checked: $this->checked, options: $this->options);
+    }
 }

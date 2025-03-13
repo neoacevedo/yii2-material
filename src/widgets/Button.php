@@ -65,7 +65,12 @@ class Button extends Widget
      */
     public bool $encodeLabel = true;
 
-
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $options = [];
 
     /**

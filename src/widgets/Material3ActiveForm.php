@@ -24,7 +24,7 @@ use neoacevedo\yii2\material\assets\MaterialAsset;
 use yii\widgets\ActiveForm;
 
 /**
- * Material3ActiveForm hereda de [[ActiveForm]] para generar las etiquetas de Material Design Components.
+ * Material3ActiveForm hereda de [[\yii\widgets\ActiveForm]] para generar las etiquetas de Material Design Components.
  */
 class Material3ActiveForm extends ActiveForm
 {

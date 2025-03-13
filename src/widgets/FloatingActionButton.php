@@ -20,8 +20,8 @@
 
 namespace neoacevedo\yii2\material\widgets;
 
+use neoacevedo\yii2\material\Html;
 use yii\base\Widget;
-use yii\helpers\Html;
 
 /**
  * FloatingActionButton renderiza los botones de acción flotantes de Material 3.
@@ -84,10 +84,6 @@ class FloatingActionButton extends Widget
      */
     public function run(): string
     {
-        $html = Html::beginTag(name: 'md-fab', options: $this->options);
-        $html .= Html::tag(name: 'md-icon', content: $this->icon, options: ['slot' => 'icon']);
-        $html .= Html::endTag(name: 'md-fab');
-
-        return $html;
+        return Html::fab(icon: $this->icon, options: $this->options);
     }
 }

@@ -49,6 +49,7 @@ class TextField extends InputWidget
     const TYPE_TEXT = 'text';
     const TYPE_TEXTAREA = 'textarea';
     const TYPE_PASSWORD = 'password';
+
     /**
      * @var array the HTML attributes for the input tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.

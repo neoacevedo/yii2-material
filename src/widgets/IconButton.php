@@ -21,35 +21,61 @@
 namespace neoacevedo\yii2\material\widgets;
 
 use neoacevedo\yii2\material\Html;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 
-
 /**
- * Slider se encarga de renderizar el componente Slider de Material Web.
+ * IconButton se encarga de renderizar el componente IconButton de Material Web.
  * 
  * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  * 
- * @see https://material-web.dev/components/slider/
+ * @see https://material-web.dev/components/icon-buttons/
+ * @see https://m3.material.io/components/icon-buttons/overview
  */
-class Slider extends Widget
+class IconButton extends Widget
 {
+    const TYPE_OUTLINED = 'outlined';
+
+    const TYPE_FILLED = 'filled';
+
+    const TYPE_TONAL = 'tonal';
+
+    const TYPE_ELEVATED = 'elevated';
+
+    public string $icon = '';
 
     /**
      * @var array the HTML attributes (name-value pairs) for the field container tag.
      * The values will be HTML-encoded using [[Html::encode()]].
      * If a value is `null`, the corresponding attribute will not be rendered.
-     * 
+     * The following special options are recognized:
+     *
+     * - `variant`: string, the button variant.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     * @see https://material-web.dev/components/slider/#properties for more slider properties.
      */
     public array $options = [];
 
     /**
      * @inheritDoc
      */
-    public function run(): void
+    public function init(): void
     {
-        echo Html::slider(options: array_merge(['id' => $this->id], $this->options));
+        parent::init();
+        $this->options = array_merge([
+            'id' => $this->id,
+            'icon' => $this->icon
+        ], $this->options);
+
+        if (!in_array($this->options['variant'], [self::TYPE_ELEVATED, self::TYPE_FILLED, self::TYPE_TONAL, self::TYPE_OUTLINED])) {
+            throw new InvalidConfigException(message: "Either 'type' property must be set to '" . self::TYPE_ELEVATED . "', '" . self::TYPE_FILLED . "', '" . self::TYPE_TONAL . "', '" . self::TYPE_OUTLINED . "'.");
+        }
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function run(): string
+    {
+        return Html::iconButton(options: $this->options);
+    }
 }

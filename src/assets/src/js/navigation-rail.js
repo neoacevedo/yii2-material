@@ -82,25 +82,12 @@ class NavigationRail extends HTMLElement {
         <div class="menu-toggler">
           <slot name="menu"></slot>
         </div>
-        <div class="fab-container">
-          <slot name="fab"></slot>
-        </div>
         <slot name="content"></slot>
       </nav>
     `;
   }
 
   connectedCallback() {
-    const fabSlot = this.shadowRoot.querySelector('slot[name=fab]');
-
-    if (fabSlot) {
-      const items = fabSlot.assignedNodes();
-
-      if (items.length > 0) {
-        items[0].querySelector('.nav-item').style = `margin: 14px auto;`;
-      }
-    }
-
     const navItemsSlot = this.shadowRoot.querySelector('slot[name=content]');
 
     if (navItemsSlot) { // Verifica que el slot exista
@@ -118,7 +105,7 @@ class NavigationRail extends HTMLElement {
 
           if (item.classList.contains('navigation-rail-content')) {
             const navItems = item.querySelectorAll('.nav-item');
-            // const label = navItem.querySelector('[part="label"]');
+
             navItems.forEach(navItem => {
               if (navItem) {
                 const icon = navItem.querySelector('.icon');
@@ -127,48 +114,49 @@ class NavigationRail extends HTMLElement {
                 navItem.style = `
                   width: 80px;
                   height: 56px;
-                  /*margin: -2px auto 14px;*/
                   padding: 2px;
+                  margin-top: 2px;
                   color: var(--md-sys-color-primary);
                   text-decoration: none;
                   justify-content: center;
                   text-align: center;
                 `;
 
-                icon.style = `
-                  position: relative;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  width: 56px;
-                  height: 32px;
-                  margin-right: auto;
-                  margin-bottom: 4px;
-                  margin-left: auto;
-                  border-radius: 16px;
-                  transition-duration: .2s;
-                  transition-property: transform,opacity;
-                `;
+                if (icon) {
+                  icon.style = `
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 56px;
+                    height: 24px;
+                    margin-right: auto;
+                    margin-left: auto;
+                    border-radius: 16px;
+                    transition-duration: .2s;
+                    transition-property: transform,opacity;
+                  `;
 
-                if (navItem.classList.contains('active')) {
-                  icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-                  icon.style.opacity = 1;
-                  icon.style.transform = 'scaleX(1)';
-                }
 
-                navItem.addEventListener('mouseenter', () => {
-                  // icon.style.backgroundColor = 'var(--md-sys-color-surface-container-highest)';
-                  icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
-                });
-
-                navItem.addEventListener('mouseleave', () => {
                   if (navItem.classList.contains('active')) {
                     icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-                  } else {
-                    icon.style.backgroundColor = '';
+                    icon.style.opacity = 1;
+                    icon.style.transform = 'scaleX(1)';
                   }
-                  icon.style.fontVariationSettings = '"wght" 400,"opsz" 24';
-                });
+
+                  navItem.addEventListener('mouseenter', () => {
+                    icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
+                  });
+
+                  navItem.addEventListener('mouseleave', () => {
+                    if (navItem.classList.contains('active')) {
+                      icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
+                    } else {
+                      icon.style.backgroundColor = '';
+                    }
+                    icon.style.fontVariationSettings = '"wght" 400,"opsz" 24';
+                  });
+                }
 
                 if (label) {
                   label.style = `

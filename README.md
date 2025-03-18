@@ -75,7 +75,7 @@ $this->registerCss($css);
 </main>
 ```
 
-### Material3ActiveForm
+### Material3ActiveForm y Material3ActiveField
 
 ```php
 <?php
@@ -88,7 +88,19 @@ $this->registerCss($css);
         
     ]);
     ?>
-    ...
+    // Outlined (default) input
+    echo $form->field($model, 'username', [
+        'options' => ['class' => 'mb-3']
+    ])->textInput(options: ['onkeyup' => new JsExpression(expression: "if(event.key == 'Enter') { form.submit(); }")]);
+
+    // Filled input
+    echo $form->field($model, 'password', [
+        'options' => ['class' => 'mb-3']
+    ])->passwordInput(options: ['variant' => 'filled', 'onkeyup' => new JsExpression(expression: "if(event.key == 'Enter') { form.submit(); }")]);
+
+    echo $form->field($model, 'remember_me')->checkbox();
+
+    echo Html::submitButton('Iniciar sesión', ['variant' => 'filled']);
     <?php
     Material3ActiveForm::end();
     ?>
@@ -138,22 +150,89 @@ Dialog::end();
 
 ```
 
-### Material3ActiveField
+### DropdownList y List
 
 ```php
 <?php
 
-// Outlined (default) input
-echo $form->field($model, 'username', [
-    'options' => ['class' => 'mb-3']
-])->textInput();
+// Usando directamente el objeto.
 
-// Filled input
-echo $form->field($model, 'password', [
-      'options' => ['class' => 'mb-3']
-])->passwordInput(['variant' => 'filled']);
+echo DropdownList::widget([
+    'items' => [
+        '' => '',
+        'apple' => 'Apple',
+        'apricot' => 'Apricot'
+    ], 
+    'options' => [
+        'class' => 'select',
+        'options' => [
+            '' => [
+                'aria-label' => 'blank'
+            ],
+            'apple' => ['selected' => true]
+        ]
+    ]
+]);
 
-echo $form->field($model, 'remember_me')->checkbox()
 
+echo Lists::widget([
+        'items' => [
+            'Fruits',
+            '<md-divider></md-divider>',
+            [
+                'headline' => 'Apple',
+                'options' => [
+                    'type' => Lists::ITEM_TYPE_BUTTON
+                ]
+            ]
+        ],
+    ]);
+
+// Usando la clase auxiliar Html.
+echo \neoacevedo\yii2\material\Html::list([
+    'Fruits',
+    [
+        'headline' => 'Apple',
+        'options' => [
+            'type' => 'button'
+        ]
+    ]
+]);
+
+echo \neoacevedo\yii2\material\Html::dropDownList('name', null, [
+    '' => '',
+    'apple' => 'Apple',
+    'apricot' => 'Apricot'
+], [
+    'class' => 'select',
+    'options' => [
+        '' => [
+            'aria-label' => 'blank'
+        ],
+        'apple' => ['selected' => true]
+    ]
+]);
 ?>
+
+```
+
+Estos componentes web de Material también pueden ser usados de manera directa en el html:
+
+```html
+
+<md-filled-text-field></md-filled-text-field>
+
+<md-card>
+...
+</md-card>
+
+<md-dialog>
+...
+</md-dialog>
+
+<md-select>
+    <md-select-option value="1">...</md-select-option>
+</md-select>
+
+<md-slider></md-slider>
 ```

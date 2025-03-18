@@ -86,8 +86,17 @@ use yii\base\Widget;
 class NavigationRail extends Widget
 {
 
+    /**
+     * Botón que mostrará/ocultará el componente [[NavigationDrawer]]. 
+     * @var string|null
+     */
     public ?string $menuButton = null;
 
+    /**
+     * 
+     * @deprecated
+     * @var string|null 
+     */
     public ?string $fab = null;
 
     /**
@@ -104,6 +113,13 @@ class NavigationRail extends Widget
      */
     public array $items = [];
 
+    /**
+     * @var array the HTML attributes (name-value pairs) for the field container tag.
+     * The values will be HTML-encoded using [[Html::encode()]].
+     * If a value is `null`, the corresponding attribute will not be rendered.
+     * 
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
     public array $options = [];
 
     public function init(): void
@@ -130,7 +146,7 @@ class NavigationRail extends Widget
 
         echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
-        echo Html::endTag(name: 'div') . " 1 \n";
+        echo Html::endTag(name: 'div') . "\n";
 
         echo Html::endTag(name: 'md-navigation-rail') . "\n";
     }

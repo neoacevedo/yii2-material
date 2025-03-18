@@ -39,18 +39,20 @@ class NavigationDrawer extends Widget
 {
 
     const DRAWER_MODAL = 'modal';
-    const DRAWER_BOTTOM = 'bottom';
+    //const DRAWER_BOTTOM = 'bottom';
     const DRAWER_DISMISSIBLE = 'dismissible';
 
     public string $variant = '';
 
     /**
-     * Lista de los elementos del Navigation Drawer. Cada elemento debe ser un array con la siguiente estructura:
-     * - content: string, un texto o el contenido HTML del elemento. Si [[encode]] es true, el contenido será codificado en HTML.
+     * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
+     * - url: string|array, la dirección URL de destino.
      * - options: array, opcional, 
-     * - overline: string, opcional, texto de encabezado para cada elemento.
-     * - supporting-text: string, opcional, texto secundario.
-     * - trailing-supporting-text: string, opcional
+     * - icon: string, el ícono del elemento.
+     * - label: string, la etiqueta del elemento.
+     * 
+     * El elemento puede ser también un string HTML que contenga un [[FloatingActionButton]].
+     * @see https://m3.material.io/components/navigation-rail/guidelines#b51e4558-351f-4368-af8d-bbf1f63f68b4
      * 
      * @var array
      */
@@ -60,47 +62,67 @@ class NavigationDrawer extends Widget
      * @var array the HTML attributes (name-value pairs) for the field container tag.
      * The values will be HTML-encoded using [[Html::encode()]].
      * If a value is `null`, the corresponding attribute will not be rendered.
-     *
+     * 
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public array $options = [];
 
     public function init(): void
     {
-        parent::init();
-        $view = $this->getView();
-        $view->registerJs(<<<JS
-            const navigationDrawer = new mdc.drawer.MDCDrawer(document.querySelector('.mdc-drawer'));
-JS, \yii\web\View::POS_END);
-    }
+        $this->options = array_merge([
+            'id' => $this->getId(),
+        ], $this->options);
 
-    public function run(): void
-    {
-        $variant = '';
-        $variant = $this->variant ? "mdc-drawer--{$this->variant}" : "mdc-drawer--dismissible mdc-drawer--open";
-
-        Html::addCssClass($this->options, ['widget' => "mdc-drawer $variant"]);
-
-        echo Html::beginTag("aside", $this->options) . "\n";
-        echo Html::beginTag("div", ['class' => 'mdc-drawer__content']) . "\n";
-        if (!empty($this->items)) {
-            echo $this->renderItems($this->items);
-        }
-        echo Html::endTag("aside") . "\n";
-        if ($this->variant) {
-            echo Html::tag("div", '', ['class' => 'mdc-drawer-scrim']) . "\n";
-        }
     }
 
     /**
-     * SRenderiza los elementos del menú.
-     * @param array $items
-     * @return string
+     * @inheritDoc
      */
-    protected function renderItems(array $items): string
+    public function run(): void
     {
-        return Lists::widget([
-            'items' => $items
-        ]);
+        echo Html::beginTag(name: 'md-navigation-drawer', options: $this->options) . "\n";
+        if ($this->menuButton) {
+            echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
+        }
+
+        if ($this->fab) {
+            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab', 'class' => 'fab']) . "\n";
+        }
+
+        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
+        $this->renderItems();
+        echo Html::endTag(name: 'div') . "\n";
+
+        echo Html::endTag(name: 'md-navigation-drawer') . "\n";
+    }
+
+    /**
+     * Renderiza los elementos del Navigation Rail.
+     * @return void
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function renderItems(): void
+    {
+        // foreach ($this->items as &$item) {
+        //     if (is_array($item)) {
+        //         if (!isset($item['label'])) {
+        //             throw new \yii\base\InvalidConfigException("El atributo 'label' es requerido para cada item del menú.");
+        //         }
+
+        //         if (!isset($item['url'])) {
+        //             $item['url'] = '#'; // URL por defecto
+        //         }
+        //         if (!isset($item['options'])) {
+        //             $item['options'] = [];
+        //         }
+
+        //         $itemContent = Html::tag(name: 'div', content: "<md-ripple></md-ripple>\n<md-icon>{$item['icon']}</md-icon>", options: ['class' => 'icon']);
+        //         $itemContent .= Html::tag(name: 'span', content: $item['label'], options: ['class' => 'label']);
+        //         echo Html::a(text: $itemContent, url: $item['url'], options: array_merge(['class' => 'nav-item'], $item['options']));
+        //     } else {
+        //         echo $item;
+        //     }
+        // }
+        echo Html::list(items: $this->items, options: $this->options);
     }
 }

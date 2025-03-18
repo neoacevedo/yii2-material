@@ -21,15 +21,22 @@
 namespace neoacevedo\yii2\material\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
-use yii\helpers\Url;
+use neoacevedo\yii2\material\Html;
 
 /**
- * List widget for Yii2 that uses Material Web's list components. 
+ * Lists se encarga de renderizar el componente List de Material Web.
+ * 
+ * Se pluraliza el nombre dado que PHP posee un nombre de función igual y el lenguaje en esto no distingue entre mayúsculas y minúsculas.
+ * 
+ * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
+ * 
+ * @see https://material-web.dev/components/list/
+ * @see https://m3.material.io/components/lists/overview
  */
 class Lists extends Widget
 {
-    public string $label = '';
+    const ITEM_TYPE_BUTTON = 'button';
+    const ITEM_TYPE_LINK = 'link';
 
     /**
      * @var array The data to be displayed in the list.
@@ -58,40 +65,16 @@ class Lists extends Widget
     public function run(): void
     {
         $this->initOptions();
-
-        echo Html::beginTag('md-list', $this->options);
-
-        foreach ($this->items as $data) {
-            if (is_array($data)) {
-                if (isset($data['options']['href'])) {
-                    $data['options']['href'] = Url::to($data['options']['href']);
-                }
-                echo Html::beginTag('md-list-item', $data['options'] ?? []) . "\n";
-                echo isset($data['overline']) ? Html::tag('div', $data['overline'], ['slot' => 'overline']) : '';
-                // 
-                $headline = isset($data['encode']) ? isset($data['encode']) && $data['encode'] == true ? Html::encode("{$data['headline']}") : $data['headline'] : $data['headline'];
-
-                echo Html::tag('div', $headline, ['slot' => 'headline']);
-                //
-                echo isset($data['leading-icon']) ? Html::tag('md-icon', $data['start'], ['slot' => 'start']) : '';
-                echo isset($data['supporting-text']) ? Html::tag('div', $data['supporting-text'], ['slot' => 'supporting-text']) : '';
-                echo isset($data['trailing-supporting-text']) ? Html::tag('div', $data['trailing-supporting-text'], ['slot' => 'trailing-supporting-text']) : '';
-                echo isset($data['trailing-icon']) ? Html::tag('md-icon', $data['end'], ['slot' => 'end']) : '';
-            } else {
-                echo Html::beginTag('md-list-item') . "\n";
-                echo $data['encode'] ? Html::encode("$data\n") : "$data\n";
-            }
-            echo Html::endTag('md-list-item') . "\n"; // Closing the list item tag
-        }
-
-        echo Html::endTag('md-list') . "\n"; // Close the list container 
+        echo Html::list(items: $this->items, options: $this->options);
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function initOptions(): void
     {
         $this->options = array_merge([
             'id' => $this->id,
-            'aria-label' => $this->label,
         ], $this->options);
 
     }

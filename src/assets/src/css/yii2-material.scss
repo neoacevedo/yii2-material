@@ -13,12 +13,10 @@
 @use '../mdc/node_modules/@material/web/tokens/md-comp-filled-card' as filled-card;
 @use '../mdc/node_modules/@material/web/tokens/md-comp-outlined-card' as outlined-card;
 @use '../mdc/node_modules/@material/web/color/color';
+@use '../mdc/node_modules/@material/web/tokens/md-sys-shape';
 @use '../mdc/node_modules/@material/web/tokens';
 
 @use 'yii2-md-top-app-bar';
-// @use 'yii2-md-elevated-card.scss';
-// @use 'yii2-md-filled-card.scss';
-// @use 'yii2-md-outlined-card.scss';
 
 $elevated-card-tokens: elevated-card.values($exclude-custom-properties: true);
 $filled-card-tokens: filled-card.values($exclude-custom-properties: true);
@@ -29,6 +27,10 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
 
     @media (prefers-color-scheme: dark) {
         @include color.dark-theme;
+    }
+
+    @each $token, $value in tokens.md-sys-shape-values($exclude-custom-properties: true) {
+        --md-sys-shape-#{$token}: #{$value};
     }
 
     @include typescale.theme(tokens.md-sys-typescale-values());

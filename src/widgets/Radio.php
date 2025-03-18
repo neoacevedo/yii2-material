@@ -34,14 +34,13 @@ use yii\base\Widget;
 class Radio extends Widget
 {
     /**
-     * The name attribute
-     * @var string
+     * @var string The name attribute
      */
     public string $name = '';
 
     /**
-     * Whether the radio button should be checked.
-     * @var bool
+     * 
+     * @var bool Whether the radio button should be checked.
      */
     public bool $checked = false;
 

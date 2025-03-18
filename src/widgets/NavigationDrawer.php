@@ -42,26 +42,20 @@ class NavigationDrawer extends Widget
     //const DRAWER_BOTTOM = 'bottom';
     const DRAWER_DISMISSIBLE = 'dismissible';
 
-    public string $variant = '';
-
     /**
-     * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
-     * - url: string|array, la dirección URL de destino.
-     * - options: array, opcional, 
-     * - icon: string, el ícono del elemento.
-     * - label: string, la etiqueta del elemento.
+     * @var array Lista de los elementos del Navigation Drawer. 
      * 
-     * El elemento puede ser también un string HTML que contenga un [[FloatingActionButton]].
-     * @see https://m3.material.io/components/navigation-rail/guidelines#b51e4558-351f-4368-af8d-bbf1f63f68b4
-     * 
-     * @var array
+     * Ver [[Html::list()]] para conocer la estructura del array.
+     * @see https://m3.material.io/components/navigation-drawer/guidelines#86ff751b-e510-4428-bfb2-cc5bf9206bb8
      */
     public array $items = [];
 
     /**
      * @var array the HTML attributes (name-value pairs) for the field container tag.
      * The values will be HTML-encoded using [[Html::encode()]].
-     * If a value is `null`, the corresponding attribute will not be rendered.
+     * If a value is `null`, the corresponding attribute will not be rendered. The following options are specially handled:
+     * 
+     * - type: string, [[self::DRAWER_MODAL]] or [[self::DRAWER_DISMISSIBLE]].
      * 
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
@@ -81,13 +75,10 @@ class NavigationDrawer extends Widget
     public function run(): void
     {
         echo Html::beginTag(name: 'md-navigation-drawer', options: $this->options) . "\n";
-        if ($this->menuButton) {
-            echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
-        }
-
-        if ($this->fab) {
-            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab', 'class' => 'fab']) . "\n";
-        }
+        // if ($this->menuButton) {
+        //     echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
+        // }
+        echo Html::tag(name: 'span', content: '', options: ['slot' => 'title']) . "\n";
 
         echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
@@ -97,32 +88,12 @@ class NavigationDrawer extends Widget
     }
 
     /**
-     * Renderiza los elementos del Navigation Rail.
+     * Renderiza los elementos del Navigation Drawer.
      * @return void
      * @throws \yii\base\InvalidConfigException
      */
     protected function renderItems(): void
     {
-        // foreach ($this->items as &$item) {
-        //     if (is_array($item)) {
-        //         if (!isset($item['label'])) {
-        //             throw new \yii\base\InvalidConfigException("El atributo 'label' es requerido para cada item del menú.");
-        //         }
-
-        //         if (!isset($item['url'])) {
-        //             $item['url'] = '#'; // URL por defecto
-        //         }
-        //         if (!isset($item['options'])) {
-        //             $item['options'] = [];
-        //         }
-
-        //         $itemContent = Html::tag(name: 'div', content: "<md-ripple></md-ripple>\n<md-icon>{$item['icon']}</md-icon>", options: ['class' => 'icon']);
-        //         $itemContent .= Html::tag(name: 'span', content: $item['label'], options: ['class' => 'label']);
-        //         echo Html::a(text: $itemContent, url: $item['url'], options: array_merge(['class' => 'nav-item'], $item['options']));
-        //     } else {
-        //         echo $item;
-        //     }
-        // }
         echo Html::list(items: $this->items, options: $this->options);
     }
 }

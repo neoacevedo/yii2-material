@@ -46,9 +46,8 @@ class MaterialAsset extends AssetBundle
         'js/bundle.js',
         YII_DEBUG ? 'js/yii2-material.js' : 'js/yii2-material.min.css',
         YII_DEBUG ? 'js/top-app-bar.js' : 'js/top-app-bar.min.js',
-        'js/navigation-drawer.js',
-        'js/navigation-drawer-modal.js',
         YII_DEBUG ? 'js/navigation-rail.js' : 'js/navigation-rail.min.js',
+        YII_DEBUG ? 'js/navigation-drawer.js' : 'js/navigation-drawer.min.js',
         YII_DEBUG ? 'js/card.js' : 'js/card.min.js',
         YII_DEBUG ? 'js/snackbar.js' : 'js/snackbar.min.js',
     ];

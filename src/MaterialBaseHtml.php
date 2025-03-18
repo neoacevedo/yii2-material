@@ -51,9 +51,9 @@ abstract class MaterialBaseHtml extends BaseHtml
      * See [[renderTagAttributes()]] for details on how attributes are being rendered.
      * 
      * The following special options are recognized:
-     * - icon: string, the button's icon. See [[https://m3.material.io/components/icon-buttons/overview#a7ec0732-5bee-4b7e-9e64-333678d2b02b]] for icons.
+     * - icon: string, the button's icon. See https://m3.material.io/components/icon-buttons/overview#a7ec0732-5bee-4b7e-9e64-333678d2b02b for icons.
      * - variant: string, the button variant used in Material 3.
-     *   See [[https://m3.material.io/components/icon-buttons/specs#c2a5b845-c705-4bf3-83ad-6c99f25cb408]] for variants.
+     *   See https://m3.material.io/components/icon-buttons/specs#c2a5b845-c705-4bf3-83ad-6c99f25cb408 for variants.
      * 
      * @return string
      */
@@ -238,8 +238,12 @@ abstract class MaterialBaseHtml extends BaseHtml
      * @param array $options Atributos HTML para el FAB. 
      * Los atributos HTML pueden ser cualquier atributo conocido de etiquetas HTML.
      * Las siguientes opciones especiales son reconocidas:
+     * 
      * - [lowered](https://material-web.dev/components/fab/#lowered): booleano, indicando si el botón tendrá una elevación baja. 
      * - [size](https://material-web.dev/components/fab/#sizes): string, determina el tamaño del botón. 
+     * 
+     * Si un valor es nulo, el atributo correspondiente no se entregará. 
+     * Ver [[renderTagAttributes()] para obtener detalles sobre cómo se están representando los atributos.
      * @return string
      */
     public static function fab(string $icon, array $options = []): string
@@ -301,21 +305,79 @@ abstract class MaterialBaseHtml extends BaseHtml
 
     /**
      * Genera el componente web List.
-     * @param array $items
-     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
-     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
-     * If a value is null, the corresponding attribute will not be rendered.
-     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * @param array $items Los elementos de datos de la opción. La estructura del array de estos elementos puede ser como lo siguiente:
+     * 
+     *  ```php
+     *      [
+     *          'Opción 1',
+     *          [
+     *              'label' => '',
+     *              'options' => [
+     *                  'type' => 'divider'
+     *              ]
+     *          ],
+     *          [
+     *              'overline' => 'Overline Opción 2',
+     *              'headline' => 'Opción 2',
+     *              'supporting-text' => 'Lorem Ipsum',
+     *              'trailing-supporting-text'
+     *          ],
+     *          [
+     *              'overline' => 'Overline Opción 3',
+     *              'leading-icon' => 'event',
+     *              'headline' => 'Opción 3',
+     *              'supporting-text' => 'Lorem Ipsum',
+     *              'trailing-supporting-text',
+     *              'trailing-icon' => 'star'
+     *          ],
+     *          [
+     *              'headline' => 'Opción 4',
+     *              'leading-icon' => 'star',
+     *              'options' => [
+     *                  'type' => 'button',
+     *              ]
+     *          ],
+     *          [
+     *              'headline' => 'Opción 5',
+     *              'trailing-icon' => 'open_in_new',
+     *              'options' => [
+     *                  'type' => 'link',
+     *                  'href' => 'https://google.com',
+     *              ]
+     *          ],
+     *      ]
+     *  ```
+     * 
+     * @param array $options las opciones de etiqueta en términos de pares de valor de nombre. Estos serán renderizado como 
+     * los atributos de la etiqueta resultante. Las siguientes opciones son especialmente manejadas: 
+     * 
+     * - encodeSpaces: bool, si codificar espacios en la opción de valor de opción y opción con el carácter de &nbsp;. 
+     *  Predeterminado en false.
+     * - encode: bool, si codifica la opción caracteres de valor de opción y valor de opción.
+     *  Predeterminado en true. 
+     * - strict: boolean, si .$selection es un array y este valor es true, una comparación estricta se realizará en las claves de "$items". 
+     *  Predeterminado en false. 
+     *
+     * El resto de las opciones se representarán como los atributos de la etiqueta resultante. Los valores
+     * serán codificados HTML usando [[self::encode()]]. Si un valor es nulo, el atributo correspondiente no se entregará.
+     * Ver [[self::renderTagAttributes()] para obtener detalles sobre cómo se están representando los atributos.
      * @return string
      */
     public static function list(array $items = [], array $options = []): string
     {
-        $listItems = static::renderListItems(items: $items);
+        $listItems = static::renderListItems(items: $items, parentTagOptions: $options);
         return static::tag(name: "md-list", content: $listItems, options: $options);
     }
 
     /**
-     * @inheritDoc
+     * Genera el componente web md-radio.
+     * @param string $name El nombre del campo.
+     * @param bool $checked Indica si el campo está o no marcado.
+     * @param array $options las opciones de etiqueta en términos de pares de valor de nombre. Estos serán renderizado como 
+     * los atributos de la etiqueta resultante. Los valores serán codificados HTML usando [[self::encode()]]. 
+     * Si un valor es nulo, el atributo correspondiente no se entregará.
+     * Ver [[self::renderTagAttributes()] para obtener detalles sobre cómo se están representando los atributos.
+     * @return string
      */
     public static function radio($name, $checked = false, $options = [])
     {
@@ -511,7 +573,7 @@ abstract class MaterialBaseHtml extends BaseHtml
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);
                 }
-                Yii::debug($options);
+
                 $lines[] = static::tag("md-select-option", $text, $attrs);
             }
 
@@ -520,12 +582,13 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
-     * Summary of renderListItems
-     * @param array $items
-     * @param array $parentTagOptions
+     * Renderiza los elementos `md-list-item` que integran el contenido del componente web `md-list`.
+     * @param array $items Los elementos de datos de la opción. Cada elemento del array puede ser un texto o un array.
+     * @param array $parentTagOptions El parámetro $option pasado a su elemento superior [[list()]]. Este método obtendrá estos elementos, si existe: "options". 
+     *  Vea más detalles en [[list()]] para la explicación de estos elementos.
      * @return string
      */
-    protected static function renderListItems(array $items): string
+    protected static function renderListItems(array $items, array $parentTagOptions): string
     {
         $lines = [];
         $encodeSpaces = (bool) ArrayHelper::remove($parentTagOptions, 'encodeSpaces', false);
@@ -538,22 +601,32 @@ abstract class MaterialBaseHtml extends BaseHtml
                     $item['options']['href'] = \yii\helpers\Url::to($item['options']['href']);
                 }
 
+                if (!isset($item['options']['type'])) {
+                    $item['options']['type'] = 'text';
+                }
+
                 $text = isset($item['overline']) ? static::tag('div', $item['overline'], ['slot' => 'overline']) : '';
                 // 
-                $text .= isset($item['headline']) ? static::tag('div', $item['headline'], ['slot' => 'headline']) : $item['text'];
+                $text .= isset($item['headline']) ? static::tag('div', $item['headline'], ['slot' => 'headline']) : $item['label'];
                 //
-                $text .= isset($item['leading-icon']) ? static::tag('md-icon', $item['start'], ['slot' => 'start']) : '';
+                $text .= isset($item['leading-icon']) ? static::tag('md-icon', $item['leading-icon'], ['slot' => 'start']) : '';
                 $text .= isset($item['supporting-text']) ? static::tag('div', $item['supporting-text'], ['slot' => 'supporting-text']) : '';
                 $text .= isset($item['trailing-supporting-text']) ? static::tag('div', $item['trailing-supporting-text'], ['slot' => 'trailing-supporting-text']) : '';
-                $text .= isset($item['trailing-icon']) ? static::tag('md-icon', $item['end'], ['slot' => 'end']) : '';
+                $text .= isset($item['trailing-icon']) ? static::tag('md-icon', $item['trailing-icon'], ['slot' => 'end']) : '';
 
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);
                 }
 
-                $lines[] = static::tag('md-list-item', $text, $item['options']);
+                if (isset($item['options']['type']) && $item['options']['type'] == 'divider') {
+                    $lines[] = static::tag('md-divider');
+                } else {
+                    $lines[] = static::tag('md-list-item', $text, $item['options']);
+                }
+
 
             } else {
+                Yii::debug($item);
                 $text = $encode ? static::encode($item) : $item;
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);

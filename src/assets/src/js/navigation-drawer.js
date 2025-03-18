@@ -1,16 +1,38 @@
-class NavigationDrawer extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this._isOpen = false;
-        this._type = this.getAttribute('type') || 'modal'; // Default to modal
-    }
+/**
+ * @preserve
+ * 
+ * @copyright Copyright (c) 2025 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @endpreserve
+ */
 
-    static get styles() {
-        return /*css*/`
+class NavigationDrawer extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._isOpen = false;
+    this._type = this.getAttribute('type') || 'modal'; // Default to modal
+  }
+
+  static get styles() {
+    return /*css*/`
       :host {
-        display: block;
-        position: fixed;
+        display: flex;
+        flex-direction: column;
         top: 0;
         left: 0;
         height: 100vh;
@@ -22,14 +44,11 @@ class NavigationDrawer extends HTMLElement {
 
       /* Estilos comunes a ambos modos */
       .drawer {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+        width: 320px;
       }
 
       .drawer-header {
         padding: 16px;
-        border-bottom: 1px solid var(--md-sys-color-outline);
       }
 
       .drawer-title {
@@ -54,15 +73,18 @@ class NavigationDrawer extends HTMLElement {
         cursor: pointer;
         text-decoration: none;
         color: var(--md-sys-color-on-surface);
+        border-radius: var(--md-sys-shape-corner-full);
       }
 
       .drawer-list-item:hover {
-        background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.08);
+          background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.08);
+          border-radius: var(--md-sys-shape-corner-full);
       }
 
       .drawer-list-item.active {
         background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.16);
         color: var(--md-sys-color-primary);
+        border-radius: var(--md-sys-shape-corner-full);
       }
 
       .drawer-list-item .item-icon {
@@ -115,11 +137,11 @@ class NavigationDrawer extends HTMLElement {
         border-bottom: none; /* Opcional: quitar el borde inferior en modo estándar */
       }
     `;
-    }
+  }
 
-    connectedCallback() {
-        this._type = this.getAttribute('type') || 'modal';
-        this.shadowRoot.innerHTML = `
+  connectedCallback() {
+    this._type = this.getAttribute('type') || 'modal';
+    this.shadowRoot.innerHTML = `
       <style>${NavigationDrawer.styles}</style>
       <div class="drawer">
         <div class="drawer-header">
@@ -131,116 +153,72 @@ class NavigationDrawer extends HTMLElement {
       </div>
       ${this._type === 'modal' ? '<div class="scrim"></div>' : ''}
     `;
-        this._drawerElement = this.shadowRoot.querySelector('.drawer');
-        if (this._type === 'modal') {
-            this._scrimElement = this.shadowRoot.querySelector('.scrim');
-            this._scrimElement.addEventListener('click', this._closeDrawer.bind(this));
-        }
+    this._drawerElement = this.shadowRoot.querySelector('.drawer');
+    if (this._type === 'modal') {
+      this._scrimElement = this.shadowRoot.querySelector('.scrim');
+      this._scrimElement.addEventListener('click', this._closeDrawer.bind(this));
     }
+  }
 
-    disconnectedCallback() {
-        if (this._type === 'modal' && this._scrimElement) {
-            this._scrimElement.removeEventListener('click', this._closeDrawer.bind(this));
-        }
+  disconnectedCallback() {
+    if (this._type === 'modal' && this._scrimElement) {
+      this._scrimElement.removeEventListener('click', this._closeDrawer.bind(this));
     }
+  }
 
-    static get observedAttributes() {
-        return ['mode'];
-    }
+  static get observedAttributes() {
+    return ['mode'];
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'mode' && oldValue !== newValue) {
-            this._type = newValue;
-            // Re-render the component to apply the new mode's structure and styles
-            this.connectedCallback();
-        }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'mode' && oldValue !== newValue) {
+      this._type = newValue;
+      // Re-render the component to apply the new mode's structure and styles
+      this.connectedCallback();
     }
+  }
 
-    open() {
-        if (this._type === 'modal') {
-            this._isOpen = true;
-            this.classList.add('open');
-            const scrim = this.shadowRoot.querySelector('.scrim');
-            if (scrim) {
-                scrim.classList.add('open');
-            }
-            document.body.style.overflow = 'hidden';
-        } else if (this._type === 'standard') {
-            // En modo estándar, el drawer generalmente está siempre abierto
-            console.warn("El método 'open()' no tiene efecto en el modo 'standard'.");
-        }
+  open() {
+    if (this._type === 'modal') {
+      this._isOpen = true;
+      this.classList.add('open');
+      const scrim = this.shadowRoot.querySelector('.scrim');
+      if (scrim) {
+        scrim.classList.add('open');
+      }
+      document.body.style.overflow = 'hidden';
+    } else if (this._type === 'standard') {
+      // En modo estándar, el drawer generalmente está siempre abierto
+      console.warn("El método 'open()' no tiene efecto en el modo 'standard'.");
     }
+  }
 
-    close() {
-        if (this._type === 'modal') {
-            this._isOpen = false;
-            this.classList.remove('open');
-            const scrim = this.shadowRoot.querySelector('.scrim');
-            if (scrim) {
-                scrim.classList.remove('open');
-            }
-            document.body.style.overflow = '';
-        } else if (this._type === 'standard') {
-            // En modo estándar, el drawer generalmente está siempre abierto
-            console.warn("El método 'close()' no tiene efecto en el modo 'standard'.");
-        }
+  close() {
+    if (this._type === 'modal') {
+      this._isOpen = false;
+      this.classList.remove('open');
+      const scrim = this.shadowRoot.querySelector('.scrim');
+      if (scrim) {
+        scrim.classList.remove('open');
+      }
+      document.body.style.overflow = '';
+    } else if (this._type === 'standard') {
+      // En modo estándar, el drawer generalmente está siempre abierto
+      console.warn("El método 'close()' no tiene efecto en el modo 'standard'.");
     }
+  }
 
-    _closeDrawer() {
-        this.close();
-    }
+  _closeDrawer() {
+    this.close();
+  }
 
-    toggle() {
-        if (this._type === 'modal') {
-            this._isOpen ? this.close() : this.open();
-        } else if (this._type === 'standard') {
-            console.warn("El método 'toggle()' no tiene efecto en el modo 'standard'.");
-        }
+  toggle() {
+    if (this._type === 'modal') {
+      this._isOpen ? this.close() : this.open();
+    } else if (this._type === 'standard') {
+      console.warn("El método 'toggle()' no tiene efecto en el modo 'standard'.");
     }
+  }
 }
 
 customElements.define('md-navigation-drawer', NavigationDrawer);
-
-// Ejemplo de uso:
-document.addEventListener('DOMContentLoaded', () => {
-    const openModalButton = document.getElementById('openModalDrawer');
-    const closeModalButton = document.getElementById('closeModalDrawer');
-    const modalDrawer = document.querySelector('md-navigation-drawer[mode="modal"]');
-
-    const standardDrawer = document.querySelector('md-navigation-drawer[mode="standard"]');
-
-    if (openModalButton && modalDrawer) {
-        openModalButton.addEventListener('click', () => modalDrawer.open());
-    }
-
-    if (closeModalButton && modalDrawer) {
-        closeModalButton.addEventListener('click', () => modalDrawer.close());
-    }
-
-    // Ejemplo de adición de items (válido para ambos modos)
-    const navItems = [
-        { text: 'Inicio', icon: 'home' },
-        { text: 'Perfil', icon: 'person' },
-        { text: 'Configuración', icon: 'settings' },
-    ];
-
-    const addItemsToDrawer = (drawerElement) => {
-        navItems.forEach(item => {
-            const listItem = document.createElement('a');
-            listItem.classList.add('drawer-list-item');
-            listItem.href = '#';
-            listItem.innerHTML = `
-        <span class="item-icon">${item.icon}</span>
-        <span class="item-text">${item.text}</span>
-      `;
-            drawerElement.appendChild(listItem);
-        });
-    };
-
-    if (modalDrawer) {
-        addItemsToDrawer(modalDrawer);
-    }
-    if (standardDrawer) {
-        addItemsToDrawer(standardDrawer);
-    }
-});

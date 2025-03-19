@@ -34,14 +34,13 @@ use yii\base\Widget;
 class Checkbox extends Widget
 {
     /**
-     * The name attribute
-     * @var string
+     * @var string The name attribute
      */
     public string $name = '';
 
     /**
-     * Whether the checkbox should be checked.
-     * @var bool
+     * 
+     * @var bool Whether the checkbox should be checked.
      */
     public bool $checked = false;
 

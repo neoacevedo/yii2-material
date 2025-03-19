@@ -187,7 +187,8 @@ abstract class MaterialBaseHtml extends BaseHtml
      */
     public static function checkbox($name, $checked = false, $options = [])
     {
-        return static::tag(name: "md-checkbox", content: '', options: array_merge(['name' => $name, 'checked' => "$checked"], $options));
+        // return static::tag(name: "md-checkbox", content: '', options: array_merge(['name' => $name, 'checked' => "$checked"], $options));
+        return static::booleanInput("checkbox", $name, $checked, $options);
     }
 
     /**
@@ -381,7 +382,8 @@ abstract class MaterialBaseHtml extends BaseHtml
      */
     public static function radio($name, $checked = false, $options = [])
     {
-        return static::tag(name: "md-radio", content: '', options: array_merge(['name' => $name, 'checked' => (string) $checked], $options));
+        // return static::tag(name: "md-radio", content: '', options: array_merge(['name' => $name, 'checked' => (string) $checked], $options));
+        return static::booleanInput("radio", $name, $checked, $options);
     }
 
     /**
@@ -501,15 +503,31 @@ abstract class MaterialBaseHtml extends BaseHtml
         }
         $value = array_key_exists('value', $options) ? $options['value'] : '1';
 
-        // if (isset($options['label'])) {
-        //     $label = $options['label'];
-        //     $labelOptions = isset($options['labelOptions']) ? $options['labelOptions'] : [];
-        //     unset($options['label'], $options['labelOptions']);
-        //     $content = static::label(static::input($type, $name, $value, $options) . ' ' . $label, null, $labelOptions);
-        //     return $content;
-        // }
+        if (isset($options['uncheck'])) {
+            // add a hidden field so that if the checkbox is not selected, it still submits a value
+            $hiddenOptions = [];
+            if (isset($options['form'])) {
+                $hiddenOptions['form'] = $options['form'];
+            }
+            // make sure disabled input is not sending any value
+            if (!empty($options['disabled'])) {
+                $hiddenOptions['disabled'] = $options['disabled'];
+            }
+            $hidden = static::hiddenInput($name, $options['uncheck'], $hiddenOptions);
+            unset($options['uncheck']);
+        } else {
+            $hidden = '';
+        }
 
-        return static::input($type, $name, $value, $options);
+        if (isset($options['label'])) {
+            $label = $options['label'];
+            $labelOptions = $options['labelOptions'] ?? [];
+            unset($options['label'], $options['labelOptions']);
+            $content = static::input($type, $name, $value, $options) . "\n" . static::label($label, $options['id'] ?? null, $labelOptions);
+            return "$hidden\n$content";
+        }
+
+        return $hidden . static::input($type, $name, $value, $options);
     }
 
     /**

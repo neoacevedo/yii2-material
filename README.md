@@ -156,7 +156,6 @@ Dialog::end();
 <?php
 
 // Usando directamente el objeto.
-
 echo DropdownList::widget([
     'items' => [
         '' => '',
@@ -174,23 +173,28 @@ echo DropdownList::widget([
     ]
 ]);
 
-
 echo Lists::widget([
-        'items' => [
-            'Fruits',
-            '<md-divider></md-divider>',
-            [
-                'headline' => 'Apple',
-                'options' => [
-                    'type' => Lists::ITEM_TYPE_BUTTON
-                ]
+    'items' => [
+        'Fruits',
+        '<md-divider></md-divider>',
+        [
+            'headline' => 'Apple',
+            'options' => [
+                'type' => Lists::ITEM_TYPE_BUTTON
             ]
-        ],
-    ]);
+        ]
+    ],
+]);
 
 // Usando la clase auxiliar Html.
 echo \neoacevedo\yii2\material\Html::list([
     'Fruits',
+    [
+        'label' => '',
+        'options' => [
+            'type' => 'divider'
+        ]
+    ],
     [
         'headline' => 'Apple',
         'options' => [

@@ -387,6 +387,21 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
+     * Genera el componente web md-switch.
+     * @param string $name El nombre del campo.
+     * @param bool $checked Indica si el campo está o no marcado.
+     * @param array $options las opciones de etiqueta en términos de pares de valor de nombre. Estos serán renderizado como 
+     * los atributos de la etiqueta resultante. Los valores serán codificados HTML usando [[self::encode()]]. 
+     * Si un valor es nulo, el atributo correspondiente no se entregará.
+     * Ver [[self::renderTagAttributes()] para obtener detalles sobre cómo se están representando los atributos.
+     * @return string
+     */
+    public static function switch(string $name, bool $checked = false, array $options = [])
+    {
+        return static::booleanInput("switch", $name, $checked, $options);
+    }
+
+    /**
      * Generates a text area input.
      * @param string $name the input name
      * @param string $value the input value. Note that it will be encoded using [[encode()]].
@@ -475,7 +490,7 @@ abstract class MaterialBaseHtml extends BaseHtml
 
     /**
      * Generates a boolean input.
-     * @param string $type the input type. This can be either `radio` or `checkbox`.
+     * @param string $type the input type. This can be either `radio`, `checkbox` or `switch`.
      * @param string $name the name attribute.
      * @param bool $checked whether the checkbox should be checked.
      * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
@@ -486,7 +501,8 @@ abstract class MaterialBaseHtml extends BaseHtml
      * - label: string, a label displayed next to the checkbox.  It will NOT be HTML-encoded. Therefore you can pass
      *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
      *   When this option is specified, the checkbox will be enclosed by a label tag.
-     * - labelOptions: array, the HTML attributes for the label tag. Do not set this option unless you set the "label" option.
+     * - labelOptions: array, the HTML attributes for the label tag. Do not set this option unless you set the "label" option. The following option is specially handled:
+     *   - wrapContent: boolean, when to envolve the input within the label tag.
      *
      * The rest of the options will be rendered as the attributes of the resulting checkbox tag. The values will
      * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
@@ -523,7 +539,13 @@ abstract class MaterialBaseHtml extends BaseHtml
             $label = $options['label'];
             $labelOptions = $options['labelOptions'] ?? [];
             unset($options['label'], $options['labelOptions']);
-            $content = static::input($type, $name, $value, $options) . "\n" . static::label($label, $options['id'] ?? null, $labelOptions);
+            $wrapContent = $labelOptions['wrapContent'];
+            unset($labelOptions['wrapContent']);
+            if ($wrapContent === true) {
+                $content = static::label(static::input($type, $name, $value, $options) . "\n" . $label, null, $labelOptions);
+            } else {
+                $content = static::input($type, $name, $value, $options) . "\n" . static::label($label, $options['id'] ?? null, $labelOptions);
+            }
             return "$hidden\n$content";
         }
 

@@ -497,7 +497,7 @@ abstract class MaterialBaseHtml extends BaseHtml
      *
      * - uncheck: string, the value associated with the uncheck state of the checkbox. When this attribute
      *   is present, a hidden input will be generated so that if the checkbox is not checked and is submitted,
-     *   the value of this attribute will still be submitted to the server via the hidden input.
+     *   the value of this attribute will still be s|ubmitted to the server via the hidden input.
      * - label: string, a label displayed next to the checkbox.  It will NOT be HTML-encoded. Therefore you can pass
      *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
      *   When this option is specified, the checkbox will be enclosed by a label tag.

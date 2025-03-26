@@ -658,15 +658,8 @@ abstract class MaterialBaseHtml extends BaseHtml
                     $text = str_replace(' ', '&nbsp;', $text);
                 }
 
-                if (isset($item['options']['type']) && $item['options']['type'] == 'divider') {
-                    $lines[] = static::tag('md-divider');
-                } else {
-                    $lines[] = static::tag('md-list-item', $text, $item['options']);
-                }
-
-
+                $lines[] = (isset($item['options']['type']) && $item['options']['type'] == 'divider') ? static::tag('md-divider') : static::tag('md-list-item', $text, $item['options']);
             } else {
-                Yii::debug($item);
                 $text = $encode ? static::encode($item) : $item;
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);

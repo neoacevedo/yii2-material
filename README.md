@@ -1,8 +1,17 @@
 Yii2 Material 3
 ============
+
+#### Donaciones:
+
+<img title="" src="Litecoin.jpg" alt="" width="339" data-align="center">
+
+> Que sea software libre, no quiere decir que los servicios públicos lo sean. 
+
+
+
 Esta es una extensión primaria para [Yii framework 2.0](https://www.yiiframework.com). Encapsula componentes de [Material Design](https://m3.material.io/) en términos de Widgets Yii.
 
-**NOTA**: Material Web 3 no tiene los componentes `Card`, `Snackbar`, `TopAppBar` ni `NavigationRail`, así que se han creado desde 0 para intentar seguir los lineamientos del diseño de Material 3.
+**NOTA**: Material Web 3 no tiene los componentes `Card`, `Snackbar`, `TopAppBar` ni `NavigationRail`, así que se han creado desde 0 intentando seguir los lineamientos del diseño de Material 3.
 
 Instalación
 ------------
@@ -80,7 +89,7 @@ $this->registerCss($css);
      */
     $form = Material3ActiveForm::begin([
         'id' => 'form'
-        
+
     ]);
     ?>
     // Outlined (default) input
@@ -100,7 +109,6 @@ $this->registerCss($css);
     Material3ActiveForm::end();
     ?>
 ?>
-
 ```
 
 ### Dialog
@@ -142,7 +150,6 @@ A simple dialog with free-form content.
 <?php
 Dialog::end();
 ?>
-
 ```
 
 ### DropdownList y List
@@ -212,13 +219,11 @@ echo \neoacevedo\yii2\material\Html::dropDownList('name', null, [
     ]
 ]);
 ?>
-
 ```
 
 Estos componentes web de Material también pueden ser usados de manera directa en el html:
 
 ```html
-
 <md-filled-text-field></md-filled-text-field>
 
 <md-card>

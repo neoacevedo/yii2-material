@@ -29,6 +29,10 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
         @include color.dark-theme;
     }
 
+    @each $token, $value in tokens.md-sys-elevation-values() {
+        --md-sys-elevation-#{$token}: #{$value};
+    }
+
     @each $token, $value in tokens.md-sys-shape-values($exclude-custom-properties: true) {
         --md-sys-shape-#{$token}: #{$value};
     }

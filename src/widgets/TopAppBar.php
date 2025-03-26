@@ -38,7 +38,7 @@ class TopAppBar extends Widget
      * Este es el título que puede ser el de la página visitada o el nombre de la aplicación
      * @var string
      */
-    public $title = '';
+    public $headline = '';
     /**
      * Icono principal.
      * @var mixed
@@ -69,8 +69,8 @@ class TopAppBar extends Widget
     {
         parent::init();
 
-        if ($this->title === null) {
-            $this->title = Yii::$app->name; // Título por defecto
+        if ($this->headline === null) {
+            $this->headline = Yii::$app->name; // Título por defecto
         }
 
         $this->initOptions();
@@ -89,7 +89,7 @@ class TopAppBar extends Widget
             echo Html::endTag('div') . "\n";
         }
 
-        echo Html::tag('span', Html::encode($this->title), ['slot' => 'title', 'class' => 'app-title']);
+        echo Html::tag('span', Html::encode($this->headline), ['slot' => 'headline', 'class' => 'app-title']);
 
         if (count($this->trailingIcons) > 0) {
             echo Html::beginTag('div', ['slot' => 'trailing-icon']) . "\n";

@@ -30,13 +30,13 @@ class MaterialAsset extends AssetBundle
     /**
      * {@inheritdoc}
      */
-    public $sourcePath = YII_DEBUG ? '@vendor/neoacevedo/yii2-material/src/assets/src' : '@vendor/neoacevedo/yii2-material/src/assets/dist';
+    public $sourcePath = '@vendor/neoacevedo/yii2-material/src/assets/dist';
 
     /**
      * @inheritDoc
      */
     public $css = [
-        YII_DEBUG ? 'css/yii2-material.css' : 'css/yii2-material.min.css',
+        'css/yii2-material.min.css',
     ];
 
     /**
@@ -44,12 +44,12 @@ class MaterialAsset extends AssetBundle
      */
     public $js = [
         'js/bundle.js',
-        YII_DEBUG ? 'js/yii2-material.js' : 'js/yii2-material.min.css',
-        YII_DEBUG ? 'js/top-app-bar.js' : 'js/top-app-bar.min.js',
-        YII_DEBUG ? 'js/navigation-rail.js' : 'js/navigation-rail.min.js',
-        YII_DEBUG ? 'js/navigation-drawer.js' : 'js/navigation-drawer.min.js',
-        YII_DEBUG ? 'js/card.js' : 'js/card.min.js',
-        YII_DEBUG ? 'js/snackbar.js' : 'js/snackbar.min.js',
+        'js/yii2-material.min.js',
+        'js/top-app-bar.min.js',
+        'js/navigation-rail.min.js',
+        'js/navigation-drawer.min.js',
+        'js/card.min.js',
+        'js/snackbar.min.js',
     ];
 
     /**

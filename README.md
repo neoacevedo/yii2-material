@@ -83,7 +83,6 @@ $this->registerCss($css);
 
 ```php
 <?php
-<?php
     /**
      * @var Material3ActiveForm
      */

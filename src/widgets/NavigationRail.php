@@ -87,8 +87,21 @@ class NavigationRail extends Widget
 {
 
     /**
+     * @var string|null Este es el contenido que se mostrará como primer elemento del [[NavigationRail]]. 
+     * Puede ser un [[IonButton]], un [[FloatingActionButton]] o un texto.
+     */
+    public ?string $leading = null;
+
+    /**
+     * @var string|null Este es el contenido que se mostrará como último elemento del [[NavigationRail]]. 
+     * Puede ser un [[IonButton]], un [[FloatingActionButton]] o un texto.
+     */
+    public ?string $trailing = null;
+
+    /**
      * Botón que mostrará/ocultará el componente [[NavigationDrawer]]. 
      * @var string|null
+     * @deprecated message
      */
     public ?string $menuButton = null;
 
@@ -136,16 +149,16 @@ class NavigationRail extends Widget
     public function run(): void
     {
         echo Html::beginTag(name: 'md-navigation-rail', options: $this->options) . "\n";
-        if ($this->menuButton) {
-            echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
-        }
-
-        if ($this->fab) {
-            echo Html::tag(name: 'div', content: $this->fab, options: ['slot' => 'fab', 'class' => 'fab']) . "\n";
+        if ($this->leading) {
+            echo Html::tag(name: 'div', content: $this->leading, options: ['slot' => 'leading']) . "\n";
         }
 
         echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
+
+        if ($this->leading) {
+            echo Html::tag(name: 'div', content: $this->trailing, options: ['slot' => 'trailing']) . "\n";
+        }
         echo Html::endTag(name: 'div') . "\n";
 
         echo Html::endTag(name: 'md-navigation-rail') . "\n";

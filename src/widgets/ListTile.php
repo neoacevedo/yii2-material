@@ -33,7 +33,7 @@ use neoacevedo\yii2\material\Html;
  * @see https://material-web.dev/components/list/
  * @see https://m3.material.io/components/lists/overview
  */
-class Lists extends Widget
+class ListTile extends Widget
 {
     const ITEM_TYPE_BUTTON = 'button';
     const ITEM_TYPE_LINK = 'link';

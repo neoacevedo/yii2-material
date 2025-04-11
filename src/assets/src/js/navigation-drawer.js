@@ -47,18 +47,6 @@ class NavigationDrawer extends HTMLElement {
         width: 320px;
       }
 
-      .drawer-header {
-        padding: 16px;
-      }
-
-      .drawer-title {
-        font-family: 'Roboto', sans-serif;
-        font-size: 1.25rem;
-        font-weight: 500;
-        color: var(--md-sys-color-on-surface);
-        margin: 0;
-      }
-
       .drawer-list {
         list-style: none;
         padding: 0;
@@ -144,12 +132,9 @@ class NavigationDrawer extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${NavigationDrawer.styles}</style>
       <div class="drawer">
-        <div class="drawer-header">
-          <h2 class="drawer-title"><slot name="title">Menú</slot></h2>
-        </div>
-        <ul class="drawer-list">
+        <div class="drawer-list">
           <slot name="content"></slot>
-        </ul>
+        </div>
       </div>
       ${this._type === 'modal' ? '<div class="scrim"></div>' : ''}
     `;

@@ -79,10 +79,9 @@ class NavigationRail extends HTMLElement {
 
     this.shadowRoot.innerHTML += `
       <nav class="navigation-rail">
-        <div class="menu-toggler">
-          <slot name="menu"></slot>
-        </div>
+        <slot name="leading"></slot>
         <slot name="content"></slot>
+        <slot name="trailing"></slot>
       </nav>
     `;
   }

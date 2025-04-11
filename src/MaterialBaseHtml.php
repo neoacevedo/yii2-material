@@ -658,7 +658,7 @@ abstract class MaterialBaseHtml extends BaseHtml
                     $text = str_replace(' ', '&nbsp;', $text);
                 }
 
-                $lines[] = (isset($item['options']['type']) && $item['options']['type'] == 'divider') ? static::tag('md-divider') : static::tag('md-list-item', $text, $item['options']);
+                $lines[] = (isset($item['options']['type']) && $item['options']['type'] == 'divider') ? static::tag('md-divider', '', $item['options']) : static::tag('md-list-item', $text, $item['options']);
             } else {
                 $text = $encode ? static::encode($item) : $item;
                 if ($encodeSpaces) {

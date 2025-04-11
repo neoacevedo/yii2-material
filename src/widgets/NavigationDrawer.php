@@ -75,12 +75,8 @@ class NavigationDrawer extends Widget
     public function run(): void
     {
         echo Html::beginTag(name: 'md-navigation-drawer', options: $this->options) . "\n";
-        // if ($this->menuButton) {
-        //     echo Html::tag(name: 'div', content: $this->menuButton, options: ['slot' => 'menu']) . "\n";
-        // }
-        echo Html::tag(name: 'span', content: '', options: ['slot' => 'title']) . "\n";
 
-        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
+        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-drawer-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
         echo Html::endTag(name: 'div') . "\n";
 

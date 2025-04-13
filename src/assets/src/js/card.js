@@ -69,8 +69,8 @@ class MdOutlinedCard extends HTMLElement {
                 ::slotted(div[slot="actions"]) {
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
-                    box-sizing: border-box;
+                    align-items: end;
+                    justify-content: end;
                 }
             </style>
             <md-elevation part="elevation"></md-elevation>
@@ -132,8 +132,8 @@ class MdFilledCard extends HTMLElement {
                 ::slotted(div[slot="actions"]) {
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
-                    box-sizing: border-box;
+                    align-items: end;
+                    justify-content: end;
                 }
             </style>
             <md-elevation part="elevation"></md-elevation>
@@ -197,7 +197,7 @@ class MdElevatedCard extends HTMLElement {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    box-sizing: border-box;
+                    justify-content: center;
                     padding: 16px;
                 }
             </style>

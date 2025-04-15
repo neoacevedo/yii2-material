@@ -38,9 +38,9 @@ class IconButton extends Widget
 
     const TYPE_FILLED = 'filled';
 
-    const TYPE_TONAL = 'tonal';
+    const TYPE_FILLED_TONAL = 'filled-tonal';
 
-    const TYPE_ELEVATED = 'elevated';
+    const TYPE_STANDARD = 'standard';
 
     public string $icon = '';
 
@@ -63,12 +63,10 @@ class IconButton extends Widget
         parent::init();
         $this->options = array_merge([
             'id' => $this->id,
-            'icon' => $this->icon
+            'icon' => $this->icon,
+            'variant' => self::TYPE_STANDARD
         ], $this->options);
-
-        if (!in_array($this->options['variant'], [self::TYPE_ELEVATED, self::TYPE_FILLED, self::TYPE_TONAL, self::TYPE_OUTLINED])) {
-            throw new InvalidConfigException(message: "Either 'type' property must be set to '" . self::TYPE_ELEVATED . "', '" . self::TYPE_FILLED . "', '" . self::TYPE_TONAL . "', '" . self::TYPE_OUTLINED . "'.");
-        }
+        \Yii::debug($this->options);
     }
 
     /**

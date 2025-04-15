@@ -54,7 +54,6 @@ use yii\base\Widget;
  *           ]
  *       ],
  *       [
- *           'icon' => 'manage_accounts',
  *           'label' => 'Item 2',
  *           'options' => [
  *               'type' => 'link',
@@ -63,7 +62,6 @@ use yii\base\Widget;
  *       ],
  *       [
  *           'icon' => 'settings',
- *           'label' => 'Item 3',
  *           'options' => [
  *               'type' => 'link',
  *               'href' => ['#'],
@@ -101,7 +99,7 @@ class NavigationRail extends Widget
     /**
      * Botón que mostrará/ocultará el componente [[NavigationDrawer]]. 
      * @var string|null
-     * @deprecated message
+     * @deprecated Este botón se reemplaza por el contenido de [[NavigationRail::$leading]]
      */
     public ?string $menuButton = null;
 
@@ -150,14 +148,14 @@ class NavigationRail extends Widget
     {
         echo Html::beginTag(name: 'md-navigation-rail', options: $this->options) . "\n";
         if ($this->leading) {
-            echo Html::tag(name: 'div', content: $this->leading, options: ['slot' => 'leading']) . "\n";
+            echo Html::tag(name: 'div', content: $this->leading, options: ['slot' => 'leading', 'class' => 'nav-item']) . "\n";
         }
 
         echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
         $this->renderItems();
 
-        if ($this->leading) {
-            echo Html::tag(name: 'div', content: $this->trailing, options: ['slot' => 'trailing']) . "\n";
+        if ($this->trailing) {
+            echo Html::tag(name: 'div', content: $this->trailing, options: ['slot' => 'trailing', 'class' => 'nav-item']) . "\n";
         }
         echo Html::endTag(name: 'div') . "\n";
 
@@ -175,9 +173,6 @@ class NavigationRail extends Widget
             if (is_array($item)) {
                 if (!isset($item['icon'])) {
                     throw new \yii\base\InvalidConfigException("El atributo 'icon' es requerido para cada item del menú.");
-                }
-                if (!isset($item['label'])) {
-                    throw new \yii\base\InvalidConfigException("El atributo 'label' es requerido para cada item del menú.");
                 }
 
                 if (!isset($item['url'])) {

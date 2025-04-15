@@ -43,14 +43,14 @@ class NavigationRail extends HTMLElement {
         .navigation-rail {
             display: flex;
             flex-direction: column;
-            width: 88px;
+            width: 80px;
             height: 100%;
         }
 
         ::slotted(div) {
           display: flex;
           flex-direction: column;
-          width: 88px;
+          width: 80px;
         }
       </style>
     `;
@@ -113,12 +113,13 @@ class NavigationRail extends HTMLElement {
                 navItem.style = `
                   width: 80px;
                   height: 56px;
-                  padding: 2px;
-                  margin-top: 2px;
+                  padding-left: 12px;
+                  padding-right: 12px;
                   color: var(--md-sys-color-primary);
                   text-decoration: none;
                   justify-content: center;
                   text-align: center;
+                  margin-bottom: 12px;
                 `;
 
                 if (icon) {
@@ -160,7 +161,7 @@ class NavigationRail extends HTMLElement {
                 if (label) {
                   label.style = `
                             font-size: 12px;
-                            margin-bottom: 4px;
+                            margin-top: 4px;
                             text-align: center;
                             pointer-events: none;
                           `;

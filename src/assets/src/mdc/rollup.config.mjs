@@ -1,4 +1,6 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
+import { terser } from '@rollup/plugin-terser';
+import summary from 'rollup-plugin-summary';
 
 export default {
     input: '../assets/src/js/index.js',
@@ -7,6 +9,12 @@ export default {
         format: 'iife'
     },
     plugins: [
-        nodeResolve(),
+        resolve(),
+        terser({
+            ecma: 2021,
+            module: true,
+            warnings: true,
+        }),
+        summary(),
     ]
 };

@@ -1,34 +1,27 @@
-// Copyright (c) 2024 neoacevedo
-//
-// This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by * the Free Software Foundation,
-// either version 3 of the License,
-// or (at your option) any later version. * * This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY;
-// without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License * along with this program. If not,
-// see <http: //www.gnu.org/licenses/>.
+/*! Copyright (c) 2024 neoacevedo
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details. 
+You should have received a copy of the GNU General Public License along with this program. 
+If not,see <http: //www.gnu.org/licenses/>. */
 
-@use 'sass:map';
+// @use 'sass:map';
+@use '../mdc/node_modules/@material/web/tokens';
 @use '../mdc/node_modules/@material/web/typography/typescale';
+@use '../mdc/node_modules/@material/web/typography/typeface';
 @use '../mdc/node_modules/@material/web/tokens/md-comp-elevated-card' as elevated-card;
 @use '../mdc/node_modules/@material/web/tokens/md-comp-filled-card' as filled-card;
 @use '../mdc/node_modules/@material/web/tokens/md-comp-outlined-card' as outlined-card;
-@use '../mdc/node_modules/@material/web/color/color';
+// @use '../mdc/node_modules/@material/web/color/color';
 @use '../mdc/node_modules/@material/web/tokens/md-sys-shape';
-@use '../mdc/node_modules/@material/web/tokens';
-
-@use 'yii2-md-top-app-bar';
 
 $elevated-card-tokens: elevated-card.values($exclude-custom-properties: true);
 $filled-card-tokens: filled-card.values($exclude-custom-properties: true);
 $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
 
 :root {
-    @include color.light-theme;
-
-    @media (prefers-color-scheme: dark) {
-        @include color.dark-theme;
-    }
-
     @each $token, $value in tokens.md-sys-elevation-values() {
         --md-sys-elevation-#{$token}: #{$value};
     }
@@ -37,7 +30,10 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
         --md-sys-shape-#{$token}: #{$value};
     }
 
+    // Emit --md-sys-typescale-* tokens to use in your own CSS
     @include typescale.theme(tokens.md-sys-typescale-values());
+    // Emit --md-ref-typeface-* tokens to use in your own CSS
+    @include typeface.theme(tokens.md-ref-typeface-values());
 
     @each $token, $value in $elevated-card-tokens {
         --md-elevated-card-#{$token}: #{$value};
@@ -52,22 +48,24 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
     }
 }
 
-@font-face {
-    font-family: 'Roboto';
-    src:
-        url('../fonts/Roboto-Black.ttf'),
-        url('../fonts/Roboto-BlackItalic.ttf'),
-        url('../fonts/Roboto-Bold.ttf'),
-        url('../fonts/Roboto-BlackItalic.ttf'),
-        url('../fonts/Roboto-Italic.ttf'),
-        url('../fonts/Roboto-Light.ttf'),
-        url('../fonts/Roboto-LightItalic.ttf'),
-        url('../fonts/Roboto-Medium.ttf'),
-        url('../fonts/Roboto-MediumItalic.ttf'),
-        url('../fonts/Roboto-Regular.ttf'),
-        url('../fonts/Roboto-Thin.ttf'),
-        url('../fonts/Roboto-ThinItalic.ttf');
-}
+// @font-face {
+//     font-family: 'Roboto';
+//     src:
+//         url('../fonts/Roboto-Black.ttf'),
+//         url('../fonts/Roboto-BlackItalic.ttf'),
+//         url('../fonts/Roboto-Bold.ttf'),
+//         url('../fonts/Roboto-BlackItalic.ttf'),
+//         url('../fonts/Roboto-Italic.ttf'),
+//         url('../fonts/Roboto-Light.ttf'),
+//         url('../fonts/Roboto-LightItalic.ttf'),
+//         url('../fonts/Roboto-Medium.ttf'),
+//         url('../fonts/Roboto-MediumItalic.ttf'),
+//         url('../fonts/Roboto-Regular.ttf'),
+//         url('../fonts/Roboto-Thin.ttf'),
+//         url('../fonts/Roboto-ThinItalic.ttf');
+// }
+
+@import url('https: //fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 @font-face {
     font-family: 'Material Symbols Outlined';
@@ -89,4 +87,118 @@ $outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
     /* Convierte el contenedor principal en Flexbox */
     height: 100vh;
     /* Asegura que el contenedor ocupa toda la altura de la pantalla */
+}
+
+/**
+ * @copyright Copyright (c) 2024 neoacevedo
+ * @subpackage yii2-material
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.top-app-bar {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    box-shadow: 0 2px 4px rgba(var(--md-sys-color-shadow), 0.1);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.top-app-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    max-width: 100%;
+}
+
+.app-title {
+    font-weight: var(--md-sys-typescale-headline-small-font-weight, 400);
+    font-family: var(--md-top-app-bar-headline-font, var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto)));
+    font-size: var(--md-top-app-bar-headline-size, var(--md-sys-typescale-headline-small-size, 1.5rem)/var(--md-sys-typescale-headline-small-line-height, 2rem));
+    line-height: var(--md-sys-typescale-headline-small-line-height);
+    letter-spacing: var(--md-sys-typescale-headline-small-letter-spacing);
+    flex-grow: 1;
+    /* Para que el título ocupe el espacio disponible */
+    text-align: start;
+    /* Centrar el título */
+    padding-inline: 12px;
+}
+
+.top-app-bar.center-aligned .app-title {
+    justify-content: center;
+}
+
+/* Estilos adicionales para la variante "medium" con Search Bar */
+.top-app-bar.medium {
+    display: grid;
+    /* Usamos grid para el diseño */
+    grid-template-rows: auto auto;
+    /* Dos filas: barra superior y barra de búsqueda */
+    gap: 8px;
+    /* Espacio entre filas */
+    padding-bottom: 8px;
+    /* Reducir el padding inferior de la barra superior */
+}
+
+.top-app-bar.large {
+    /* Clase para la variante "large" */
+    padding-top: 24px;
+    /* Aumentar el padding vertical */
+    padding-bottom: 24px;
+    background-size: cover;
+    background-position: center;
+}
+
+.top-app-bar.medium .top-app-bar-container {
+    padding-bottom: 0px;
+}
+
+.search-bar {
+    /* Estilos para la barra de búsqueda */
+    padding: 8px 16px;
+    background-color: var(--md-sys-color-surface-variant);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    border: none;
+    background: none;
+    flex-grow: 1;
+}
+
+.top-app-bar.large .app-title {
+    font-size: var(--md-sys-typescale-display-small-font-size);
+    /* Título más grande */
+    font-weight: var(--md-sys-typescale-display-small-font-weight);
+}
+
+.leading-icon-button,
+.action-button {
+    border: none;
+    background: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions {
+    display: flex;
 }

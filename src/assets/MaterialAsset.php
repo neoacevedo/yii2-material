@@ -45,8 +45,6 @@ class MaterialAsset extends AssetBundle
      * @inheritDoc
      */
     public $js = [
-        // 'js/import-map.json',
-        // 'js/bundle.js',
         'js/yii2-material.min.js',
         'js/top-app-bar.min.js',
         'js/navigation-rail.min.js',
@@ -74,39 +72,25 @@ class MaterialAsset extends AssetBundle
      */
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 
-    /**
-     * Summary of registerAssetFiles
-     * @param View $view
-     * @return void
-     */
-    public function registerAssetFiles($view): void
+
+    public static function publishMaterialScripts(): string
     {
-        parent::registerAssetFiles($view);
-        // Vamos a embeber el código del import
-        $manager = $view->getAssetManager();
-        $url = $manager->getAssetUrl($this, 'js/import-map.json');
+        $script = <<<HTML
+            <script type="importmap">
+                {
+                    "imports": {
+                        "@material/web/": "https://esm.run/@material/web/"
+                    }
+                }
+            </script>
+            <script type="module">
+                import "@material/web/all.js";
+                import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+                document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+            </script>
+        HTML;
 
-        $import = <<<JS
-            fetch('$url')
-            .then(response => response.json())
-            .then(importMap => {
-                const script = document.createElement('script');
-                script.type = 'importmap';
-                script.textContent = JSON.stringify(importMap, null, 2); // Indentación para mejor legibilidad
-                document.head.appendChild(script);
-                const moduleScript = document.createElement('script');
-                moduleScript.type = 'module';
-                moduleScript.textContent = 'import "@material/web/all.js";' 
-                    + "import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';";
-                    + 'document.adoptedStyleSheets.push(typescaleStyles.styleSheet);';
-                document.head.appendChild(moduleScript);
-            });
-        JS;
-
-        $view->registerJs(
-            $import,
-            \yii\web\View::POS_END
-        );
+        return $script;
     }
 
 }

@@ -1,5 +1,0 @@
-{
-    "imports": {
-        "@material/web/": "https://esm.run/@material/web/"
-    }
-}

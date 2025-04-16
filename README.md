@@ -32,8 +32,17 @@ o agregue
 
 a la sección require de su archivo `composer.json`.
 
-Usos
+Uso
 ----
+
+Incluya antes del cierre de la etiqueta 'body' de su plantilla principal lo siguiente:
+
+```php
+<?= MaterialAsset::publishMaterialScripts() ?>
+```
+
+Componentes
+---
 
 - [Card](docs/CARD.md)
 - [Icon](docs/ICONBUTTON.md)

@@ -54,35 +54,8 @@ class NavigationDrawer extends HTMLElement {
         flex-grow: 1;
       }
 
-      .drawer-list-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px;
-        cursor: pointer;
-        text-decoration: none;
-        color: var(--md-sys-color-on-surface);
+      ::slotted(md-list-item) {
         border-radius: var(--md-sys-shape-corner-full);
-      }
-
-      .drawer-list-item:hover {
-          background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.08);
-          border-radius: var(--md-sys-shape-corner-full);
-      }
-
-      .drawer-list-item.active {
-        background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.16);
-        color: var(--md-sys-color-primary);
-        border-radius: var(--md-sys-shape-corner-full);
-      }
-
-      .drawer-list-item .item-icon {
-        margin-right: 16px;
-      }
-
-      .drawer-list-item .item-text {
-        font-family: 'Roboto', sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
       }
 
       /* Estilos específicos para el modo modal */
@@ -142,6 +115,45 @@ class NavigationDrawer extends HTMLElement {
     if (this._type === 'modal') {
       this._scrimElement = this.shadowRoot.querySelector('.scrim');
       this._scrimElement.addEventListener('click', this._closeDrawer.bind(this));
+    }
+
+    const drawerItemsSlot = this.shadowRoot.querySelector('slot[name=content]');
+    if (drawerItemsSlot) { // Verifica que el slot exista
+      drawerItemsSlot.addEventListener('slotchange', () => {
+        const drawerItems = drawerItemsSlot.assignedNodes();
+        drawerItems.forEach(item => {
+          if
+            (
+            item.nodeType === 8
+            ||
+            (item.nodeType === 3 && !/\S/.test(item.nodeValue))
+          ) {
+            return;
+          }
+
+          if (item.classList.contains('navigation-drawer-content')) {
+            const drawerItems = item.querySelectorAll('.drawer-list-item');
+
+            drawerItems.forEach(drawerItem => {
+              if (drawerItem) {
+                drawerItem.style = `
+                  border-radius: var(--md-sys-shape-corner-full);
+                `;
+
+                if (drawerItem.hasAttribute('selected')) {
+                  drawerItem.style = `
+                    border-radius: var(--md-sys-shape-corner-full);
+                    background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.16);
+                    color: var(--md-sys-color-primary);
+                  `;
+                  console.debug(drawerItem.style);
+                }
+              }
+            });
+          }
+
+        });
+      });
     }
   }
 

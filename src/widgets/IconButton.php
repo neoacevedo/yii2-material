@@ -66,7 +66,6 @@ class IconButton extends Widget
             'icon' => $this->icon,
             'variant' => self::TYPE_STANDARD
         ], $this->options);
-        \Yii::debug($this->options);
     }
 
     /**

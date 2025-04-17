@@ -358,6 +358,7 @@ abstract class MaterialBaseHtml extends BaseHtml
      *  Predeterminado en true. 
      * - strict: boolean, si .$selection es un array y este valor es true, una comparación estricta se realizará en las claves de "$items". 
      *  Predeterminado en false. 
+     * - visible: boolean, opcional, cuando el elemento de la lista sea visible.
      *
      * El resto de las opciones se representarán como los atributos de la etiqueta resultante. Los valores
      * serán codificados HTML usando [[self::encode()]]. Si un valor es nulo, el atributo correspondiente no se entregará.
@@ -634,8 +635,12 @@ abstract class MaterialBaseHtml extends BaseHtml
         $encodeSpaces = (bool) ArrayHelper::remove($parentTagOptions, 'encodeSpaces', false);
         $encode = (bool) ArrayHelper::remove($parentTagOptions, 'encode', true);
 
-        foreach ($items as $item) {
+        foreach ($items as $i => $item) {
             if (is_array($item)) {
+                if (isset($item['visible']) && !$item['visible']) {
+                    unset($items[$i]);
+                    continue;
+                }
 
                 if (isset($item['options']['href'])) {
                     $item['options']['href'] = \yii\helpers\Url::to($item['options']['href']);

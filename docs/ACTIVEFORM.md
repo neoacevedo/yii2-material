@@ -9,7 +9,9 @@
         'id' => 'form'
 
     ]);
-    ?>
+?>
+
+<?php
     // Outlined (default) input
     echo $form->field($model, 'username', [
         'options' => ['class' => 'mb-3']
@@ -23,8 +25,7 @@
     echo $form->field($model, 'remember_me')->checkbox();
 
     echo Html::submitButton('Iniciar sesión', ['variant' => 'filled']);
-    <?php
+
     Material3ActiveForm::end();
-    ?>
 ?>
 ```

@@ -38,56 +38,102 @@ use yii\helpers\Url;
  */
 class Menu extends Widget
 {
+    const POSITION_ABSOLUTE = 'absolute';
+    const POSITION_DOCUMENT = 'document';
+    const POSITION_FIXED = 'fixed';
+    const POSITION_RELATIVE = 'relative';
+
     public $items = [];
     public $options = []; // Opciones para el contenedor del menú (<ul>)
 
-    public function init()
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
     {
-        parent::init();
-
-        // Asegura que los items tengan la estructura correcta
-        foreach ($this->items as &$item) {
-            if (!isset($item['headline'])) {
-                throw new \yii\base\InvalidConfigException("El atributo 'headline' es requerido para cada item del menú.");
-            }
-
-            if (!isset($item['options'])) {
-                $item['options'] = [];
-            }
-        }
-        unset($item); // Limpia la referencia
+        $this->options = ArrayHelper::merge(['id' => $this->id], $this->options); // Clase base de Material
     }
 
-    public function run()
+    /**
+     * @inheritDoc
+     */
+    public function run(): void
     {
-        if (empty($this->items)) {
-            return ''; // No renderizar nada si no hay items
-        }
+        echo Html::beginTag('md-menu', $this->options);
 
-        $options = ArrayHelper::merge(['id' => $this->id], $this->options); // Clase base de Material
-        echo Html::beginTag('md-menu', $options);
-
-        foreach ($this->items as $item) {
-            $this->renderItem($item) . "\n";
-        }
+        echo $this->renderItems($this->items);
 
         echo Html::endTag('md-menu');
     }
 
-    protected function renderItem(&$item)
+    /**
+     * Summary of renderItems
+     * @return string
+     */
+    protected function renderItems(array $items): string
     {
-        $icon = ArrayHelper::remove($item['options'], 'icon', false);
+        $lines = [];
+        foreach ($items as $item) {
+            $menu = (!empty($item['items'])) ? $this->renderSubMenu($item) : $this->renderItem($item);
+            $lines[] = $menu;
+        }
+        return implode("\n", $lines);
+
+    }
+
+    /**
+     * Summary of renderSubMenu
+     * @param array $item
+     * @return string
+     */
+    protected function renderSubMenu(array $item): string
+    {
+        $html = Html::beginTag('md-sub-menu', $item['options'] ?? []) . "\n";
+        $item['options']['slot'] = 'item';
+        $html .= $this->renderItem($item);
+
+        $html .= Html::beginTag('md-menu', array_merge($item['menuOptions'] ?? [], ['slot' => 'menu'])) . "\n";
+        $html .= $this->renderItems($item['items']);
+        $html .= Html::endTag('md-menu') . "\n";
+
+        $html .= Html::endTag('md-sub-menu') . "\n";
+        return $html;
+    }
+
+    /**
+     * Renderiza el contenido del elemento del menú.
+     * @param array $item
+     * @return string
+     */
+    protected function renderItem(array $item): string
+    {
+        if (!isset($item['headline'])) {
+            throw new \yii\base\InvalidConfigException("El atributo 'headline' es requerido para el item del menú.");
+        }
+
+        if (!isset($item['options'])) {
+            $item['options'] = [];
+        }
+
+        $leading = isset($item['leading']) ? Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
+        $trailing = isset($item['trailing']) ? Html::tag('md-icon', $item['trailing'], ['slot' => 'end']) . "\n" : '';
         $url = ArrayHelper::getValue($item['options'], 'href', false);
 
         if ($url !== false) {
             $item['options']['href'] = Url::to($url);
         }
 
-        echo Html::beginTag('md-menu-item', $item['options']);
-        echo Html::tag('div', $item['headline'], ['slot' => 'headline']);
-        if ($icon !== false) {
-            echo Html::tag('md-icon', $icon, ['slot' => 'end']);
+        $html = Html::beginTag('md-menu-item', $item['options']) . "\n";
+        if (isset($item['options']['type']) && $item['options']['type'] == 'divider') {
+            $html .= Html::tag('md-divider', '', $item['options']);
+        } else {
+            $html .= $leading;
+            $html .= Html::tag('div', $item['headline'], ['slot' => 'headline']) . "\n";
+            $html .= $trailing;
         }
-        echo Html::endTag('md-menu-item');
+
+        $html .= Html::endTag('md-menu-item') . "\n";
+
+        return $html;
     }
 }

@@ -1,5 +1,11 @@
 ## Material3ActiveForm y Material3ActiveField
 
+Material3ActiveForm extiende de ActivForm, por lo que tiene sus mismas características, con un adicional de inicio de reglas de validación para los input text de tipo material component.
+
+Material3ActiveField renderiza los componentes `md-text-field` o sus variantes.
+
+Dada la limitancia en el evento Enter de los componentes text-field de Material, se requiere que se incluya el evento `onkeyup` en cada text-field para enviar el formulario al presionar  la tecla Enter.
+
 ```php
 <?php
     /**
@@ -9,9 +15,7 @@
         'id' => 'form'
 
     ]);
-?>
 
-<?php
     // Outlined (default) input
     echo $form->field($model, 'username', [
         'options' => ['class' => 'mb-3']

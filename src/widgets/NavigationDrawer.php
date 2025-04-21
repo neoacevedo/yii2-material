@@ -20,6 +20,7 @@
 
 namespace neoacevedo\yii2\material\widgets;
 
+use Closure;
 use neoacevedo\yii2\material\Html;
 use Yii;
 use yii\base\Widget;

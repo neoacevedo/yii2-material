@@ -40,6 +40,8 @@ class NavigationDrawer extends HTMLElement {
         box-shadow: var(--md-sys-elevation-level-3, 0px 1px 3px 0px rgba(0, 0, 0, 0.12), 0px 2px 6px 2px rgba(0, 0, 0, 0.06));
         z-index: 10;
         transition: transform 0.3s ease-in-out;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       /* Estilos comunes a ambos modos */

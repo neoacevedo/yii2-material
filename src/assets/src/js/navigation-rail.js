@@ -87,6 +87,21 @@ class NavigationRail extends HTMLElement {
   }
 
   connectedCallback() {
+    const navLeading = this.shadowRoot.querySelector('slot[name=leading]');
+
+    if (navLeading) {
+      navLeading.addEventListener('slotchange', () => {
+        const leading = navLeading.assignedNodes();
+        if (leading.length > 0) {
+          leading[0].style = `
+              margin-top: 12px;
+              padding-left: 12px;
+              padding-right: 12px;
+          `;
+        }
+      });
+    }
+
     const navItemsSlot = this.shadowRoot.querySelector('slot[name=content]');
 
     if (navItemsSlot) { // Verifica que el slot exista
@@ -142,6 +157,7 @@ class NavigationRail extends HTMLElement {
                     icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
                     icon.style.opacity = 1;
                     icon.style.transform = 'scaleX(1)';
+                    icon.style.height = '36px';
                   }
 
                   navItem.addEventListener('mouseenter', () => {
@@ -160,11 +176,11 @@ class NavigationRail extends HTMLElement {
 
                 if (label) {
                   label.style = `
-                            font-size: 12px;
-                            margin-top: 4px;
-                            text-align: center;
-                            pointer-events: none;
-                          `;
+                    font-size: 12px;
+                    margin-top: 4px;
+                    text-align: center;
+                    pointer-events: none;
+                  `;
                 }
               }
             });

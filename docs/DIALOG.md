@@ -41,7 +41,7 @@ Dialog::end();
 
 Este componente web de Material también puede ser usado de manera directa en el html:
 
-```html 
+```html
 <md-dialog>
 ...
 </md-dialog>

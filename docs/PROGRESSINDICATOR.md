@@ -13,3 +13,6 @@ Este componente web de Material también puede ser usado de manera directa en el
 
 <md-linear-progress value='0.75'></md-linear-progress>
 <md-circular-progress indeterminate></md-circular-progress>
+
+<md-circular-progress value="0.75"></md-circular-progress>
+<md-linear-progress indeterminate></md-linear-progress>

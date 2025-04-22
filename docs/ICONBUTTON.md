@@ -8,7 +8,7 @@
 echo IconButton::widget(['icon' => 'home', 'variant' => IconButton::TYPE_FILLED]); 
 ...
 // Usando la clase auxiliar Html
-echo Html::iconButton(['icon' => 'dictionary']);
+echo \neoacevedo\yii2\material\Html::iconButton(['icon' => 'dictionary']);
 
 ?>
 ```

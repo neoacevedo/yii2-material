@@ -236,6 +236,7 @@ abstract class MaterialBaseHtml extends BaseHtml
     /**
      * Genera el componente web Floating Action Button.
      * @param string $icon El ícono del botón.
+     * @param bool $branded Si es true, el FAB se generará como un [`md-branded-fab`](https://material-web.dev/components/fab/#branded-fab).
      * @param array $options Atributos HTML para el FAB. 
      * Los atributos HTML pueden ser cualquier atributo conocido de etiquetas HTML.
      * Las siguientes opciones especiales son reconocidas:
@@ -247,11 +248,11 @@ abstract class MaterialBaseHtml extends BaseHtml
      * Ver [[renderTagAttributes()] para obtener detalles sobre cómo se están representando los atributos.
      * @return string
      */
-    public static function fab(string $icon, array $options = []): string
+    public static function fab(string $icon, bool $branded = false, array $options = []): string
     {
-        $html = static::beginTag(name: 'md-fab', options: $options);
+        $html = $branded === false ? static::beginTag(name: 'md-fab', options: $options) : static::beginTag(name: 'md-branded-fab', options: $options);
         $html .= static::tag(name: 'md-icon', content: $icon, options: ['slot' => 'icon']);
-        $html .= static::endTag(name: 'md-fab');
+        $html .= $branded === false ? static::endTag(name: 'md-fab') : static::endTag(name: 'md-branded-fab');
 
         return $html;
     }

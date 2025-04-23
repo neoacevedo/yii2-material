@@ -44,6 +44,120 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function activeDropdownList($model, $attribute, $items, $options = [])
+    {
+        if (empty($options['multiple'])) {
+            return static::activeListInput('dropDownList', $model, $attribute, $items, $options);
+        }
+
+        return static::activeListBox($model, $attribute, $items, $options);
+    }
+
+    /**
+     * Generates an input tag for the given model attribute.
+     * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+     * unless they are explicitly specified in `$options`.
+     * @param string $type the input type (e.g. 'text', 'password')
+     * @param \yii\base\Model $model the model object
+     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+     * about attribute expression.
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * 
+     * @return string the generated input tag
+     */
+    public static function activeInput($type, $model, $attribute, $options = [])
+    {
+        $name = $options['name'] ?? static::getInputName($model, $attribute);
+        $value = $options['value'] ?? static::getAttributeValue($model, $attribute);
+        if (!array_key_exists('id', $options)) {
+            $options['id'] = static::getInputId($model, $attribute);
+        }
+
+        if (!array_key_exists('label', $options)) {
+            $options['label'] = $model->getAttributeLabel($attribute);
+        }
+
+        static::setActivePlaceholder($model, $attribute, $options);
+        self::normalizeMaxLength($model, $attribute, $options);
+
+        return static::input($type, $name, $value, $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function activeListBox($model, $attribute, $items, $options = [])
+    {
+        return static::activeListInput('dropDownList', $model, $attribute, $items, $options);
+    }
+
+    /**
+     * Generates a list of input fields.
+     * This method is mainly called by [[activeListBox()]], [[activeRadioList()]] and [[activeCheckboxList()]].
+     * @param string $type the input type. This can be 'listBox', 'radioList', or 'checkBoxList'.
+     * @param \yii\base\Model $model the model object
+     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+     * about attribute expression.
+     * @param array $items the data item used to generate the input fields.
+     * The array keys are the input values, and the array values are the corresponding labels.
+     * @param array $options options (name => config) for the input list. The supported special options
+     * depend on the input type specified by `$type`.
+     * @return string the generated input list
+     */
+    protected static function activeListInput($type, $model, $attribute, $items, $options = [])
+    {
+        $name = ArrayHelper::remove($options, 'name', static::getInputName($model, $attribute));
+        $selection = ArrayHelper::remove($options, 'value', static::getAttributeValue($model, $attribute));
+        if (!array_key_exists('unselect', $options)) {
+            $options['unselect'] = '';
+        }
+        if (!array_key_exists('id', $options)) {
+            $options['id'] = static::getInputId($model, $attribute);
+        }
+
+        return static::$type($name, $selection, $items, $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function activePasswordInput($model, $attribute, $options = [])
+    {
+        return static::activeInput('text', $model, $attribute, $options);
+    }
+
+    /**
+     * Generates a text input tag for the given model attribute.
+     * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+     * unless they are explicitly specified in `$options`.
+     * @param \yii\base\Model $model the model object
+     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+     * about attribute expression.
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     * The following special options are recognized:
+     *
+     * - maxlength: integer|boolean, when `maxlength` is set true and the model attribute is validated
+     *   by a string validator, the `maxlength` option will take the max value of [[\yii\validators\StringValidator::max]]
+     *   and [[\yii\validators\StringValidator::length].
+     *   This is available since version 2.0.3 and improved taking `length` into account since version 2.0.42.
+     * - placeholder: string|boolean, when `placeholder` equals `true`, the attribute label from the $model will be used
+     *   as a placeholder (this behavior is available since version 2.0.14).
+     * - `filled`: int|bool, when it is se to `true` then the text input will be rendered as filled type. {@see https://m3.material.io/components/text-fields/overview#83ab732c-c40d-4470-8bc0-18e8d014acff}
+     *
+     * @return string the generated input tag
+     */
+    public static function activeTextInput($model, $attribute, $options = [])
+    {
+        return static::activeInput('text', $model, $attribute, $options);
+    }
+
+    /**
      * Genera un botón de ícono.
      * @param array $options the tag options in terms of name-value pairs. These will be rendered as
      * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
@@ -102,87 +216,6 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
-     * Generates a checkbox input.
-     * @param string $name the name attribute.
-     * @param bool $checked whether the checkbox should be checked.
-     * @param array $options the tag options in terms of name-value pairs.
-     * See [[booleanInput()]] for details about accepted attributes.
-     *
-     * @return string the generated checkbox tag
-     */
-    // public static function checkbox($name, $checked = false, $options = [])
-    // {
-    //     return static::booleanInput('checkbox', $name, $checked, $options);
-    // }
-
-    /**
-     * Generates an input tag for the given model attribute.
-     * This method will generate the "name" and "value" tag attributes automatically for the model attribute
-     * unless they are explicitly specified in `$options`.
-     * @param string $type the input type (e.g. 'text', 'password')
-     * @param \yii\base\Model $model the model object
-     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
-     * about attribute expression.
-     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
-     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
-     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
-     * 
-     * @return string the generated input tag
-     */
-    public static function activeInput($type, $model, $attribute, $options = [])
-    {
-        $name = $options['name'] ?? static::getInputName($model, $attribute);
-        $value = $options['value'] ?? static::getAttributeValue($model, $attribute);
-        if (!array_key_exists('id', $options)) {
-            $options['id'] = static::getInputId($model, $attribute);
-        }
-
-        if (!array_key_exists('label', $options)) {
-            $options['label'] = $model->getAttributeLabel($attribute);
-        }
-
-        static::setActivePlaceholder($model, $attribute, $options);
-        self::normalizeMaxLength($model, $attribute, $options);
-
-        return static::input($type, $name, $value, $options);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function activePasswordInput($model, $attribute, $options = [])
-    {
-        return static::activeInput('text', $model, $attribute, $options);
-    }
-
-    /**
-     * Generates a text input tag for the given model attribute.
-     * This method will generate the "name" and "value" tag attributes automatically for the model attribute
-     * unless they are explicitly specified in `$options`.
-     * @param \yii\base\Model $model the model object
-     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
-     * about attribute expression.
-     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
-     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
-     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
-     * The following special options are recognized:
-     *
-     * - maxlength: integer|boolean, when `maxlength` is set true and the model attribute is validated
-     *   by a string validator, the `maxlength` option will take the max value of [[\yii\validators\StringValidator::max]]
-     *   and [[\yii\validators\StringValidator::length].
-     *   This is available since version 2.0.3 and improved taking `length` into account since version 2.0.42.
-     * - placeholder: string|boolean, when `placeholder` equals `true`, the attribute label from the $model will be used
-     *   as a placeholder (this behavior is available since version 2.0.14).
-     * - `filled`: int|bool, when it is se to `true` then the text input will be rendered as filled type. {@see https://m3.material.io/components/text-fields/overview#83ab732c-c40d-4470-8bc0-18e8d014acff}
-     *
-     * @return string the generated input tag
-     */
-    public static function activeTextInput($model, $attribute, $options = [])
-    {
-        return static::activeInput('text', $model, $attribute, $options);
-    }
-
-    /**
      * @inheritDoc
      */
     public static function checkbox($name, $checked = false, $options = [])
@@ -226,8 +259,8 @@ abstract class MaterialBaseHtml extends BaseHtml
     public static function dropDownList($name, mixed $selection = null, $items = [], $options = []): string
     {
         $options['name'] = $name;
-        $type = $options['type'] ?? 'outlined';
-        unset($options['unselect'], $options['type']);
+        $type = $options['variant'] ?? 'outlined';
+        unset($options['unselect'], $options['variant']);
 
         $selectOptions = static::renderDropdownListOptions(selection: $selection, items: $items, tagOptions: $options);
         return static::tag(name: "md-$type-select", content: "\n$selectOptions\n", options: $options);
@@ -653,7 +686,7 @@ abstract class MaterialBaseHtml extends BaseHtml
 
                 $text = isset($item['overline']) ? static::tag('div', $item['overline'], ['slot' => 'overline']) : '';
                 // 
-                $text .= isset($item['headline']) ? static::tag('div', $item['headline'], ['slot' => 'headline']) : $item['label'];
+                $text .= isset($item['headline']) ? static::tag('div', $item['headline'], ['slot' => 'headline']) : $item['headline'];
                 //
                 $text .= isset($item['leading-icon']) ? static::tag('md-icon', $item['leading-icon'], ['slot' => 'start']) : '';
                 $text .= isset($item['supporting-text']) ? static::tag('div', $item['supporting-text'], ['slot' => 'supporting-text']) : '';

@@ -25,6 +25,10 @@ use yii\base\Widget;
 
 class Select extends Widget
 {
+    const TYPE_OUTLINED = 'outlined';
+
+    const TYPE_FILLED = 'filled';
+
     /**
      * The input name
      * @var string
@@ -70,6 +74,7 @@ class Select extends Widget
      * - encode: bool, whether to encode option prompt and option value characters.
      *   Defaults to `true`. This option is available since 2.0.3.
      * - strict: boolean, if `$selection` is an array and this value is true a strict comparison will be performed on `$items` keys. Defaults to false.
+     * - variant: string, define la variante estética, de tipo [[self::TYPE_OUTLINED]] o [[self::TYPE_FILLED]]. Predefinido a [[self::TYPE_OUTLINED]] 
      * @var array
      */
     public array $options = [];
@@ -81,7 +86,7 @@ class Select extends Widget
     {
         $this->options = array_merge([
             'id' => $this->id,
-            'type' => 'select-option'
+            'variant' => self::TYPE_OUTLINED
         ], $this->options);
 
         echo Html::dropDownList(name: $this->name, selection: $this->selection, items: $this->items, options: $this->options);

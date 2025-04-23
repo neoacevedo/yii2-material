@@ -95,6 +95,12 @@ class Material3ActiveField extends ActiveField
      */
     public function checkbox($options = [], $enclosedByLabel = true)
     {
+        if ($this->form->validationStateOn === \yii\widgets\ActiveForm::VALIDATION_STATE_ON_INPUT) {
+            $this->addErrorClassIfNeeded($options);
+        }
+
+        $this->addAriaAttributes($options);
+
         $checkOptions = $this->checkOptions;
         $options = ArrayHelper::merge($checkOptions, $options);
         $labelOptions = ArrayHelper::remove($options, 'labelOptions', []);
@@ -195,12 +201,17 @@ class Material3ActiveField extends ActiveField
      */
     public function dropDownList($items, $options = [])
     {
-        $this->initDisability($options);
-        $newBsCss = ($this->form->isBs(5) ? 'form' : 'custom') . '-select';
-        $class = $this->isCustomControl($options) ? $newBsCss : $this->addClass;
-        Html::addCssClass($options, $class);
+        $options = array_merge($this->inputOptions, $options);
 
-        return parent::dropDownList($items, $options);
+        if ($this->form->validationStateOn === \yii\widgets\ActiveForm::VALIDATION_STATE_ON_INPUT) {
+            $this->addErrorClassIfNeeded($options);
+        }
+
+        $this->addAriaAttributes($options);
+        $this->adjustLabelFor($options);
+        $this->parts['{input}'] = Html::activeDropDownList($this->model, $this->attribute, $items, $options);
+
+        return $this;
     }
 
     /**

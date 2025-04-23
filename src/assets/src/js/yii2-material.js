@@ -32,52 +32,30 @@ function closeSnackbar(id) {
 }
 
 (function ($) {
-    materialInitForm = function (id, errorClass) {
-        let elements = 'md-outlined-text-field, md-filled-text-field, md-outlined-select, md-filled-select';
-        Promise.all([
-            customElements.whenDefined('md-outlined-text-field'),
-            customElements.whenDefined('md-filled-text-field'),
-            customElements.whenDefined('md-outlined-select'),
-            customElements.whenDefined('md-filled-select')
-        ])
-            .then(() => {
-                resetControls = function ($form) {
-                    let fields = $form.find(elements);
-
-                    fields.map((index) => {
-                        fields[index].removeAttribute('error');
-                        let shadowRoot = fields[index].shadowRoot;
-                        let outlinedFields = $(shadowRoot).find(elements);
-                        outlinedFields.map((i) => {
-                            let innerShadowRoot = outlinedFields[i].shadowRoot;
-                            $(innerShadowRoot).find('.field').removeClass('error');
-                        });
-                    });
-                };
-
-                $(id).on('afterValidateAttribute', function (event, attribute, messages) {
-                    let $form = $(this);
-                    resetControls($form);
-                    if ($form.find(errorClass).length) {
-                        let fields = $form.find(errorClass).find(elements);
-                        fields.map((index) => {
-                            fields[index].setAttribute('error-text', messages[0]);
-                            fields[index].setAttribute('error', '');
-                            let shadowRoot = fields[index].shadowRoot;
-                            let outlinedFields = $(shadowRoot).find(elements);
-                            outlinedFields.map((i) => {
-                                let innerShadowRoot = outlinedFields[i].shadowRoot;
-                                $(innerShadowRoot).find('.field').addClass('error');
-                            });
-                        });
-                    }
-                }).on('reset', function () {
-                    var $form = $(this);
-                    setTimeout(function () {
-                        resetControls($form);
-                    }, 100);
-                });
-            })
+    materialInitForm = function () {
+        var controls = ['md-outlined-text-field', 'md-filled-text-field', 'md-outlined-select', 'md-filled-select'],
+            validControls = controls.join(','),
+            errorControls = '.has-error ' + controls.join(',.has-error '),
+            successControls = '.has-success ' + controls.join(',.has-success '),
+            resetControls = function ($form) {
+                $form.find(validControls).removeClass('has-success has-error');
+                $form.find(errorControls).removeAttr('error');
+                $form.find(errorControls).removeAttr('error-text');
+            };
+        $('form').on('afterValidateAttribute', function (form, field, messages) {
+            var $form = $(this);
+            resetControls($form);
+            if ($form.find('.has-error').length || $form.find('.has-success').length) {
+                $form.find(errorControls).attr('error', true);
+                $form.find(errorControls).attr('error-text', messages[0]);
+                $form.find(successControls).removeAttr('error');
+            }
+        }).on('reset', function () {
+            var $form = $(this);
+            setTimeout(function () {
+                resetControls($form);
+            }, 100);
+        });
 
     };
 

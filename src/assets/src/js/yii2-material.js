@@ -44,10 +44,9 @@ function closeSnackbar(id) {
             };
         $('form').on('afterValidateAttribute', function (form, field, messages) {
             var $form = $(this);
-            resetControls($form);
             if ($form.find('.has-error').length || $form.find('.has-success').length) {
-                $form.find(errorControls).attr('error', true);
-                $form.find(errorControls).attr('error-text', messages[0]);
+                $form.find('#' + field.id).attr('error', true);
+                $form.find('#' + field.id).attr('error-text', messages[0]);
                 $form.find(successControls).removeAttr('error');
             }
         }).on('reset', function () {

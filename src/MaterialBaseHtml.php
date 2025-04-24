@@ -44,13 +44,56 @@ abstract class MaterialBaseHtml extends BaseHtml
     }
 
     /**
-     * @inheritDoc
+     * Generates a drop-down list for the given model attribute.
+     * The selection of the drop-down list is taken from the value of the model attribute.
+     * @param \yii\base\Model $model the model object
+     * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+     * about attribute expression.
+     * @param array $items the option data items. The array keys are option values, and the array values
+     * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+     * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+     * If you have a list of data models, you may convert them into the format described above using
+     * [[\yii\helpers\ArrayHelper::map()]].
+     *
+     * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+     * the labels will also be HTML-encoded.
+     * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+     *
+     * - prompt: string, a prompt text to be displayed as the first option. Since version 2.0.11 you can use an array
+     *   to override the value and to set other tag attributes:
+     *
+     *   ```php
+     *   ['text' => 'Please select', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']],
+     *   ```
+     *
+     * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+     *   and the array values are the extra attributes for the corresponding option tags. For example,
+     *
+     *   ```php
+     *   [
+     *       'value1' => ['disabled' => true],
+     *       'value2' => ['label' => 'value 2'],
+     *   ];
+     *   ```
+     *
+     * - groups: array, the attributes for the optgroup tags. The structure of this is similar to that of 'options',
+     *   except that the array keys represent the optgroup labels specified in $items.
+     * - encodeSpaces: bool, whether to encode spaces in option prompt and option value with `&nbsp;` character.
+     *   Defaults to false.
+     * - encode: bool, whether to encode option prompt and option value characters.
+     *   Defaults to `true`. This option is available since 2.0.3.
+     *
+     * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+     * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     *
+     * @return string the generated drop-down list tag
      */
     public static function activeDropdownList($model, $attribute, $items, $options = [])
     {
-        if (empty($options['multiple'])) {
-            return static::activeListInput('dropDownList', $model, $attribute, $items, $options);
-        }
+        // if (empty($options['multiple'])) {
+        //     return static::activeListInput('dropDownList', $model, $attribute, $items, $options);
+        // }
 
         return static::activeListBox($model, $attribute, $items, $options);
     }
@@ -227,7 +270,7 @@ abstract class MaterialBaseHtml extends BaseHtml
     /**
      * Generates el componente web select.
      * @param mixed $name The input name
-     * @param mixed $selection The selected value(s). String/boolean for single or array for multiple selection(s).
+     * @param mixed $selection string|boolean. The selected value.
      * @param mixed $items The option data items. The array keys are option values, and the array values are the corresponding option labels. 
      *              The array can also be nested (i.e. some array values are arrays too). 
      *              For each sub-array, an option group will be generated whose label is the key associated with the sub-array. 
@@ -614,6 +657,21 @@ abstract class MaterialBaseHtml extends BaseHtml
         $encodeSpaces = ArrayHelper::remove($tagOptions, 'encodeSpaces', false);
         $encode = ArrayHelper::remove($tagOptions, 'encode', true);
         $strict = ArrayHelper::remove($tagOptions, 'strict', false);
+
+        if (isset($tagOptions['prompt'])) {
+            $promptOptions = ['value' => '', 'selected' => true];
+            if (is_string($tagOptions['prompt'])) {
+                $promptText = $tagOptions['prompt'];
+            } else {
+                $promptText = $tagOptions['prompt']['text'];
+                $promptOptions = array_merge($promptOptions, $tagOptions['prompt']['options']);
+            }
+            $promptText = $encode ? static::encode($promptText) : $promptText;
+            if ($encodeSpaces) {
+                $promptText = str_replace(' ', '&nbsp;', $promptText);
+            }
+            $lines[] = static::tag("md-select-option", $promptText, $promptOptions);
+        }
 
         $options = $tagOptions['options'] ?? [];
         unset($tagOptions['options']);

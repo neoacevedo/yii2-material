@@ -671,6 +671,7 @@ abstract class MaterialBaseHtml extends BaseHtml
                 $promptText = str_replace(' ', '&nbsp;', $promptText);
             }
             $lines[] = static::tag("md-select-option", $promptText, $promptOptions);
+            unset($tagOptions['prompt']);
         }
 
         $options = $tagOptions['options'] ?? [];

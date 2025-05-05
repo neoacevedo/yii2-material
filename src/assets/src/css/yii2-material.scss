@@ -17,9 +17,9 @@ If not,see <http: //www.gnu.org/licenses/>. */
 // @use '../mdc/node_modules/@material/web/color/color';
 @use '../mdc/node_modules/@material/web/tokens/md-sys-shape';
 
-$elevated-card-tokens: elevated-card.values($exclude-custom-properties: true);
-$filled-card-tokens: filled-card.values($exclude-custom-properties: true);
-$outlined-card-tokens: outlined-card.values($exclude-custom-properties: true);
+$elevated-card-tokens: elevated-card.values($exclude-custom-properties: false);
+$filled-card-tokens: filled-card.values($exclude-custom-properties: false);
+$outlined-card-tokens: outlined-card.values($exclude-custom-properties: false);
 
 :root {
     @each $token, $value in tokens.md-sys-elevation-values() {

@@ -18,6 +18,18 @@
  * @endpreserve
  */
 
+let sharedStyles = `
+:host{border-radius:var(--_container-shape);box-sizing:border-box;display:flex;flex-direction:column;position:relative;z-index:0;}
+
+md-elevation,.background,.outline{border-radius:inherit;inset:0;pointer-events:none;position:absolute}.background{background:var(--_container-color);z-index:-1}.outline{border:1px solid rgba(0,0,0,0);z-index:1}md-elevation{z-index:-1;--md-elevation-level: var(--_container-elevation);--md-elevation-shadow-color: var(--_container-shadow-color)}slot{border-radius:inherit}
+`;
+
+let elevatedStyles = ':host{--_container-color: var(--md-elevated-card-container-color, var(--md-sys-color-surface-container-low, #f7f2fa));--_container-elevation: var(--md-elevated-card-container-elevation, 1);--_container-shadow-color: var(--md-elevated-card-container-shadow-color, var(--md-sys-color-shadow, #000));--_container-shape: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px))}';
+
+let filledStyles = ':host{--_container-color: var(--md-filled-card-container-color, var(--md-sys-color-surface-container-highest, #e6e0e9));--_container-elevation: var(--md-filled-card-container-elevation, 0);--_container-shadow-color: var(--md-filled-card-container-shadow-color, var(--md-sys-color-shadow, #000));--_container-shape: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px))}';
+
+let outlinedStyles = ':host{--_container-color: var(--md-outlined-card-container-color, var(--md-sys-color-surface, #fef7ff));--_container-elevation: var(--md-outlined-card-container-elevation, 0);--_container-shadow-color: var(--md-outlined-card-container-shadow-color, var(--md-sys-color-shadow, #000));--_container-shape: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));--_outline-color: var(--md-outlined-card-outline-color, var(--md-sys-color-outline-variant, #cac4d0));--_outline-width: var(--md-outlined-card-outline-width, 1px)}.outline{border-color:var(--_outline-color);border-width:var(--_outline-width)}';
+
 class MdOutlinedCard extends HTMLElement {
     constructor() {
         super();
@@ -27,44 +39,8 @@ class MdOutlinedCard extends HTMLElement {
 
         this.shadowRoot.innerHTML = `
             <style>
-                :host {
-                    box-sizing: border-box;
-                    display: flex;
-                    flex-direction: column;
-                    position: relative;
-                    z-index: 0;
-                    border-radius: var(--md-outlined-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-                    border: var(--md-outlined-card-outline-width, 1px) solid var(--md-outlined-card-outline-color);
-                    --md-elevation-level: var(--md-outlined-card-container-elevation);
-                }
-
-                md-elevation {
-                    transition-duration: 280ms;
-                    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-                }
-
-                md-elevation,
-                .background,
-                .outline {
-                    border-radius: inherit;
-                    inset: 0;
-                    pointer-events: none;
-                    position: absolute;
-                }
-
-                .background {
-                    background: var(--md-outlined-card-container-color);
-                    z-index: -1;
-                }
-
-                .outline {
-                    border: 1px solid transparent;
-                    z-index: 1;
-                }
-
-                slot {
-                    border-radius: inherit;
-                }
+                ${sharedStyles}
+                ${outlinedStyles}
 
                 ::slotted(div[slot="actions"]) {
                     display: flex;
@@ -91,43 +67,8 @@ class MdFilledCard extends HTMLElement {
 
         this.shadowRoot.innerHTML = `
             <style>
-                :host {
-                    box-sizing: border-box;
-                    display: flex;
-                    flex-direction: column;
-                    position: relative;
-                    z-index: 0;
-                    border-radius: var(--md-filled-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-                    --md-elevation-level: var(--md-filled-card-container-elevation);
-                }
-
-                md-elevation {
-                    transition-duration: 280ms;
-                    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-                }
-
-                md-elevation,
-                .background,
-                .outline {
-                    border-radius: inherit;
-                    inset: 0;
-                    pointer-events: none;
-                    position: absolute;
-                }
-
-                .background {
-                    background: var(--md-filled-card-container-color);
-                    z-index: -1;
-                }
-
-                .outline {
-                    border: 1px solid transparent;
-                    z-index: 1;
-                }
-
-                slot {
-                    border-radius: inherit;
-                }
+                ${sharedStyles}
+                ${filledStyles}
 
                 ::slotted(div[slot="actions"]) {
                     display: flex;
@@ -154,44 +95,8 @@ class MdElevatedCard extends HTMLElement {
 
         this.shadowRoot.innerHTML = `
             <style>
-                :host {
-                    box-sizing: border-box;
-                    display: flex;
-                    flex-direction: column;
-                    position: relative;
-                    z-index: 0;
-                    border-radius: var(--md-elevated-card-container-shape, var(--md-sys-shape-corner-medium, 12px));
-                    box-shadow: 0px 1px 3px 0px var(--md-elevated-card-container-shadow-color);
-                    --md-elevation-level: var(--md-elevated-card-container-elevation);
-                }
-
-                md-elevation {
-                    transition-duration: 280ms;
-                    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-                }
-
-                md-elevation,
-                .background,
-                .outline {
-                    border-radius: inherit;
-                    inset: 0;
-                    pointer-events: none;
-                    position: absolute;
-                }
-
-                .background {
-                    background: var(--md-elevated-card-container-color);
-                    z-index: -1;
-                }
-
-                .outline {
-                    border: 1px solid transparent;
-                    z-index: 1;
-                }
-
-                slot {
-                    border-radius: inherit;
-                }
+                ${sharedStyles}
+                ${elevatedStyles}
 
                 ::slotted(div[slot="actions"]) {
                     display: flex;

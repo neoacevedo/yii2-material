@@ -19,13 +19,13 @@ La forma preferida de instalar esta extensión es a través de [composer](http:/
 Luego ejecute
 
 ```
-php composer.phar require --prefer-dist neoacevedo/yii2-material3
+php composer.phar require --prefer-dist neoacevedo/yii2-material
 ```
 
 o agregue
 
 ```js
-"neoacevedo/yii2-material3": "*"
+"neoacevedo/yii2-material": "*"
 ```
 
 a la sección require de su archivo `composer.json`.

@@ -30,9 +30,9 @@ use yii\base\Widget;
  * ```php
  * echo Button::widget([
  *     'label' => 'Action',
- *     'type' => Button::TYPE_FILLED, // si no se especifica, por defecto será 'outlined'
  *     'options' => [
  *          'icon' => 'send',
+ *          'variant' => Button::TYPE_FILLED, // si no se especifica, por defecto será 'outlined'
  *          'trailing-icon' => false, // true si el ícono va a la derecha del label.
  *      ],
  * ]);
@@ -47,7 +47,7 @@ class Button extends Widget
 
     const TYPE_FILLED = 'filled';
 
-    const TYPE_TONAL = 'tonal';
+    const TYPE_TONAL = 'filled-tonal';
 
     const TYPE_ELEVATED = 'elevated';
 

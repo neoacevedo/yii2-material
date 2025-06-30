@@ -195,7 +195,7 @@ class Dialog extends Widget
             $header = Html::tag('span', $this->title, ['style' => 'flex: 1;']);
         }
 
-        if ($closeButton !== null) {
+        if (isset($closeButton)) {
             $header .= "\n$closeButton";
         } elseif ($header === '') {
             return '';

@@ -42,7 +42,6 @@ use yii\base\Widget;
  */
 class Button extends Widget
 {
-
     const TYPE_OUTLINED = 'outlined';
 
     const TYPE_FILLED = 'filled';

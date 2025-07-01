@@ -146,7 +146,14 @@ class Dialog extends Widget
      */
     protected function renderBodyBegin(): string
     {
-        return Html::beginTag('form', array_merge(['slot' => 'content', 'method' => 'dialog'], $this->bodyOptions));
+        $action = ArrayHelper::getValue($this->bodyOptions, 'action', '');
+        unset($this->bodyOptions['action']);
+        // return Html::beginTag('form', array_merge(['slot' => 'content', 'method' => 'dialog'], $this->bodyOptions));
+        return Html::beginForm(
+            action: $this->bodyOptions['action'] ?? '',
+            method: 'dialog',
+            options: array_merge(['slot' => 'content'], $this->bodyOptions)
+        );
     }
 
     /**
@@ -155,7 +162,7 @@ class Dialog extends Widget
      */
     protected function renderBodyEnd(): string
     {
-        return Html::endTag('form');
+        return Html::endForm();
     }
 
     /**

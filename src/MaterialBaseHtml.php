@@ -378,6 +378,10 @@ abstract class MaterialBaseHtml extends BaseHtml
             return static::tag("md-$variant-$type-field", $content, $options);
         }
 
+        if ($type === 'hidden') {
+            return parent::input($type, $name, $value, $options);
+        }
+
         return static::tag("md-$type", $content, $options);
     }
 

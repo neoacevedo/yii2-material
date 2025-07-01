@@ -23,6 +23,7 @@ namespace neoacevedo\yii2\material\widgets;
 use neoacevedo\yii2\material\Html;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 
 class Dialog extends Widget
@@ -146,14 +147,9 @@ class Dialog extends Widget
      */
     protected function renderBodyBegin(): string
     {
-        $action = ArrayHelper::getValue($this->bodyOptions, 'action', '');
+        $action = Url::to(ArrayHelper::getValue($this->bodyOptions, 'action'));
         unset($this->bodyOptions['action']);
-        // return Html::beginTag('form', array_merge(['slot' => 'content', 'method' => 'dialog'], $this->bodyOptions));
-        return Html::beginForm(
-            action: $this->bodyOptions['action'] ?? '',
-            method: 'dialog',
-            options: array_merge(['slot' => 'content'], $this->bodyOptions)
-        );
+        return Html::beginTag('form', ['slot' => 'content', 'method' => 'dialog', 'action' => $action] + $this->bodyOptions);
     }
 
     /**
@@ -162,7 +158,7 @@ class Dialog extends Widget
      */
     protected function renderBodyEnd(): string
     {
-        return Html::endForm();
+        return Html::endTag('form');
     }
 
     /**

@@ -196,8 +196,23 @@ class Material3ActiveField extends ActiveField
     }
 
     /**
-     * @inheritdoc
-     * @throws InvalidConfigException
+     * Renders a drop-down list.
+     * The selection of the drop-down list is taken from the value of the model attribute.
+     * @param array $items the option data items. The array keys are option values, and the array values
+     * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+     * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+     * If you have a list of data models, you may convert them into the format described above using
+     * [[ArrayHelper::map()]].
+     *
+     * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+     * the labels will also be HTML-encoded.
+     * @param array $options the tag options in terms of name-value pairs.
+     *
+     * For the list of available options please refer to the `$options` parameter of [[\yii\helpers\Html::activeDropDownList()]].
+     *
+     * If you set a custom `id` for the input element, you may need to adjust the [[$selectors]] accordingly.
+     *
+     * @return $this the field object itself.
      */
     public function dropDownList($items, $options = [])
     {
@@ -215,17 +230,30 @@ class Material3ActiveField extends ActiveField
     }
 
     /**
-     * @inheritdoc
-     * @throws InvalidConfigException
+     * Renders a file input.
+     * This method will generate the `name` and `value` tag attributes automatically for the model attribute
+     * unless they are explicitly specified in `$options`.
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[Html::encode()]].
+     *
+     * If you set a custom `id` for the input element, you may need to adjust the [[$selectors]] accordingly.
+     *
+     * @return $this the field object itself.
      */
     public function fileInput($options = [])
     {
         return parent::fileInput($options);
     }
 
-    /**
-     * @inheritdoc
-     * @throws InvalidConfigException
+     /**
+     * Renders an input tag.
+     * @param string $type the input type (e.g. `text`, `password`)
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[Html::encode()]].
+     *
+     * If you set a custom `id` for the input element, you may need to adjust the [[$selectors]] accordingly.
+     *
+     * @return $this the field object itself.
      */
     public function input($type, $options = [])
     {

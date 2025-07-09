@@ -7,6 +7,8 @@ Yii2 Material
 
 > Que sea software libre, no quiere decir que los servicios públicos lo sean. 
 
+[![Latest Stable Version](http://poser.pugx.org/neoacevedo/yii2-chartjs-widget/v)](https://packagist.org/packages/neoacevedo/yii2-chartjs-widget) [![Total Downloads](http://poser.pugx.org/neoacevedo/yii2-chartjs-widget/downloads)](https://packagist.org/packages/neoacevedo/yii2-chartjs-widget) [![Latest Unstable Version](http://poser.pugx.org/neoacevedo/yii2-chartjs-widget/v/unstable)](https://packagist.org/packages/neoacevedo/yii2-chartjs-widget) [![License](http://poser.pugx.org/neoacevedo/yii2-chartjs-widget/license)](https://packagist.org/packages/neoacevedo/yii2-chartjs-widget) [![PHP Version Require](http://poser.pugx.org/neoacevedo/yii2-chartjs-widget/require/php)](https://packagist.org/packages/neoacevedo/yii2-chartjs-widget)
+
 Esta es una extensión primaria para [Yii framework 2.0](https://www.yiiframework.com). Encapsula componentes de [Material Design](https://m3.material.io/) en términos de Widgets Yii.
 
 **NOTA**: Material Web 3 no tiene los componentes `Card`, `Snackbar`, `TopAppBar` ni `NavigationRail`, así que se han creado desde 0 intentando seguir los lineamientos del diseño de Material 3.

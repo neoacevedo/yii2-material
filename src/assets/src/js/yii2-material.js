@@ -23,14 +23,6 @@ let materialInitForm = function (id, errorClass) {
 
 };
 
-function closeSnackbar(id) {
-    const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector(id));
-    snackbar.open();
-    setTimeout(() => {
-        snackbar.close();
-    }, 3000);
-}
-
 (function ($) {
     materialInitForm = function () {
         var controls = ['md-outlined-text-field', 'md-filled-text-field', 'md-outlined-select', 'md-filled-select'],

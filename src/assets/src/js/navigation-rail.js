@@ -135,6 +135,8 @@ class NavigationRail extends HTMLElement {
                   justify-content: center;
                   text-align: center;
                   margin-bottom: 12px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
                 `;
 
                 if (icon) {
@@ -175,8 +177,8 @@ class NavigationRail extends HTMLElement {
                 }
 
                 if (label) {
+                  label.classList.add('md-typescale-label-medium');
                   label.style = `
-                    font-size: 12px;
                     margin-top: 4px;
                     text-align: center;
                     pointer-events: none;

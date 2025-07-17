@@ -81,6 +81,7 @@ use yii\helpers\ArrayHelper;
  * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  * 
  * @see https://m3.material.io/components/navigation-rail/guidelines
+ * @deprecated Desde M3 Expressive, el Navigation Rail estará marcado como [obsoleto](https://m3.material.io/components/navigation-rail/specs#66f05a75-977e-4543-943c-3ba4e3870652), enfocándose en 2 tipos: Collapsed y Expanded. 
  */
 class NavigationRail extends Widget
 {

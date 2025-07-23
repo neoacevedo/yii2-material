@@ -125,54 +125,74 @@ class NavigationRail extends HTMLElement {
                 const icon = navItem.querySelector('.icon');
                 const label = navItem.querySelector('.label');
 
-                navItem.style = `
-                  width: 80px;
-                  height: 56px;
-                  padding-left: 12px;
-                  padding-right: 12px;
-                  color: var(--md-sys-color-primary);
-                  text-decoration: none;
-                  justify-content: center;
-                  text-align: center;
-                  margin-bottom: 12px;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
+                navItem.innerHTML += `
+                  <style>
+                    .nav-item {
+                      color: var(--md-sys-color-primary);
+                      width: 80px;
+                      height: 56px;
+                      padding-left: 12px;
+                      padding-right: 12px;
+                      text-decoration: none;
+                      justify-content: center;
+                      text-align: center;
+                      margin-bottom: 12px;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    }
+                  </style>
                 `;
 
                 if (icon) {
-                  icon.style = `
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 56px;
-                    height: 24px;
-                    margin-right: auto;
-                    margin-left: auto;
-                    border-radius: 16px;
-                    transition-duration: .2s;
-                    transition-property: transform,opacity;
+                  icon.innerHTML += `
+                    <style>
+                      .icon {
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 56px;
+                        height: 24px;
+                        margin-right: auto;
+                        margin-left: auto;
+                        border-radius: 16px;
+                        transition-duration: .2s;
+                        transition-property: transform,opacity;
+                      }
+                    </style>
                   `;
 
-
                   if (navItem.classList.contains('active')) {
-                    icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-                    icon.style.opacity = 1;
-                    icon.style.transform = 'scaleX(1)';
-                    icon.style.height = '36px';
+                    navItem.innerHTML += `
+                        <style>
+                          .active .icon {
+                            position: relative;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            background-color: var(--md-sys-color-surface-container);
+                            color: var(--md-sys-color-on-secondary-container);
+                            opacity: 1;
+                            transform: scaleX(1);
+                            margin-right: auto;
+                            margin-left: auto;
+                            border-radius: 16px;
+                          }
+                        </style>
+                      `;
                   }
 
                   navItem.addEventListener('mouseenter', () => {
-                    icon.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
+                    navItem.style.fontVariationSettings = '"FILL" 1, "wght" 600,"opsz" 24';
                   });
 
                   navItem.addEventListener('mouseleave', () => {
-                    if (navItem.classList.contains('active')) {
-                      icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
-                    } else {
-                      icon.style.backgroundColor = '';
-                    }
-                    icon.style.fontVariationSettings = '"wght" 400,"opsz" 24';
+                    // if (navItem.classList.contains('active')) {
+                    //   icon.style.backgroundColor = 'var(--md-sys-color-surface-container)';
+                    // } else {
+                    //   icon.style.backgroundColor = '';
+                    // }
+                    navItem.style.fontVariationSettings = '';
                   });
                 }
 

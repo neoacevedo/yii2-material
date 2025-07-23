@@ -1,7 +1,6 @@
 
 /**
- * @preserve
- * @copyright Copyright (c) 2024 neoacevedo
+ * @copyright neoacevedo, 2025
  * @subpackage yii2-material
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * @endpreserve
  */
 
 let materialInitForm = function (id, errorClass) {
@@ -51,5 +49,3 @@ let materialInitForm = function (id, errorClass) {
     };
 
 })(window.jQuery);
-
-

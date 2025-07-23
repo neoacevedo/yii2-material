@@ -1,7 +1,5 @@
 /**
- * @preserve
- * 
- * @copyright Copyright (c) 2025 neoacevedo
+ * @copyright neoacevedo, 2025
  * @subpackage yii2-material
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,8 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * @endpreserve
  */
 
 class NavigationDrawer extends HTMLElement {
@@ -145,10 +141,9 @@ class NavigationDrawer extends HTMLElement {
                 if (drawerItem.hasAttribute('selected')) {
                   drawerItem.style = `
                     border-radius: var(--md-sys-shape-corner-full);
-                    background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.16);
+                    background-color: rgba(var(--md-sys-color-secondary-container), 0.16);
                     color: var(--md-sys-color-primary);
                   `;
-                  console.debug(drawerItem.style);
                 }
               }
             });

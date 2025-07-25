@@ -1,5 +1,4 @@
 /**
- * @preserve
  * @copyright Copyright (c) 2024 neoacevedo
  * @subpackage yii2-material
  *
@@ -15,22 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * @endpreserve
  */
 
 class Snackbar extends HTMLElement {
     constructor() {
         super();
         this._shadowRoot = this.attachShadow({ mode: 'open' });
-        this._showCloseIcon = this.getAttribute('show-close-icon') ?? false;
+        this._showCloseIcon = this.getAttribute('show-close-icon');
         this._duration = this.getAttribute('duration') ?? 3;
         this._shadowRoot.innerHTML = `
             <style>
                 :host {
+                    --md-icon-button-icon-color: var(--md-sys-color-inverse-on-surface);
+                    --md-icon-button-hover-icon-color: var(--md-sys-color-inverse-on-surface);
+                    --md-icon-button-focused-icon-color: var(--md-sys-color-inverse-on-surface);
+                    --md-icon-button-hover-state-layer-color: var(--md-sys-color-inverse-primary);
+                    --md-icon-button-focused-state-layer-color: var(--md-sys-color-inverse-primary);
+                    --md-text-button-label-text-color: var(--md-sys-color-inverse-primary);
+                    
                     font-family: 'Roboto';
                     font-size: 14px;
                     font-weight: 500;
-                    --md-sys-color-primary: #333;
+                    display:flex;flex-direction:column;position:relative;z-index:0;
                 }
 
                 .snackbar {
@@ -40,13 +45,14 @@ class Snackbar extends HTMLElement {
                     align-content: center;
                     left: 50%;
                     transform: translateX(-50%);
-                    background-color: #333;
-                    color: white;
+                    background-color: var(--md-sys-color-inverse-surface);
+                    color: var(--md-sys-color-inverse-on-surface);
                     border-radius: 4px;
                     min-width: 288px;
                     min-height: 48px;
                     max-height: 68px;
-                    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+                    /*box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);*/
+                    box-shadow: 0 2px 5px 0 var(--md-sys-color-shadow);
                     transition: visibility 0s, opacity 0.5s linear;
                 }
 
@@ -73,6 +79,7 @@ class Snackbar extends HTMLElement {
                 }
             </style>
             <div class="snackbar" id="snackbar">
+                <md-elevation part="elevation" aria-hidden="true"></md-elevation>
                 <div class="content">
                     <slot name="supporting-text"></slot>
                     <div id="actions" class="actions">
@@ -83,22 +90,33 @@ class Snackbar extends HTMLElement {
         `;
         this._snackbar = this._shadowRoot.getElementById('snackbar');
         this._actions = this._shadowRoot.getElementById('actions');
-        console.debug(this._showCloseIcon);
+
+        // Define showSnackbar as a method of the class, not as a property of the instance.
+        // This makes it publicly accessible.
+        this.showSnackbar = this._showSnackbar.bind(this);
+    }
+
+    _showSnackbar = () => {
+        this._snackbar.classList.toggle('show');
+        setTimeout(() => {
+            this._snackbar.classList.remove('show');
+        }, this._duration * 1000);
     }
 
     connectedCallback() {
-        if (this._showCloseIcon == 'true') {
-            this._actions.innerHTML += `<md-filled-icon-button id="closeButton"><md-icon>close</md-icon></md-filled-icon-button>`;
+        if (this._showCloseIcon !== null) {
+            this._actions.innerHTML += `<md-icon-button id="closeButton"><md-icon>close</md-icon></md-icon-button>`;
             this._closeButton = this._shadowRoot.getElementById('closeButton');
             // Event listener for the close button
             this._closeButton.addEventListener('click', () => {
-                this._snackbar.classList.remove('show');
                 setTimeout(() => {
-                    this._snackbar.style.display = 'none';
-                }, 500); // wait for the transition to complete before hiding it completely
+                    console.debug('Removiendo');
+                    this._snackbar.classList.toggle('show');
+                    // this._snackbar.classList.toggle('show');
+                }, 250); // wait for the transition to complete before hiding it completely
             });
         }
-        this.showSnackbar();
+        // this.showSnackbar();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -116,16 +134,6 @@ class Snackbar extends HTMLElement {
                 this._snackbar.style.transform = 'translateX(-50%)';
             }
         }
-    }
-
-    showSnackbar() {
-        this._snackbar.classList.add('show');
-        setTimeout(() => {
-            this._snackbar.classList.remove('show');
-            setTimeout(() => {
-                this._snackbar.style.display = 'none';
-            }, 500); // wait for the transition to complete before hiding it completely
-        }, this._duration * 1000); // show snackbar for 3 seconds
     }
 }
 

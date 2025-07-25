@@ -43,7 +43,14 @@ use yii\base\Widget;
  */
 class Snackbar extends Widget
 {
+    /**
+     * @deprecated
+     */
     const TYPE_LEADING = 'leading';
+
+    /**
+     * @deprecated
+     */
     const TYPE_STACKED = 'stacked';
 
     /**

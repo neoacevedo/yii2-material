@@ -86,8 +86,10 @@ Este componente web de Material también puede ser usado de manera directa en el
     <div slot="supporting-text">Mensaje al hacer clic en el botón de cerrar</div>
 </md-snackbar>
 
-<md-snackbar id="snackbar2">
+<md-snackbar id="snackbar2" disable-auto-hide="">
     <div slot="supporting-text">Mensaje que se oculta manualmente</div>
+    <md-text-button slot="action"
+                onclick="alert('Ocultamos el snackbar'); document.getElementById('snackbar2').hide();">Aceptar</md-text-button>
 </md-snackbar>
 ```
 

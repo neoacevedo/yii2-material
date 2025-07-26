@@ -18,7 +18,7 @@ Define el botón de acción que se muestra en el snackbar.
 
 ```php
 'action' => '<button>Reintentar</button>',
-````
+```
 
 o
 
@@ -26,7 +26,7 @@ o
 'action' => \neoacevedo\yii2\material\Html::button('Reintentar', ['class' => 'my-class']),
 ```
 
-\<br\>
+<br>
 
 ### `options`
 
@@ -40,8 +40,9 @@ Un array con los atributos HTML para la etiqueta contenedora del widget (`<md-sn
 
   - `show-close-icon`: **(string)** Controla la visibilidad del ícono para cerrar el snackbar. Debe ser un string `'true'` o `'false'`. Si se omite, el botón no se muestra.
   - `duration`: **(int)** El tiempo en segundos que el snackbar permanecerá visible. El valor por defecto es de 3 segundos.
+  - `disable-auto-hide`: **(string)** Inactiva la visibilidad del snackbar. Por defecto el snackbar se oculta después de 3 segundos o del valor configurado en `show-close-icon`. Agregando este parámetro, el snackbar no se ocultará de modo automático. Esto es útil cuando se tiene un botón de acción que requiera una respuestá del usuario.
 
-\<br\>
+<br>
 
 ### `supportingText`
 
@@ -53,7 +54,7 @@ El texto principal que se mostrará dentro del snackbar.
 
 -----
 
-## Ejemplo de Uso
+## Ejemplo de Uso en PHP
 
 A continuación se muestra un ejemplo básico de cómo implementar el widget `Snackbar` en una vista de Yii2.
 
@@ -69,7 +70,7 @@ echo Snackbar::widget([
         'show-close-icon' => 'true', // Muestra el botón de cerrar
         'duration' => 5,             // Visible por 5 segundos
     ],
-    'action' => '<button>Acción</button>', // O un botón Html::button() o con el componente directo Button::widget([...])
+    'action' => '<md-text-button>Acción</md-text-button>', // O un botón Html::button() o con el componente directo Button::widget([...])
 ]);
 ?>
 ```
@@ -77,8 +78,54 @@ echo Snackbar::widget([
 Este componente web de Material también puede ser usado de manera directa en el html:
 
 ```html
-<md-snackbar>
-    <div slot="supporting-text">...</div>
-    <div slot="actions">...</div>
+<md-snackbar id="snackbar0">
+    <div slot="supporting-text">Mensaje automático al cargar la página</div>
+</md-snackbar>
+
+<md-snackbar id="snackbar1" show-close-icon="">
+    <div slot="supporting-text">Mensaje al hacer clic en el botón de cerrar</div>
+</md-snackbar>
+
+<md-snackbar id="snackbar2">
+    <div slot="supporting-text">Mensaje que se oculta manualmente</div>
 </md-snackbar>
 ```
+
+-----
+
+## Ejemplo de Uso en JavaScript
+
+Puedes controlar la visibilidad del snackbar desde JavaScript usando los métodos públicos `showSnackbar()` y `hide()`:
+
+```js
+// Se mostrará el primer snackbar solo al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    let snackbar = document.querySelector('#snackbar0');
+    snackbar.showSnackbar();
+});
+
+// Mostrar el segundo snackbar al hacer clic en un botón de cerrar personalizado
+snackbarCloseBtn?.addEventListener('click', () => {
+    let snackbar = document.querySelector('#snackbar1');
+    snackbar.showSnackbar();
+});
+
+// Ocultar manualmente el tercer snackbar
+document.getElementById('snackbar2').hide();
+```
+
+-----
+
+## Enlaces útiles
+
+- [Material 3 Snackbar Guidelines](https://m3.material.io/components/snackbar/guidelines)
+- [Documentación de Yii2 Widgets](https://www.yiiframework.com/doc/api/2.0/yii-base-widget)
+- [Material Web Snackbar](https://material-web.dev/components/snackbar/)
+
+-----
+
+## Licencia
+
+Este programa es software libre distribuido bajo la [Licencia Pública General GNU v3](http://www.gnu.org/licenses/).
+
+-----

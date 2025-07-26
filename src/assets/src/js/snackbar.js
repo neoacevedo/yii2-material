@@ -44,7 +44,7 @@ class Snackbar extends HTMLElement {
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._showCloseIcon = this.getAttribute('show-close-icon');
         this._duration = this.getAttribute('duration') ?? 3;
-        this._autoHide = this.getAttribute('auto-hide');
+        this._disableAutoHide = this.getAttribute('disable-auto-hide');
         this._hideTimeout = null;
         this._shadowRoot.innerHTML = `
             <style>
@@ -181,7 +181,7 @@ class Snackbar extends HTMLElement {
             });
 
             // Set auto-hide timeout if the 'auto-hide' attribute is NOT present
-            if (this._autoHide === null) {
+            if (this._disableAutoHide === null) {
                 this._hideTimeout = setTimeout(() => {
                     this._snackbar.classList.remove('show'); // Start fade-out and slide-down transition
                     // Set display to none AFTER the CSS transition completes (0.3s)

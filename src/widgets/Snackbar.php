@@ -37,9 +37,11 @@ use yii\base\Widget;
  *         'show-close-icon' => 'true', // Muestra el botón de cerrar el snackbar. Si se omite o se establece en 'false', no se mostrará el botón
  *         'duration' => 3, 
  *     ],
- *     'action' => '<button>Botón</button>', // O un botón Html::button()
+ *     'action' => '<md-text-button>Botón</md-text-button>', 
  * ]);
  * ```
+ * 
+ * @see https://m3.material.io/components/snackbar/overview 
  */
 class Snackbar extends Widget
 {
@@ -69,6 +71,7 @@ class Snackbar extends Widget
      * - `show-close-icon`: cuando renderizar o no el botón de cererar. El valor booleano debe ser establecido como string para que tenga efecto.
      *      Si es omitido, el botón no será mostrado.
      * - `duration`: el tiempo en segundos en que el snackbar estará visible. Por defecto, el snackbar estará visible un máximo de 3 segundos.
+     * - `disable-auto-hide`: Innhabilita que el snackbar se oculte automáticamente después de un tiempo.
      *
      * @see [\yii\helpers\Html::renderTagAttributes()](https://www.yiiframework.com/doc/api/2.0/yii-helpers-html#renderTagAttributes()-detail) for details on how attributes are being rendered.
      * @see https://material-web.dev/components/dialog/#properties for dialog properties.

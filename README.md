@@ -59,4 +59,5 @@ Componentes
 - [NavigationRail](docs/NAVIGATIONRAIL.md)
 - [ProgressIndicator](docs/PROGRESSINDICATOR.md) 
 - [Radio](docs/RADIO.md)
+- [Select](docs/SELECT.md)
 - [SnackBar](docs/SNACKBAR.md)

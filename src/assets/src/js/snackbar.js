@@ -141,7 +141,7 @@ class Snackbar extends HTMLElement {
          * @method hide
          * @description
          * Public method to hide the snackbar.
-         * When the `auto-hide` attribute is present, the snackbar will hide 
+         * When the `disable-auto-hide` attribute is present, the snackbar will hide 
          * after calling this method.
          */
         this.hide = this._hide.bind(this);

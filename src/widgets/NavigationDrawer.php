@@ -35,10 +35,11 @@ use yii\helpers\Url;
  * Se tiene en cuenta que MWC ahora se encuentra en [modo mantenimiento](https://github.com/material-components/material-web/discussions/5642) y es posible que quede obsoleto.
  * 
  * @see https://m3.material.io/components/navigation-drawer/guidelines
+ * 
+ * @deprecated Material Design Expressive ha marcado este componente como obsoleto, en reemplazo de [NavigationRail].
  */
 class NavigationDrawer extends Widget
 {
-
     const DRAWER_MODAL = 'modal';
 
     const DRAWER_STANDARD = 'standard';

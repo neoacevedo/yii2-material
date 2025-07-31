@@ -44,21 +44,37 @@ class Menu extends Widget
     const POSITION_RELATIVE = 'relative';
 
     /**
-     * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
+     * @var array Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
      * - url: string|array, la dirección URL de destino.
      * - options: array, opcional, atributos del elemento. 
-     * - leading: string, el ícono inicial del elemento.
-     * - overline: string, la etiqueta superior del elemento.
-     * - headline: string, la etiqueta principal del elemento.
-     * - supporting-text: string, texto auxiliar que estará justo después del headline.
-     * - trailing-supporting-text: string, texto que estará al final el elemento. Este puede constar de un ícono o un texto indicativo de atajo de teclado.
+     * - overline: string|array, la etiqueta superior del elemento. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
+     * - leading: string|array, el texto inicial del elemento, generalmente reservado para un icono. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
+     * - headline: string|array, la etiqueta principal del elemento. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
+     * - supporting-text: string|array, texto auxiliar que estará justo después del headline. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
+     * - trailing-supporting-text: string|array, texto que estará al final el elemento. Este puede constar de un ícono o un texto indicativo de atajo de teclado. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
+     * - trailing: string|array, el texto final del elemento, generalmente reservado para un icono. Si es un array, las siguientes opciones serán manejadas:
+     *   - options: array, opcional, atributos de la etiqueta.
+     *   - label: string, texto de la etiqueta.
      * 
-     * El elemento puede ser también un string HTML que contenga un [[FloatingActionButton]].
-     * @see https://m3.material.io/components/navigation-rail/guidelines#b51e4558-351f-4368-af8d-bbf1f63f68b4
-     * 
-     * @var array
+     * El elemento puede ser también un string HTML que contenga un [[FloatingActionButton]]. 
      */
     public $items = [];
+
+    /**
+     * @var array Opciones de la etiqueta en términos de nombre-valor. 
+     * 
+     * @see \yii\helpers\Html::renderTagAttributes() para detalles de cómo los atributos son renderizados.
+     */
     public $options = []; // Opciones para el contenedor del menú (<ul>)
 
     /**
@@ -130,8 +146,12 @@ class Menu extends Widget
             $item['options'] = [];
         }
 
-        $leading = isset($item['leading']) ? Html::tag('md-icon', $item['leading'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n" : '';
-        $trailing = isset($item['trailing']) ? Html::tag('md-icon', $item['trailing'], array_merge($item['leading']['options'], ['slot' => 'end'])) . "\n" : '';
+        $leading = isset($item['leading']) ? is_array($item['leading']) ? Html::tag('md-icon', $item['leading']['label'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n"
+            : Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
+
+        $trailing = isset($item['trailing']) ? is_array($item['trailing']) ? Html::tag('md-icon', $item['trailing']['label'], array_merge($item['trailing']['options'], ['slot' => 'end'])) . "\n" :
+            Html::tag('md-icon', $item['trailing'], ['slot' => 'end']) . "\n" : '';
+
         $url = ArrayHelper::getValue($item['options'], 'href', false);
 
         if ($url !== false) {
@@ -143,10 +163,55 @@ class Menu extends Widget
             $html .= Html::tag('md-divider', '', $item['options']);
         } else {
             $html .= $leading;
-            $html .= Html::tag('div', $item['overline'], array_merge($item['overline']['options'], ['slot' => 'overline'])) . "\n";
-            $html .= Html::tag('div', $item['headline'], array_merge($item['headline']['options'], ['slot' => 'headline'])) . "\n";
-            $html .= Html::tag('div', $item['supporting-text'], array_merge($item['supporting-text']['options'], ['slot' => 'supporting-text'])) . "\n";
-            $html .= Html::tag('div', $item['trailing-supporting-text'], array_merge($item['trailing-supporting-text']['options'], ['slot' => 'trailing-supporting-text'])) . "\n";
+            if (isset($item['overline'])) {
+                $html .= is_array($item['overline']) ? Html::tag(
+                    'div',
+                    $item['overline']['label'] ?? '',
+                    array_merge($item['overline']['options'] ?? [], ['slot' => 'overline'])
+                ) . "\n" : Html::tag(
+                        'div',
+                        $item['overline'],
+                        ['slot' => 'overline']
+                    ) . "\n";
+
+            }
+
+            if (isset($item['headline'])) {
+                $html .= is_array($item['headline']) ? Html::tag(
+                    'div',
+                    $item['headline']['label'] ?? '',
+                    array_merge($item['headline']['options'] ?? [], ['slot' => 'headline'])
+                ) . "\n" : Html::tag(
+                        'div',
+                        $item['headline'],
+                        ['slot' => 'headline']
+                    ) . "\n";
+            }
+
+            if (isset($item['supporting-text'])) {
+                $html .= is_array($item['supporting-text']) ? Html::tag(
+                    'div',
+                    $item['supporting-text']['label'] ?? '',
+                    array_merge($item['supporting-text']['options'] ?? [], ['slot' => 'supporting-text'])
+                ) . "\n" : Html::tag(
+                        'div',
+                        $item['supporting-text'],
+                        ['slot' => 'supporting-text']
+                    ) . "\n";
+            }
+
+            if (isset($item['trailing-supporting-text'])) {
+                $html .= is_array($item['trailing-supporting-text']) ? Html::tag(
+                    'div',
+                    $item['trailing-supporting-text']['label'] ?? '',
+                    array_merge($item['trailing-supporting-text']['options'] ?? [], ['slot' => 'trailing-supporting-text'])
+                ) . "\n" : Html::tag(
+                        'div',
+                        $item['trailing-supporting-text'],
+                        ['slot' => 'trailing-supporting-text']
+                    ) . "\n";
+            }
+
             $html .= $trailing;
         }
 

@@ -172,7 +172,7 @@ class NavigationDrawer extends Widget
             }
         }
 
-        echo Html::list(items: $items, options: $this->options);
+        echo Html::list(items: $items);
     }
 
     /**

@@ -402,26 +402,26 @@ abstract class MaterialBaseHtml extends BaseHtml
      *              'overline' => 'Overline Opción 2',
      *              'headline' => 'Opción 2',
      *              'supporting-text' => 'Lorem Ipsum',
-     *              'trailing-supporting-text'
+     *              'trailing-supporting-text' => 'Data'
      *          ],
      *          [
      *              'overline' => 'Overline Opción 3',
-     *              'leading-icon' => 'event',
+     *              'leading' => '<md-icon>event</md-icon>',
      *              'headline' => 'Opción 3',
      *              'supporting-text' => 'Lorem Ipsum',
-     *              'trailing-supporting-text',
-     *              'trailing-icon' => 'star'
+     *              'trailing-supporting-text' => 'Data,
+     *              'trailing' => '<md-icon>star</md-icon>'
      *          ],
      *          [
      *              'headline' => 'Opción 4',
-     *              'leading-icon' => 'star',
+     *              'leading' => '<md-icon>star</md-icon>'
      *              'options' => [
      *                  'type' => 'button',
      *              ]
      *          ],
      *          [
      *              'headline' => 'Opción 5',
-     *              'trailing-icon' => 'open_in_new',
+     *              'trailing' => '<md-icon>open_in_new</md-icon>'
      *              'options' => [
      *                  'type' => 'link',
      *                  'href' => 'https://google.com',
@@ -747,14 +747,60 @@ abstract class MaterialBaseHtml extends BaseHtml
                     $item['options']['type'] = 'text';
                 }
 
-                $text = isset($item['overline']) ? static::tag('div', $item['overline'], ['slot' => 'overline']) : '';
-                // 
-                $text .= isset($item['headline']) ? static::tag('div', $item['headline'], ['slot' => 'headline']) : $item['headline'];
-                //
-                $text .= isset($item['leading-icon']) ? static::tag('md-icon', $item['leading-icon'], ['slot' => 'start']) : '';
-                $text .= isset($item['supporting-text']) ? static::tag('div', $item['supporting-text'], ['slot' => 'supporting-text']) : '';
-                $text .= isset($item['trailing-supporting-text']) ? static::tag('div', $item['trailing-supporting-text'], ['slot' => 'trailing-supporting-text']) : '';
-                $text .= isset($item['trailing-icon']) ? static::tag('md-icon', $item['trailing-icon'], ['slot' => 'end']) : '';
+                if (isset($item['overline'])) {
+                    $text .= is_array($item['overline']) ? Html::tag(
+                        'div',
+                        $item['overline']['label'] ?? '',
+                        array_merge($item['overline']['options'] ?? [], ['slot' => 'overline'])
+                    ) . "\n" : Html::tag(
+                            'div',
+                            $item['overline'],
+                            ['slot' => 'overline']
+                        ) . "\n";
+
+                }
+
+                if (isset($item['headline'])) {
+                    $text .= is_array($item['headline']) ? Html::tag(
+                        'div',
+                        $item['headline']['label'] ?? '',
+                        array_merge($item['headline']['options'] ?? [], ['slot' => 'headline'])
+                    ) . "\n" : Html::tag(
+                            'div',
+                            $item['headline'],
+                            ['slot' => 'headline']
+                        ) . "\n";
+                }
+
+                if (isset($item['supporting-text'])) {
+                    $text .= is_array($item['supporting-text']) ? Html::tag(
+                        'div',
+                        $item['supporting-text']['label'] ?? '',
+                        array_merge($item['supporting-text']['options'] ?? [], ['slot' => 'supporting-text'])
+                    ) . "\n" : Html::tag(
+                            'div',
+                            $item['supporting-text'],
+                            ['slot' => 'supporting-text']
+                        ) . "\n";
+                }
+
+                if (isset($item['trailing-supporting-text'])) {
+                    $text .= is_array($item['trailing-supporting-text']) ? Html::tag(
+                        'div',
+                        $item['trailing-supporting-text']['label'] ?? '',
+                        array_merge($item['trailing-supporting-text']['options'] ?? [], ['slot' => 'trailing-supporting-text'])
+                    ) . "\n" : Html::tag(
+                            'div',
+                            $item['trailing-supporting-text'],
+                            ['slot' => 'trailing-supporting-text']
+                        ) . "\n";
+                }
+
+                $text .= isset($item['leading']) ? is_array($item['leading']) ? Html::tag('md-icon', $item['leading']['label'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n"
+                    : Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
+
+                $text .= isset($item['trailing']) ? is_array($item['trailing']) ? Html::tag('md-icon', $item['trailing']['label'], array_merge($item['trailing']['options'], ['slot' => 'end'])) . "\n" :
+                    Html::tag('md-icon', $item['trailing'], ['slot' => 'end']) . "\n" : '';
 
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);

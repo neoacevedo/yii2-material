@@ -43,6 +43,21 @@ class Menu extends Widget
     const POSITION_FIXED = 'fixed';
     const POSITION_RELATIVE = 'relative';
 
+    /**
+     * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
+     * - url: string|array, la dirección URL de destino.
+     * - options: array, opcional, atributos del elemento. 
+     * - leading: string, el ícono inicial del elemento.
+     * - overline: string, la etiqueta superior del elemento.
+     * - headline: string, la etiqueta principal del elemento.
+     * - supporting-text: string, texto auxiliar que estará justo después del headline.
+     * - trailing-supporting-text: string, texto que estará al final el elemento. Este puede constar de un ícono o un texto indicativo de atajo de teclado.
+     * 
+     * El elemento puede ser también un string HTML que contenga un [[FloatingActionButton]].
+     * @see https://m3.material.io/components/navigation-rail/guidelines#b51e4558-351f-4368-af8d-bbf1f63f68b4
+     * 
+     * @var array
+     */
     public $items = [];
     public $options = []; // Opciones para el contenedor del menú (<ul>)
 
@@ -115,8 +130,8 @@ class Menu extends Widget
             $item['options'] = [];
         }
 
-        $leading = isset($item['leading']) ? Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
-        $trailing = isset($item['trailing']) ? Html::tag('md-icon', $item['trailing'], ['slot' => 'end']) . "\n" : '';
+        $leading = isset($item['leading']) ? Html::tag('md-icon', $item['leading'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n" : '';
+        $trailing = isset($item['trailing']) ? Html::tag('md-icon', $item['trailing'], array_merge($item['leading']['options'], ['slot' => 'end'])) . "\n" : '';
         $url = ArrayHelper::getValue($item['options'], 'href', false);
 
         if ($url !== false) {
@@ -128,7 +143,10 @@ class Menu extends Widget
             $html .= Html::tag('md-divider', '', $item['options']);
         } else {
             $html .= $leading;
-            $html .= Html::tag('div', $item['headline'], ['slot' => 'headline']) . "\n";
+            $html .= Html::tag('div', $item['overline'], array_merge($item['overline']['options'], ['slot' => 'overline'])) . "\n";
+            $html .= Html::tag('div', $item['headline'], array_merge($item['headline']['options'], ['slot' => 'headline'])) . "\n";
+            $html .= Html::tag('div', $item['supporting-text'], array_merge($item['supporting-text']['options'], ['slot' => 'supporting-text'])) . "\n";
+            $html .= Html::tag('div', $item['trailing-supporting-text'], array_merge($item['trailing-supporting-text']['options'], ['slot' => 'trailing-supporting-text'])) . "\n";
             $html .= $trailing;
         }
 

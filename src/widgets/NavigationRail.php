@@ -122,7 +122,7 @@ class NavigationRail extends Widget
     /**
      * Lista de los elementos del Navigation Rail. Cada elemento puede ser un array con la siguiente estructura:
      * - url: string|array, la dirección URL de destino.
-     * - options: array, opcional, 
+     * - options: array, opcional, atributos del elemento. 
      * - icon: string, el ícono del elemento.
      * - label: string, la etiqueta del elemento.
      * 
@@ -134,11 +134,23 @@ class NavigationRail extends Widget
     public array $items = [];
 
     /**
-     * @var array the HTML attributes (name-value pairs) for the field container tag.
-     * The values will be HTML-encoded using [[Html::encode()]].
-     * If a value is `null`, the corresponding attribute will not be rendered.
+     * @var array Opciones de la etiqueta en términos de nombre-valor. Las siguientes opciones son especialmente manejadas:
+     * - contentOptions: array, opciones en términos de nombre-valor, similar al atributo `options`.
      * 
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     * Un ejemplo sería:
+     * 
+     * ```php
+     * <?php
+     * 
+     * [
+     *    'class' => 'clase-para-el-md-navigation-rail',
+     *    'contentOptions' => [
+     *        'class' => 'clase-para-el-contenedor-de-elementos'
+     *    ]
+     * ]
+     * ```
+     * 
+     * @see \yii\helpers\Html::renderTagAttributes() para detalles de cómo los atributos son renderizados.
      */
     public array $options = [];
 
@@ -155,6 +167,11 @@ class NavigationRail extends Widget
      */
     public function run(): void
     {
+        $content_options = array_merge(['slot' => 'content'], $this->options['contentOptions']);
+        $content_options['class'] = 'navigation-drawer-content ' . ArrayHelper::getValue($this->options['contentOptions'], 'class');
+
+        unset($this->options['contentOptions']);
+
         if ($this->route === null && Yii::$app->controller !== null) {
             $this->route = Yii::$app->controller->getRoute();
         }
@@ -168,7 +185,7 @@ class NavigationRail extends Widget
             echo Html::tag(name: 'div', content: $this->leading, options: ['slot' => 'leading', 'class' => 'leading']) . "\n";
         }
 
-        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-rail-content', 'slot' => 'content']) . "\n";
+        echo Html::beginTag(name: 'div', options: $content_options) . "\n";
         $this->renderItems();
 
         if ($this->trailing) {

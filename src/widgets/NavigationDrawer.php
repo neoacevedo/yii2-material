@@ -82,8 +82,31 @@ class NavigationDrawer extends Widget
      * 
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
+    /**
+     * @var array Opciones de la etiqueta en términos de nombre-valor. Las siguientes opciones son especialmente manejadas:
+     * - contentOptions: array, opciones en términos de nombre-valor, similar al atributo `options`.
+     * - type: string, [[self::DRAWER_MODAL]] or [[self::DRAWER_STANDARD]]. Predefinido a [[self::DRAWER_STANDARD]]
+     * 
+     * Un ejemplo sería: 
+     * 
+     * ```php
+     * <?php
+     * 
+     * [
+     *    'class' => 'clase-para-el-md-navigation-drawer',
+     *    'contentOptions' => [
+     *        'class' => 'clase-para-el-contenedor-de-elementos'
+     *    ]
+     * ]
+     * ```
+     * 
+     * @see \yii\helpers\Html::renderTagAttributes() para detalles de cómo los atributos son renderizados.
+     */
     public array $options = [];
 
+    /**
+     * @inheritDoc
+     */
     public function init(): void
     {
         $this->options = array_merge([
@@ -98,6 +121,11 @@ class NavigationDrawer extends Widget
      */
     public function run(): void
     {
+        $content_options = array_merge(['slot' => 'content'], $this->options['contentOptions']);
+        $content_options['class'] = 'navigation-drawer-content ' . ArrayHelper::getValue($this->options['contentOptions'], 'class');
+
+        unset($this->options['contentOptions']);
+
         if ($this->route === null && Yii::$app->controller !== null) {
             $this->route = Yii::$app->controller->getRoute();
         }
@@ -108,7 +136,7 @@ class NavigationDrawer extends Widget
 
         echo Html::beginTag(name: 'md-navigation-drawer', options: $this->options) . "\n";
 
-        echo Html::beginTag(name: 'div', options: ['class' => 'navigation-drawer-content', 'slot' => 'content']) . "\n";
+        echo Html::beginTag(name: 'div', options: $content_options) . "\n";
         $this->renderItems();
         echo Html::endTag(name: 'div') . "\n";
 

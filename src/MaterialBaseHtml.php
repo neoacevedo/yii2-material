@@ -731,6 +731,7 @@ abstract class MaterialBaseHtml extends BaseHtml
         $lines = [];
         $encodeSpaces = (bool) ArrayHelper::remove($parentTagOptions, 'encodeSpaces', false);
         $encode = (bool) ArrayHelper::remove($parentTagOptions, 'encode', true);
+        $text = '';
 
         foreach ($items as $i => $item) {
             if (is_array($item)) {

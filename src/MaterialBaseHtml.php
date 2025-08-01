@@ -797,11 +797,13 @@ abstract class MaterialBaseHtml extends BaseHtml
                         ) . "\n";
                 }
 
-                $text .= isset($item['leading']) ? is_array($item['leading']) ? Html::tag('md-icon', $item['leading']['label'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n"
-                    : Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
+                $text .= isset($item['leading']) ?
+                    is_array($item['leading']) ?
+                    Html::tag('div', $item['leading']['label'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n"
+                    : Html::tag('div', $item['leading'], ['slot' => 'start']) . "\n" : '';
 
-                $text .= isset($item['trailing']) ? is_array($item['trailing']) ? Html::tag('md-icon', $item['trailing']['label'], array_merge($item['trailing']['options'], ['slot' => 'end'])) . "\n" :
-                    Html::tag('md-icon', $item['trailing'], ['slot' => 'end']) . "\n" : '';
+                $text .= isset($item['trailing']) ? is_array($item['trailing']) ? Html::tag('div', $item['trailing']['label'], array_merge($item['trailing']['options'], ['slot' => 'end'])) . "\n" :
+                    Html::tag('div', $item['trailing'], ['slot' => 'end']) . "\n" : '';
 
                 if ($encodeSpaces) {
                     $text = str_replace(' ', '&nbsp;', $text);

@@ -146,6 +146,14 @@ class Menu extends Widget
             $item['options'] = [];
         }
 
+        if (isset($item['options']['href'])) {
+            $item['options']['href'] = Url::to($item['options']['href']);
+        }
+
+        if (!isset($item['options']['type'])) {
+            $item['options']['type'] = 'menuitem';
+        }
+
         $leading = isset($item['leading']) ? is_array($item['leading']) ? Html::tag('md-icon', $item['leading']['label'], array_merge($item['leading']['options'], ['slot' => 'start'])) . "\n"
             : Html::tag('md-icon', $item['leading'], ['slot' => 'start']) . "\n" : '';
 
@@ -158,10 +166,10 @@ class Menu extends Widget
             $item['options']['href'] = Url::to($url);
         }
 
-        $html = Html::beginTag('md-menu-item', $item['options']) . "\n";
         if (isset($item['options']['type']) && $item['options']['type'] == 'divider') {
-            $html .= Html::tag('md-divider', '', $item['options']);
+            $html = Html::tag('md-divider', '', $item['options']);
         } else {
+            $html = Html::beginTag('md-menu-item', $item['options']) . "\n";
             $html .= $leading;
             if (isset($item['overline'])) {
                 $html .= is_array($item['overline']) ? Html::tag(

@@ -105,7 +105,7 @@ class Select extends Widget
      * The input name
      * @var string
      */
-    public string $name;
+    public ?string $name = null;
 
     /**
      * The option data items. The array keys are option values, and the array values are the corresponding option labels. 

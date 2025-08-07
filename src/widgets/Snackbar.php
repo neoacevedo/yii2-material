@@ -79,6 +79,24 @@ class Snackbar extends Widget
     public array $options = [];
 
     /**
+     * Indica si el snackbar se muestra desde un principio.
+     * 
+     * El efecto inicial se puede conseguir desde javascript en el evento 'DOMContentLoaded', estableciendo 
+     * este atributo se puede conseguir el mismo resultado. 
+     * 
+     * Desde javascript se puede hacer de la siguiente manera:
+     * 
+     * ```js
+     * document.addEventListener('DOMContentLoaded', () => {
+     *       let snackbar = document.querySelector('#snackbar0');
+     *       snackbar.showSnackbar();
+     *   });
+     * ```
+     * @var bool
+     */
+    public bool $open = false;
+
+    /**
      * The text to be displayed in the snackbar.
      * @var string
      */
@@ -91,6 +109,7 @@ class Snackbar extends Widget
     {
         $this->options = array_merge([
             'id' => $this->id,
+            'open' => $this->open ? '' : null,
         ], $this->options);
 
         $html = Html::beginTag('md-snackbar', $this->options);

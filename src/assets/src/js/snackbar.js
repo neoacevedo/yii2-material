@@ -34,6 +34,28 @@
 class Snackbar extends HTMLElement {
 
     /**
+    * Opens the dialog when set to `true` and closes it when set to `false`.
+    */
+    get open() {
+        return this.isOpen;
+    }
+
+    set open(open) {
+        if (open === this.isOpen) {
+            return;
+        }
+        this.isOpen = open;
+        if (open) {
+            this.setAttribute('open', '');
+            this.showSnackbar();
+        }
+        else {
+            this.removeAttribute('open');
+            this.hide();
+        }
+    }
+
+    /**
      * @constructor
      * @description
      * Creates an instance of the Snackbar component.
@@ -46,6 +68,7 @@ class Snackbar extends HTMLElement {
         this._duration = this.getAttribute('duration') ?? 3;
         this._disableAutoHide = this.getAttribute('disable-auto-hide');
         this._hideTimeout = null;
+        this.isOpen = false;
         this._shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -161,11 +184,14 @@ class Snackbar extends HTMLElement {
             this._hideTimeout = null;
         }
 
-        const isCurrentlyVisible = this._snackbar.classList.contains('show');
+        // const isCurrentlyVisible = this._snackbar.classList.contains('show');
+        const preventOpen = !this.dispatchEvent(new Event('open', { cancelable: true }));
 
-        if (isCurrentlyVisible) {
+        if (preventOpen) {
             // Snackbar is currently visible, so hide it (slide down)
             this._snackbar.classList.remove('show');
+            this._snackbar.removeAttribute('open');
+            this.open = false;
             // Set display to none AFTER the CSS transition completes (0.3s)
             this._hideTimeout = setTimeout(() => {
                 this._snackbar.style.display = 'none';
@@ -173,7 +199,7 @@ class Snackbar extends HTMLElement {
         } else {
             // Snackbar is currently hidden, so show it (slide up)
             this._snackbar.style.display = 'block'; // Ensure it's in the layout *before* animation starts
-
+            this.open = true;
             // Use requestAnimationFrame to ensure 'display: block' is rendered
             // before 'show' class is added to trigger CSS transition.
             requestAnimationFrame(() => {
@@ -183,10 +209,11 @@ class Snackbar extends HTMLElement {
             // Set auto-hide timeout if the 'auto-hide' attribute is NOT present
             if (this._disableAutoHide === null) {
                 this._hideTimeout = setTimeout(() => {
-                    this._snackbar.classList.remove('show'); // Start fade-out and slide-down transition
-                    // Set display to none AFTER the CSS transition completes (0.3s)
-                    this._hideTimeout = setTimeout(() => {
+                    this._snackbar.classList.remove('show'); // Inicia la transición de ocultar
+                    // Elimina el atributo 'open' después de la transición
+                    setTimeout(() => {
                         this._snackbar.style.display = 'none';
+                        this.removeAttribute('open'); // s<-- Usa removeAttribute aquí para asegurar que se elimina
                     }, 300);
                 }, this._duration * 1000); // Duration for which snackbar remains fully visible
             }
@@ -202,6 +229,8 @@ class Snackbar extends HTMLElement {
      * will be hidden.
      */
     _hide = () => {
+        this.open = false;
+        this.removeAttribute('open');
         setTimeout(() => {
             this._snackbar.classList.toggle('show');
         }, 500); // wait for the transition to complete before hiding it completely
@@ -226,11 +255,16 @@ class Snackbar extends HTMLElement {
                     this._hideTimeout = null;
                 }
                 this._snackbar.classList.remove('show'); // Start fade-out and slide-down transition
+                this.removeAttribute('open');
                 // Set display to none AFTER the CSS transition completes (0.3s)
                 setTimeout(() => {
                     this._snackbar.style.display = 'none';
                 }, 300);
             });
+        }
+        // Mostrar snackbar si el atributo 'open' está presente al cargar
+        if (this.hasAttribute('open')) {
+            this.showSnackbar();
         }
     }
 
@@ -238,18 +272,20 @@ class Snackbar extends HTMLElement {
      * @method attributeChangedCallback
      * @description
      * Lifecycle callback that is invoked when one of the custom element's attributes is added, removed, or changed.
-     * Currently, it responds to changes in the 'behavior' attribute to adjust the snackbar's positioning.
      * @param {string} name - The name of the attribute that changed.
      * @param {string} oldValue - The old value of the attribute.
      * @param {string} newValue - The new value of the attribute.
      */
+    static get observedAttributes() {
+        return ['open'];
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'behavior') {
-            const position = this.getAttribute('behavior');
-            if (position === 'fixed') {
-                this._snackbar.style.position = 'fixed';
+        if (name === 'open') {
+            if (this.hasAttribute('open')) {
+                this.showSnackbar();
             } else {
-                this._snackbar.style.position = 'absolute';
+                this.hide();
             }
         }
     }

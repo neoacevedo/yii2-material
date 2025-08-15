@@ -23,6 +23,7 @@ namespace neoacevedo\yii2\material;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseHtml;
+use yii\validators\StringValidator;
 
 abstract class MaterialBaseHtml extends BaseHtml
 {
@@ -651,7 +652,7 @@ abstract class MaterialBaseHtml extends BaseHtml
         if (ArrayHelper::isTraversable($selection)) {
             $normalizedSelection = [];
             foreach (ArrayHelper::toArray($selection) as $selectionItem) {
-                $normalizedSelection[] = (is_bool($selectionItem)) ? $selectionItem ? '1' : '0' : (string) $selectionItem;
+                $normalizedSelection[] = (is_bool($selectionItem)) ? ($selectionItem ? '1' : '0') : (string) $selectionItem;
             }
             $selection = $normalizedSelection;
         } elseif (is_bool($selection)) {
@@ -714,7 +715,6 @@ abstract class MaterialBaseHtml extends BaseHtml
 
                 $lines[] = static::tag("md-select-option", $text, $attrs);
             }
-
         }
         return implode("\n", $lines);
     }
@@ -754,11 +754,10 @@ abstract class MaterialBaseHtml extends BaseHtml
                         $item['overline']['label'] ?? '',
                         array_merge($item['overline']['options'] ?? [], ['slot' => 'overline'])
                     ) . "\n" : Html::tag(
-                            'div',
-                            $item['overline'],
-                            ['slot' => 'overline']
-                        ) . "\n";
-
+                        'div',
+                        $item['overline'],
+                        ['slot' => 'overline']
+                    ) . "\n";
                 }
 
                 if (isset($item['headline'])) {
@@ -767,10 +766,10 @@ abstract class MaterialBaseHtml extends BaseHtml
                         $item['headline']['label'] ?? '',
                         array_merge($item['headline']['options'] ?? [], ['slot' => 'headline'])
                     ) . "\n" : Html::tag(
-                            'div',
-                            $item['headline'],
-                            ['slot' => 'headline']
-                        ) . "\n";
+                        'div',
+                        $item['headline'],
+                        ['slot' => 'headline']
+                    ) . "\n";
                 }
 
                 if (isset($item['supporting-text'])) {
@@ -779,10 +778,10 @@ abstract class MaterialBaseHtml extends BaseHtml
                         $item['supporting-text']['label'] ?? '',
                         array_merge($item['supporting-text']['options'] ?? [], ['slot' => 'supporting-text'])
                     ) . "\n" : Html::tag(
-                            'div',
-                            $item['supporting-text'],
-                            ['slot' => 'supporting-text']
-                        ) . "\n";
+                        'div',
+                        $item['supporting-text'],
+                        ['slot' => 'supporting-text']
+                    ) . "\n";
                 }
 
                 if (isset($item['trailing-supporting-text'])) {
@@ -791,10 +790,10 @@ abstract class MaterialBaseHtml extends BaseHtml
                         $item['trailing-supporting-text']['label'] ?? '',
                         array_merge($item['trailing-supporting-text']['options'] ?? [], ['slot' => 'trailing-supporting-text'])
                     ) . "\n" : Html::tag(
-                            'div',
-                            $item['trailing-supporting-text'],
-                            ['slot' => 'trailing-supporting-text']
-                        ) . "\n";
+                        'div',
+                        $item['trailing-supporting-text'],
+                        ['slot' => 'trailing-supporting-text']
+                    ) . "\n";
                 }
 
                 $text .= isset($item['leading']) ?

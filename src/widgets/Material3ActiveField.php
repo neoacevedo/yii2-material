@@ -92,6 +92,7 @@ class Material3ActiveField extends ActiveField
 
     /**
      * @inheritDoc
+     * @param  bool|null  $enclosedByLabel  whether the input is enclosed by the label tag
      */
     public function checkbox($options = [], $enclosedByLabel = true)
     {
@@ -110,22 +111,22 @@ class Material3ActiveField extends ActiveField
         $this->wrapperOptions = ArrayHelper::merge($this->wrapperOptions, $wrapperOptions);
 
         if (!isset($options['template'])) {
-            // if ($switch) {
-            //     $this->template = $enclosedByLabel ? $this->switchEnclosedTemplate : $this->switchTemplate;
-            // } else {
-            //     $this->template = $enclosedByLabel ? $this->checkEnclosedTemplate : $this->checkTemplate;
-            // }
-            $this->template = $enclosedByLabel ? $this->checkEnclosedTemplate : $this->checkTemplate;
+            $this->template = $enclosedByLabel == true ? $this->checkEnclosedTemplate : $this->checkTemplate;
         } else {
             $this->template = $options['template'];
+            unset($options['template']);
         }
-
-        unset($options['template']);
 
         if ($enclosedByLabel) {
             if (isset($options['label'])) {
                 $this->parts['{labelTitle}'] = $options['label'];
             }
+            $this->parts['{beginLabel}'] = Html::beginTag('label', $this->labelOptions);
+            $this->parts['{endLabel}'] = Html::endTag('label');
+        } else {
+            $this->parts['{labelTitle}'] = '';
+            $this->parts['{beginLabel}'] = null;
+            $this->parts['{endLabel}'] = null;
         }
 
         $this->parts['{input}'] = Html::activeCheckbox($this->model, $this->attribute, $options);
@@ -245,7 +246,7 @@ class Material3ActiveField extends ActiveField
         return parent::fileInput($options);
     }
 
-     /**
+    /**
      * Renders an input tag.
      * @param string $type the input type (e.g. `text`, `password`)
      * @param array $options the tag options in terms of name-value pairs. These will be rendered as
@@ -313,10 +314,14 @@ class Material3ActiveField extends ActiveField
     {
         if ($content === null) {
             if (!isset($this->parts['{beginWrapper}'])) {
-                $options = $this->wrapperOptions;
-                $tag = ArrayHelper::remove($options, 'tag', 'div');
-                $this->parts['{beginWrapper}'] = Html::beginTag($tag, $options);
-                $this->parts['{endWrapper}'] = Html::endTag($tag);
+                if (!empty($this->wrapperOptions)) {
+                    $options = $this->wrapperOptions;
+                    $tag = ArrayHelper::remove($options, 'tag', 'div');
+                    $this->parts['{beginWrapper}'] = Html::beginTag($tag, $options);
+                    $this->parts['{endWrapper}'] = Html::endTag($tag);
+                } else {
+                    $this->parts['{beginWrapper}'] = $this->parts['{endWrapper}'] = '';
+                }
             }
 
             if ($this->enableLabel === false) {
@@ -354,7 +359,6 @@ class Material3ActiveField extends ActiveField
             }
 
             $content = strtr($this->template, $this->parts);
-
         } elseif (!is_string($content)) {
             $content = call_user_func($content, $this);
         }
@@ -440,5 +444,4 @@ class Material3ActiveField extends ActiveField
             $this->parts['{labelTitle}'] = $label;
         }
     }
-
 }

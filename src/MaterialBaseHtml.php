@@ -622,7 +622,7 @@ abstract class MaterialBaseHtml extends BaseHtml
             $label = $options['label'];
             $labelOptions = $options['labelOptions'] ?? [];
             unset($options['label'], $options['labelOptions']);
-            $wrapContent = $labelOptions['wrapContent'];
+            $wrapContent = $labelOptions['wrapContent'] ?? '';
             unset($labelOptions['wrapContent']);
             if ($wrapContent === true) {
                 $content = static::label(static::input($type, $name, $value, $options) . "\n" . $label, null, $labelOptions);

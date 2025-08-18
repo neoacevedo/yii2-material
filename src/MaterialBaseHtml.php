@@ -669,7 +669,7 @@ abstract class MaterialBaseHtml extends BaseHtml
                 $promptText = $tagOptions['prompt'];
             } else {
                 $promptText = $tagOptions['prompt']['text'];
-                $promptOptions = array_merge($promptOptions, $tagOptions['prompt']['options']);
+                $promptOptions = array_merge($promptOptions, $tagOptions['prompt']['options'] ?? []);
             }
             $promptText = $encode ? static::encode($promptText) : $promptText;
             if ($encodeSpaces) {
